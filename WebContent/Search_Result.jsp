@@ -21,7 +21,6 @@
 	<jsp:include page="/Search_Bar/SearchBar.jsp" />  
 	<h1> </h1>
 	</header>
-	</section>
 	<section class="container">
 	  <div class="board">
 		  <div class="content">
