@@ -7,10 +7,43 @@ public class StudyInfo {
 	private String std_contents;
 	private String std_leader;
 	private String std_location;
-	private String std_maxattcnt;
-	private String std_endflag;
+	private String std_startDate;
+	private String std_endDate;
 	private String std_teacher;
+	private int std_maxMemberCount;
+	private int std_maxattcnt;
+	private int std_endflag;
 	
+	public int getStd_maxMemberCount() {
+		return std_maxMemberCount;
+	}
+	public void setStd_maxMemberCount(int std_maxMemberCount) {
+		this.std_maxMemberCount = std_maxMemberCount;
+	}
+	public String getStd_startDate() {
+		return std_startDate;
+	}
+	public void setStd_startDate(String std_startDate) {
+		this.std_startDate = std_startDate;
+	}
+	public String getStd_endDate() {
+		return std_endDate;
+	}
+	public void setStd_endDate(String std_endDate) {
+		this.std_endDate = std_endDate;
+	}
+	public int getStd_maxattcnt() {
+		return std_maxattcnt;
+	}
+	public void setStd_maxattcnt(int std_maxattcnt) {
+		this.std_maxattcnt = std_maxattcnt;
+	}
+	public int getStd_endflag() {
+		return std_endflag;
+	}
+	public void setStd_endflag(int std_endflag) {
+		this.std_endflag = std_endflag;
+	}
 	public String getStd_no() {
 		return std_no;
 	}
@@ -46,18 +79,6 @@ public class StudyInfo {
 	}
 	public void setStd_location(String std_location) {
 		this.std_location = std_location;
-	}
-	public String getStd_maxattcnt() {
-		return std_maxattcnt;
-	}
-	public void setStd_maxattcnt(String std_maxattcnt) {
-		this.std_maxattcnt = std_maxattcnt;
-	}
-	public String getStd_endflag() {
-		return std_endflag;
-	}
-	public void setStd_endflag(String std_endflag) {
-		this.std_endflag = std_endflag;
 	}
 	public String getStd_teacher() {
 		return std_teacher;

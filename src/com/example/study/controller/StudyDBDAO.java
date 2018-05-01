@@ -5,7 +5,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
+import com.example.study.model.StudyInfo;
 import com.example.study.model.UserInfo;
 
 public class StudyDBDAO {
@@ -65,5 +67,52 @@ public class StudyDBDAO {
 		}
 		
 		return userInfo;
+	}
+	
+	public ArrayList<StudyInfo> searchStudy(String search)
+	{
+		ArrayList<StudyInfo> studyInfos = null;
+		
+		String sql = "SELECT * FROM TB_STUDYINFO NATURAL JOIN TB_CATEGORY_DETAIL WHERE STD_CONTENTS LIKE '%" + search + "%'";
+		System.out.println("Created SQL : " + sql);
+		try {
+			connect();
+			
+			pstmt = conn.prepareStatement(sql);
+			ResultSet rs = pstmt.executeQuery();
+			
+			if (rs.next())
+			{
+				studyInfos = new ArrayList<StudyInfo>();
+				StudyInfo studyInfo;
+				do {
+					if (rs.getInt("STD_ENDFLAG") == 1)
+					{
+						continue;
+					};
+					studyInfo = new StudyInfo();
+					studyInfo.setStd_category(rs.getString("DETAIL_NAME"));
+					studyInfo.setStd_contents(rs.getString("STD_CONTENTS"));
+					studyInfo.setStd_endflag(rs.getInt("STD_ENDFLAG"));
+					studyInfo.setStd_leader(rs.getString("STD_LEADER"));
+					studyInfo.setStd_location(rs.getString("STD_LOCATION"));
+					studyInfo.setStd_name(rs.getString("STD_NAME"));
+					studyInfo.setStd_no(rs.getString("STD_NO"));
+					studyInfo.setStd_startDate(rs.getString("STD_STARTDATE"));
+					studyInfo.setStd_endDate(rs.getString("STD_ENDDATE"));
+					studyInfo.setStd_teacher(rs.getString("STD_TEACHER"));
+					
+					System.out.println("Param Added.");
+					studyInfos.add(studyInfo);
+				}while (rs.next());
+			}
+			disconnect();
+			
+		} catch (SQLException | ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return studyInfos;
 	}
 }

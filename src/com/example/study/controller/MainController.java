@@ -1,6 +1,7 @@
 package com.example.study.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.example.study.model.StudyInfo;
 import com.example.study.model.UserInfo;
 
 /**
@@ -50,6 +52,25 @@ public class MainController extends HttpServlet {
 			viewName = "/MainPage.jsp";
 		}
 		
+		else if (subPath.equals("/search"))
+		{
+			String keyword = request.getParameter("keyword");
+			System.out.println("Search Keyword : " + keyword);
+			
+			StudyDBDAO db = new StudyDBDAO();
+			ArrayList<StudyInfo> studyInfos = null;
+			studyInfos = db.searchStudy(keyword);
+			
+			if (studyInfos != null)
+			{
+				request.setAttribute("studyInfos", studyInfos);
+				
+			}
+			request.setAttribute("keyword", keyword);
+			
+			viewName = "/Search_Result.jsp";
+		}
+	
 		// 각 Path 기능을 실행한 후 획득한 viewName 주소로 Forwarding
 		if(viewName != null) {
 			RequestDispatcher view = request.getRequestDispatcher(viewName);

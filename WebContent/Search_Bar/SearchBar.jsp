@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="EUC-KR"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -20,8 +20,8 @@
   </div>
   <nav>
      <div class="search-bar">
-       <form class="search">
-         <input type="search" class="search__input" name="search" placeholder="스터디나 세미나를 검색해 보세요!" onload="equalWidth()" required>
+       <form class="search" method="do" action="/Graduation_KMS/op/search">
+         <input type="search" class="search__input" name="keyword" placeholder="스터디나 세미나를 검색해 보세요!" onload="equalWidth()" required>
          <button class="search__btn">Search</button>
          <i class="ion-ios-search search__icon"></i>
        </form>
