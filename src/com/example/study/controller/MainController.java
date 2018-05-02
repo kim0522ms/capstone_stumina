@@ -70,6 +70,13 @@ public class MainController extends HttpServlet {
 			
 			viewName = "/Search_Result.jsp";
 		}
+		else if (subPath.equals("/viewstudyinfo"))
+		{
+			String std_id = request.getParameter("std_no");
+			
+			
+			viewName = "/StudyInfo.jsp";
+		}
 	
 		// 각 Path 기능을 실행한 후 획득한 viewName 주소로 Forwarding
 		if(viewName != null) {

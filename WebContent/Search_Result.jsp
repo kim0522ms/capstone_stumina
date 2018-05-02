@@ -42,7 +42,7 @@
 				      			<div class="ui slide masked reveal">
 				        			<img src="https://www.pagoda21.com/images/upload/2014/09/PGS_201409030639229600.jpg" class="visible content">
 				        			<div class="hidden content">
-				        			<p class="p-content"><p>모집 인원 : <%=studyinfo.getStd_maxMemberCount() %><br>남은 인원 : 3명</p><button class="ui primary button" onclick="modalOpen()">자세히 보기</button>
+				        			<p class="p-content"><p>모집 인원 : <%=studyinfo.getStd_maxMemberCount() %><br>남은 인원 : 3명</p><button class="ui primary button" onclick="location.href='/Graduation_KMS/op/viewstudyinfo?std_no=<%=studyinfo.getStd_no()%>'">자세히 보기</button>
 				          			</p>
 				        			</div>
 				      			</div>
