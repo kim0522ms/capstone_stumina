@@ -72,10 +72,19 @@ public class MainController extends HttpServlet {
 		}
 		else if (subPath.equals("/viewstudyinfo"))
 		{
-			String std_id = request.getParameter("std_no");
+			String std_no = request.getParameter("std_no");
 			
+			StudyDBDAO db = new StudyDBDAO();
 			
-			viewName = "/StudyInfo.jsp";
+			StudyInfo studyInfo = db.getStudyInfo(std_no);
+			
+			if (studyInfo != null)
+			{
+				request.setAttribute("studyInfo", studyInfo);
+				viewName = "/StudyInfo.jsp";
+			}
+			else
+				viewName = "/Error.jsp";
 		}
 	
 		// 각 Path 기능을 실행한 후 획득한 viewName 주소로 Forwarding

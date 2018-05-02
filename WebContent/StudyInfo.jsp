@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="com.example.study.model.StudyInfo" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -18,14 +19,20 @@
 	<jsp:include page="/Search_Bar/SearchBar.jsp" />  
 	<h1> </h1>
 	</header>
-	
+	<%
+		StudyInfo studyInfo = null;
+		if (request.getAttribute("studyInfo") != null)
+		{
+			studyInfo = (StudyInfo)request.getAttribute("studyInfo");
+		}
+	%>
 	<section class="container">
 		<div class="board">
 			<div id="polina">
-				<h1>신라대학교 컴퓨터공학 스터디</h1>
-				<p>리더 김민석
+				<h1><%=studyInfo.getStd_name()%></h1>
+				<p>리더 <%=studyInfo.getStd_leader() %></p>
 				<p>스터디 주제 : C++, C#</a>
-				<p>본문 테스트</p>
+				<p><%=studyInfo.getStd_contents() %></p>
 				<p>세부정보 테스트</p>
 				<button>참여하기 !</button>
 				</div>

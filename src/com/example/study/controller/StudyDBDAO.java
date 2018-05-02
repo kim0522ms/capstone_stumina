@@ -115,4 +115,54 @@ public class StudyDBDAO {
 
 		return studyInfos;
 	}
+	
+	public StudyInfo getStudyInfo(String std_no)
+	{
+		String sql = "SELECT * FROM TB_STUDYINFO NATURAL JOIN TB_CATEGORY_DETAIL WHERE std_no = ?";
+		StudyInfo studyInfo = null;
+		
+		try {
+			connect();
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, std_no);
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			if (rs.next())
+			{
+				studyInfo = new StudyInfo();
+				studyInfo.setStd_category(rs.getString("DETAIL_NAME"));
+				studyInfo.setStd_contents(rs.getString("STD_CONTENTS"));
+				studyInfo.setStd_endflag(rs.getInt("STD_ENDFLAG"));
+				studyInfo.setStd_location(rs.getString("STD_LOCATION"));
+				studyInfo.setStd_name(rs.getString("STD_NAME"));
+				studyInfo.setStd_no(rs.getString("STD_NO"));
+				studyInfo.setStd_startDate(rs.getString("STD_STARTDATE"));
+				studyInfo.setStd_endDate(rs.getString("STD_ENDDATE"));
+				studyInfo.setStd_teacher(rs.getString("STD_TEACHER"));
+				
+				sql = "SELECT user_name FROM TB_USERS where user_idx = ?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, rs.getString("STD_LEADER"));
+				rs = pstmt.executeQuery();
+				
+				if (rs.next())
+				{
+					studyInfo.setStd_leader(rs.getString("USER_NAME"));
+				}
+				
+				rs = pstmt.executeQuery();
+				
+				
+				System.out.println("success to add studyInfo about " + std_no +"!");
+			}
+			
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return studyInfo;
+	}
 }
