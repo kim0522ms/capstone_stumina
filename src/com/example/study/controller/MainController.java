@@ -98,6 +98,17 @@ public class MainController extends HttpServlet {
 				viewName = "/MainPage.jsp";
 			}
 		}
+		else if (subPath.equals("/getMainList"))
+		{
+			System.out.println("aaaa");
+			StudyDBDAO db = new StudyDBDAO();
+			
+			ArrayList<StudyInfo> studyInfos = db.mainPage_Study();
+			
+			response.setContentType("text/plain");
+			request.setAttribute("studyInfos", studyInfos);
+			//response.getWriter().write(studyInfos.toString());
+		}
 	
 		// 각 Path 기능을 실행한 후 획득한 viewName 주소로 Forwarding
 		if(viewName != null) {
