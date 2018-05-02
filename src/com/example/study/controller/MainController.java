@@ -1,6 +1,7 @@
 package com.example.study.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
@@ -86,6 +87,17 @@ public class MainController extends HttpServlet {
 			else
 				viewName = "/Error.jsp";
 		}
+		else if (subPath.equals("/joinStudy"))
+		{
+			if (session.getAttribute("userInfo") == null)
+			{
+				viewName = "/Sign_In/SignIn.jsp";
+			}
+			else
+			{
+				viewName = "/MainPage.jsp";
+			}
+		}
 	
 		// 각 Path 기능을 실행한 후 획득한 viewName 주소로 Forwarding
 		if(viewName != null) {
@@ -137,7 +149,13 @@ public class MainController extends HttpServlet {
 			}
 			else
 			{
-				viewName = "/LoginError.jsp";
+				response.setContentType("text/html;charset=utf-8");
+				PrintWriter out = response.getWriter();
+				
+				out.print("<script>");
+				out.println("alert('아이디 또는 비밀번호가 잘못되었습니다!');");
+				out.println("history.back();");
+				out.println("</script>");
 			}
 		}
 				

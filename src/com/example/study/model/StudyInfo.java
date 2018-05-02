@@ -10,10 +10,24 @@ public class StudyInfo {
 	private String std_startDate;
 	private String std_endDate;
 	private String std_teacher;
+	private String std_theme;
 	private int std_maxMemberCount;
+	private int std_remainMember;
 	private int std_maxattcnt;
 	private int std_endflag;
 	
+	public String getStd_theme() {
+		return std_theme;
+	}
+	public void setStd_theme(String std_theme) {
+		this.std_theme = std_theme;
+	}	
+	public int getStd_remainMember() {
+		return std_remainMember;
+	}
+	public void setStd_remainMember(int std_remainMember) {
+		this.std_remainMember = std_remainMember;
+	}
 	public int getStd_maxMemberCount() {
 		return std_maxMemberCount;
 	}

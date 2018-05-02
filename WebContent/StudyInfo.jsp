@@ -31,10 +31,19 @@
 			<div id="polina">
 				<h1><%=studyInfo.getStd_name()%></h1>
 				<p>리더 <%=studyInfo.getStd_leader() %></p>
-				<p>스터디 주제 : C++, C#</a>
+				<p>스터디 주제 : <%=studyInfo.getStd_theme() %></a>
 				<p><%=studyInfo.getStd_contents() %></p>
-				<p>세부정보 테스트</p>
-				<button>참여하기 !</button>
+				<p>정원 : <%=studyInfo.getStd_maxMemberCount() %> 남은 자리 : <%=studyInfo.getStd_remainMember()%></p>
+				<%
+					if (studyInfo.getStd_remainMember() < 1)
+					{%>
+						<button>인원이 다 차버렸네요..</button>
+					<%}
+					else
+					{%>
+						<button onclick="location.href='/Graduation_KMS/op/joinStudy'">지금 참여하기 !</button>
+					<%}
+				%>
 				</div>
 			</div>
 	</section>
