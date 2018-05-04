@@ -576,12 +576,3 @@ h1 {
   margin-top: 3.5%;
   z-index: 90;
 }
-
-.profile_picture {
-  height: 150px;
-  width: 150px;
-  background-color: #FFFFFF;
-  border-radius: 50%;
-  display: inline-block;
-  margin-left: 15%;
-}
