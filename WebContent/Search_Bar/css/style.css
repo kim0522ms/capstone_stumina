@@ -100,7 +100,7 @@ header nav .search-bar .search .search__input {
   display: flex;
   flex: 1;
   padding: 1.2rem 1rem 1.2rem 4rem;
-  height: 15px;
+  height: auto;
   font-size: 0.9rem;
   color: #4a4a4a;
   border: none;

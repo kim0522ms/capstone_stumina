@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="EUC-KR"%>
 <%@ page import="com.example.study.model.StudyInfo" %>
 <%@ page import="com.example.study.controller.StudyDBDAO" %>
 <%@ page import="java.util.ArrayList" %>
@@ -16,23 +15,6 @@
 	
 	<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
 	<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
- 	
- 	<!-- 
-	<script type="text/javascript" language="javascript">
-	    $(document).ready(function(){
-	        $.ajax({
-	            type : "GET",
-	            url : "/Graduation_KMS/op/getMainList",
-	            dataType : "text",
-	            error : function(){
-	                alert('통신실패!!');
-	            },
-	            success : function(data){
-	            	console.log(data);
-	            }
-	        });
-	    });
-	</script> -->
 </head>
 
 <body>
