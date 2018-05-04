@@ -15,6 +15,8 @@
 </head>
 
 <body>
+<div>
+	<jsp:include page="/Sidebar/SideBar_Profile.jsp" />
 	<header>
 		<jsp:include page="/Search_Bar/SearchBar.jsp" />
 	</header>  
@@ -101,6 +103,8 @@ function fill_table(month, month_length, indexMonth) {
     document.write("</div>");
   }
 </script>
+<div class="wrapper">
+<h1>null 스터디의 스케줄을 확인해볼까요?</h1>
 <headers>
   <div class="wrapper">
     <div class="c-monthyear">
@@ -129,10 +133,9 @@ function fill_table(month, month_length, indexMonth) {
     </div>
   </div>
 </headers>
-<div class="wrapper">
   <div class="c-calendar">
     <div class="c-calendar__style c-aside">
-      <a class="c-add o-btn js-event__add" href="javascript:;">add event <span class="fa fa-plus"></span></a>
+      <a class="c-add o-btn js-event__add" href="javascript:;">일정 추가하기 <span class="fa fa-plus"></span></a>
       <div class="c-aside__day">
         <span class="c-aside__num"></span> <span class="c-aside__month"></span>
       </div>
@@ -190,7 +193,7 @@ function fill_table(month, month_length, indexMonth) {
 
 
 
-
+</div>
 </body>
 
 </html>
