@@ -14,7 +14,7 @@
 			  if (session.getAttribute("user_idx") == null) 
 			  {
 			  %>
-			     <a href="/Graduation_KMS/Sign_In/SignIn.jsp">로그인 해 주세요.</a>
+			     <a href="dfsggsdfg/Graduation_KMS/Sign_In/SignIn.jsp">로그인 해 주세요.</a>
 			  <%
 			  }
 			  else
@@ -27,7 +27,7 @@
 		    <h3>나의 스터디</h3>
 		    <ul class="Sections">
 		      <li><a href="#">스터디 관리</a></li>
-		      <li><a href="#">참여중인 스터디</a></li>
+		      <li><a href="/Graduation_KMS/op/myStudies">참여중인 스터디</a></li>
 		      <li><a href="#">출석 관리</a></li>
 		    </ul>
 		

@@ -40,7 +40,7 @@ public class MainController extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		HttpSession session = request.getSession();
 		
-		// 로그아웃
+		System.out.println(subPath);
 		if (subPath.equals("/signOut"))
 		{
 			if (session.getAttribute("userInfo") != null)
@@ -51,6 +51,36 @@ public class MainController extends HttpServlet {
 			}
 			
 			viewName = "/MainPage.jsp";
+		}
+		else if (subPath.equals("/myStudies"))
+		{
+			if (session.getAttribute("userInfo") != null)
+			{
+				UserInfo userInfo = (UserInfo)session.getAttribute("userInfo");
+				
+				String user_idx = userInfo.getUser_idx();
+				System.out.println(user_idx);
+				
+				
+				StudyDBDAO db = new StudyDBDAO();
+				
+				ArrayList<StudyInfo> studyInfos = db.getMyStudies(user_idx);
+				
+				if (studyInfos != null)
+				{
+					request.setAttribute("studyInfos", studyInfos);
+					viewName = "/ScheduleCard/Card.jsp";
+				}
+				else
+				{
+					viewName = "Error.jsp?value=NoJoinedStudy";
+				}
+			}
+			else
+			{
+				viewName = "/Error.jsp?value=NoUserInfo";
+			}
+			
 		}
 		
 		else if (subPath.equals("/search"))
@@ -110,8 +140,9 @@ public class MainController extends HttpServlet {
 			//response.getWriter().write(studyInfos.toString());
 		}
 	
-		// 각 Path 기능을 실행한 후 획득한 viewName 주소로 Forwarding
+		// 媛� Path 湲곕뒫�쓣 �떎�뻾�븳 �썑 �쉷�뱷�븳 viewName 二쇱냼濡� Forwarding
 		if(viewName != null) {
+			System.out.println("Forward to " + viewName);
 			RequestDispatcher view = request.getRequestDispatcher(viewName);
 			view.forward(request,response);
 		}
@@ -128,7 +159,6 @@ public class MainController extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		HttpSession session = request.getSession();
 		
-		// 로그인
 		if (subPath.equals("/signIn"))
 		{
 			StudyDBDAO db = new StudyDBDAO();
@@ -164,13 +194,17 @@ public class MainController extends HttpServlet {
 				PrintWriter out = response.getWriter();
 				
 				out.print("<script>");
-				out.println("alert('아이디 또는 비밀번호가 잘못되었습니다!');");
+				out.println("alert('�븘�씠�뵒 �삉�뒗 鍮꾨�踰덊샇媛� �옒紐삳릺�뿀�뒿�땲�떎!');");
 				out.println("history.back();");
 				out.println("</script>");
 			}
 		}
+		else if (subPath.equals("/myStudies"))
+		{
+			this.doGet(request, response);
+		}
 				
-		// 각 Path 기능을 실행한 후 획득한 viewName 주소로 Forwarding
+		// 媛� Path 湲곕뒫�쓣 �떎�뻾�븳 �썑 �쉷�뱷�븳 viewName 二쇱냼濡� Forwarding
 		if(viewName != null) {
 			RequestDispatcher view = request.getRequestDispatcher(viewName);
 			view.forward(request,response);

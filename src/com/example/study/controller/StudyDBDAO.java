@@ -191,6 +191,73 @@ public class StudyDBDAO {
 		return studyInfos;
 	}
 	
+	public ArrayList<StudyInfo> getMyStudies(String user_idx)
+	{
+		ArrayList<StudyInfo> studyInfos = null;
+		
+		String sql = "SELECT * FROM tb_joininfo NATURAL JOIN (SELECT * FROM TB_STUDYINFO NATURAL JOIN TB_CATEGORY_DETAIL) WHERE USER_IDX = ?";;
+		System.out.println("Created SQL : " + sql);
+		try {
+			connect();
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, user_idx);
+			
+			ResultSet rs = pstmt.executeQuery();
+			System.out.println("aaaa");
+			if (rs.next())
+			{
+				System.out.println("aaaa");
+				studyInfos = new ArrayList<StudyInfo>();
+				StudyInfo studyInfo;
+				do {
+					if (rs.getInt("STD_ENDFLAG") == 1)
+					{
+						continue;
+					};
+					System.out.println("aaaa");
+					studyInfo = new StudyInfo();
+					studyInfo.setStd_category(rs.getString("DETAIL_NAME"));
+					studyInfo.setStd_contents(rs.getString("STD_CONTENTS"));
+					studyInfo.setStd_endflag(rs.getInt("STD_ENDFLAG"));
+					studyInfo.setStd_leader(rs.getString("STD_LEADER"));
+					studyInfo.setStd_location(rs.getString("STD_LOCATION"));
+					studyInfo.setStd_name(rs.getString("STD_NAME"));
+					studyInfo.setStd_no(rs.getString("STD_NO"));
+					studyInfo.setStd_startDate(rs.getString("STD_STARTDATE"));
+					studyInfo.setStd_endDate(rs.getString("STD_ENDDATE"));
+					studyInfo.setStd_teacher(rs.getString("STD_TEACHER"));
+					studyInfo.setStd_maxMemberCount(rs.getInt("STD_MAXMEMBER"));
+					studyInfo.setStd_theme(rs.getString("STD_THEME"));
+					
+					sql = "SELECT user_name FROM TB_USERS where user_idx = ?";
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setString(1, rs.getString("STD_LEADER"));
+					rs = pstmt.executeQuery();
+					
+					if (rs.next())
+					{
+						studyInfo.setStd_leader(rs.getString("USER_NAME"));
+					}
+					
+					
+					System.out.println("aaaa");
+					studyInfos.add(studyInfo);
+				}while (rs.next());
+			}
+			else {
+				System.out.println("쿼리 실행 결과 없음");
+			}
+			disconnect();
+			
+		} catch (SQLException | ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return studyInfos;
+	}
+	
 	public StudyInfo getStudyInfo(String std_no)
 	{
 
@@ -220,7 +287,7 @@ public class StudyDBDAO {
 				studyInfo.setStd_maxMemberCount(rs.getInt("STD_MAXMEMBER"));
 				studyInfo.setStd_theme(rs.getString("STD_THEME"));
 				
-				// 리더 이름 획득
+				// 由щ뜑 �씠由� �쉷�뱷
 				sql = "SELECT user_name FROM TB_USERS where user_idx = ?";
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, rs.getString("STD_LEADER"));
@@ -231,7 +298,7 @@ public class StudyDBDAO {
 					studyInfo.setStd_leader(rs.getString("USER_NAME"));
 				}
 				
-				// 참여 인원 계산
+				// 李몄뿬 �씤�썝 怨꾩궛
 				sql = "SELECT COUNT(*) AS REMAIN FROM TB_JOININFO WHERE std_no = ?";
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, studyInfo.getStd_no());
