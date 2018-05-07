@@ -26,7 +26,17 @@
 	  <div class="board">
 		  <div class="content">
 			<jsp:include page="/Sidebar/SideBar_Profile.jsp" />
-		    <h3><%=request.getAttribute("keyword") %>에 대해 검색하신 결과입니다.</h3>
+		    <h3>
+		    <%
+		    if (request.getAttribute("keyword") != null)
+		    {%>
+		    	<%=request.getAttribute("keyword")%>에 대해 검색하신 결과입니다.
+		    <%}
+		    else
+		    {%>
+		    	<h3>검색 결과가 없습니다!</h3>
+		    <%}%>
+		    </h3>
 		    <div class="ui segment">
 		    	<div class="ui cards">
 		    	<%
@@ -56,7 +66,7 @@
 			    	else{
 			    		%>
 			    			<br>
-			    			<h3>아직 개설된 세미나가 없네요!</h3>
+			    			<h3>직접 스터디를 만들어 볼까요?&nbsp<a href='#'>만들러 가기!</a></h3>
 			    			<br>
 			    		<%
 			    	}
