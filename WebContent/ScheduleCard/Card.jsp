@@ -119,7 +119,7 @@
 
   
 
-    <script  src="js/index.js"></script>
+    <script  src="/Graduation_KMS/ScheduleCard/js/index.js"></script>
 
 
 

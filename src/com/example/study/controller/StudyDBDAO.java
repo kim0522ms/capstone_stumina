@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import com.example.study.model.CategoryInfo;
+import com.example.study.model.DetailInfo;
 import com.example.study.model.StudyInfo;
 import com.example.study.model.UserInfo;
 
@@ -256,6 +258,122 @@ public class StudyDBDAO {
 		}
 
 		return studyInfos;
+	}
+	
+	public ArrayList<CategoryInfo> getCategory()
+	{
+		String sql = "SELECT * FROM TB_CATEGORY";
+		
+		ArrayList<CategoryInfo> categoryInfos = null;
+		
+		try {
+			connect();
+			
+			pstmt = conn.prepareStatement(sql);
+			ResultSet rs = pstmt.executeQuery();
+			
+			if (rs.next())
+			{
+				categoryInfos = new ArrayList<CategoryInfo>();
+				do {
+					CategoryInfo category = new CategoryInfo();
+					category.setCategory_idx(rs.getString("CG_IDX"));
+					category.setCategory_name(rs.getString("CG_NAME"));
+					
+					categoryInfos.add(category);
+				}while (rs.next());
+			}
+			
+			else
+			{
+				System.out.println("쿼리 실행결과가 없음");
+			}
+			
+			disconnect();
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return categoryInfos;
+	}
+	
+	public ArrayList<DetailInfo> getDetail()
+	{
+		String sql = "SELECT * FROM TB_CATEGORY_DETAIL";
+		
+		ArrayList<DetailInfo> detailInfos = null;
+		
+		try {
+			connect();
+			
+			pstmt = conn.prepareStatement(sql);
+			ResultSet rs = pstmt.executeQuery();
+			
+			if (rs.next())
+			{
+				detailInfos = new ArrayList<DetailInfo>();
+				
+				do {
+					DetailInfo detail = new DetailInfo();
+					detail.setDetail_idx(rs.getString("DETAIL_IDX"));
+					detail.setCategory_idx(rs.getString("CG_IDX"));
+					detail.setDetail_name(rs.getString("DETAIL_NAME"));
+					
+					detailInfos.add(detail);
+				}
+				while(rs.next());
+			}
+			else
+			{
+				System.out.println("Detail 쿼리 실행결과가 없음");
+			}
+			disconnect();
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return detailInfos;
+	}
+	
+	public boolean registerStudy(StudyInfo studyInfo)
+	{
+		boolean isInserted = false;
+		
+		String sql = "INSERT INTO TB_STUDYINFO VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		
+		try {
+			connect();
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, studyInfo.getStd_no());
+			pstmt.setString(2, studyInfo.getDetail_idx());
+			pstmt.setString(3, studyInfo.getStd_name());
+			pstmt.setString(4, studyInfo.getStd_contents());
+			pstmt.setString(5, studyInfo.getStd_leader());
+			pstmt.setString(6, studyInfo.getStd_location());
+			pstmt.setInt(7, studyInfo.getStd_maxattcnt());
+			pstmt.setInt(8, studyInfo.getStd_endflag());
+			pstmt.setString(9, studyInfo.getStd_teacher());
+			pstmt.setString(10, studyInfo.getStd_startDate());
+			pstmt.setString(11, studyInfo.getStd_endDate());
+			pstmt.setInt(12, studyInfo.getStd_maxMemberCount());
+			pstmt.setString(13, studyInfo.getStd_theme());
+			
+			int result = pstmt.executeUpdate();
+			
+			System.out.println("1 StudyInfo has successfully inserted.");
+			if (result > 0)
+			{
+				isInserted = true;
+			}
+			
+			disconnect();
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return isInserted;
 	}
 	
 	public StudyInfo getStudyInfo(String std_no)

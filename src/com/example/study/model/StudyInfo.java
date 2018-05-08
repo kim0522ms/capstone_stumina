@@ -3,6 +3,7 @@ package com.example.study.model;
 public class StudyInfo {
 	private String std_no;
 	private String std_category;
+	private String detail_idx;
 	private String std_name;
 	private String std_contents;
 	private String std_leader;
@@ -11,6 +12,12 @@ public class StudyInfo {
 	private String std_endDate;
 	private String std_teacher;
 	private String std_theme;
+	public String getDetail_idx() {
+		return detail_idx;
+	}
+	public void setDetail_idx(String detail_idx) {
+		this.detail_idx = detail_idx;
+	}
 	private int std_maxMemberCount;
 	private int std_remainMember;
 	private int std_maxattcnt;

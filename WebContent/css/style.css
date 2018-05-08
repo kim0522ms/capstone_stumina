@@ -584,7 +584,7 @@ header nav ul li a:hover {
     color: white;
     text-transform: uppercase;
     font-size: 9px;
-    width: 33.33%;
+    width: 25%;
     float: left;
     position: relative;
     letter-spacing: 1px;
@@ -649,5 +649,321 @@ header nav ul li a:hover {
     background: #C5C5F1;
     text-decoration: none;
 }
+/* DropDown */
+.button-group {
+  /* position: relative; */
+  width: 500px;
+  margin: 0 auto;
+  margin-bottom: 2em;
+  top: 5.5em;
+  max-width: 105%;
+}
+.button-group .marka {
+  position: relative;
+  right: 8px;
+  top: 10px;
+  z-index: 9999;
+  cursor: pointer;
+  margin-left: 90%;
+}
+.button-group .marka i {
+  background: grey!important;
+}
+#dropdown-menu {
+  position: absolute;
+  top: -1em;
+  right: 0;
+  left: 0;
+  margin: 1em auto;
+  padding: 1em 1.35em 1em;
+  width: 175px;
+  list-style: none;
+  text-align: left;
+  border-radius: 2px;
+  background: #fafafa;
+  transition: all 350ms cubic-bezier(0.19, 1, 0.22, 1);
+  -webkit-transform: scale(0);
+          transform: scale(0);
+  -webkit-transform-origin: right top;
+          transform-origin: right top;
+}
+#dropdown-menu li {
+  position: relative;
+  line-height: 2.35em;
+  -webkit-transform: translate3d(0, -10px, 0);
+          transform: translate3d(0, -10px, 0);
+  opacity: 0;
+}
+#dropdown-menu li a {
+  color: #222222;
+  text-decoration: none;
+  font-size: 1em;
+}
+#dropdown-menu.open {
+  -webkit-transform: scale(1);
+          transform: scale(1);
+}
+#dropdown-menu.open li {
+  transition: all 350ms cubic-bezier(0.19, 1, 0.22, 1);
+  -webkit-transform: translate3d(0, 0, 0);
+          transform: translate3d(0, 0, 0);
+  opacity: 1;
+}
+#dropdown-menu {
+  box-shadow: 0 0.1em 0.25em rgba(0, 0, 0, 0.15), 0 0.1em 0.2em rgba(0, 0, 0, 0.2);
+}
+#input {
+  border: 0;
+  background: transparent;
+  border-bottom: 2px solid #2d3042;
+  outline: 0;
+  display: block;
+  text-align: left;
+  font-size: 0.95em;
+  width: 95%;
+  cursor: pointer;
+  color: #727272;
+  text-decoration: none;
+  transition: all 550ms cubic-bezier(0.19, 1, 0.22, 1);
+  opacity: 1;
+  -webkit-transform-origin: right top;
+          transform-origin: right top;
+}
+#input.open {
+  opacity: 0;
+}
 
+.open li:nth-child(1) {
+  transition-delay: 0.07s !important;
+}
+.open li:nth-child(2) {
+  transition-delay: 0.14s !important;
+}
+.open li:nth-child(3) {
+  transition-delay: 0.21s !important;
+}
+.open li:nth-child(4) {
+  transition-delay: 0.28s !important;
+}
+.open li:nth-child(5) {
+  transition-delay: 0.35s !important;
+}
+
+/* DropDown */
+#dropdown-menu2 {
+  position: absolute;
+  top: -1em;
+  right: 0;
+  left: 0;
+  margin: 1em auto;
+  padding: 1em 1.35em 1em;
+  width: 175px;
+  list-style: none;
+  text-align: left;
+  border-radius: 2px;
+  background: #fafafa;
+  transition: all 350ms cubic-bezier(0.19, 1, 0.22, 1);
+  -webkit-transform: scale(0);
+          transform: scale(0);
+  -webkit-transform-origin: right top;
+          transform-origin: right top;
+}
+#dropdown-menu2 li {
+  position: relative;
+  line-height: 2.35em;
+  -webkit-transform: translate3d(0, -10px, 0);
+          transform: translate3d(0, -10px, 0);
+  opacity: 0;
+}
+#dropdown-menu2 li a {
+  color: #222222;
+  text-decoration: none;
+  font-size: 1em;
+}
+#dropdown-menu2.open {
+  -webkit-transform: scale(1);
+          transform: scale(1);
+}
+#dropdown-menu2.open li {
+  transition: all 350ms cubic-bezier(0.19, 1, 0.22, 1);
+  -webkit-transform: translate3d(0, 0, 0);
+          transform: translate3d(0, 0, 0);
+  opacity: 1;
+}
+#dropdown-menu {
+  box-shadow: 0 0.1em 0.25em rgba(0, 0, 0, 0.15), 0 0.1em 0.2em rgba(0, 0, 0, 0.2);
+}
+#input2 {
+  border: 0;
+  background: transparent;
+  border-bottom: 2px solid #2d3042;
+  outline: 0;
+  display: block;
+  text-align: left;
+  font-size: 0.95em;
+  width: 95%;
+  cursor: pointer;
+  color: #727272;
+  text-decoration: none;
+  transition: all 550ms cubic-bezier(0.19, 1, 0.22, 1);
+  opacity: 1;
+  -webkit-transform-origin: right top;
+          transform-origin: right top;
+}
+#input2.open {
+  opacity: 0;
+}
 /* ----------------CreateStudy End--------------------- */
+
+/* ----------------Datepicker Start ------------------- */
+.date-picker {
+  margin: 0 auto;
+  margin-bottom: 8px;
+}
+
+.date-picker {
+  width: 100%;
+  height: auto;
+  max-height: 50px;
+  background: white;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s 0s ease-in-out;
+  border: 1px solid #cccccc;
+}
+.date-picker .input {
+  width: 100%;
+  height: 50px;
+  font-size: 0;
+  cursor: pointer;
+}
+.date-picker .input .result, .date-picker .input button {
+  display: inline-block;
+  vertical-align: top;
+}
+.date-picker .input .result {
+  width: calc(100% - 50px);
+  height: 50px;
+  line-height: 50px;
+  font-size: 16px;
+  padding: 0 10px;
+  color: grey;
+  box-sizing: border-box;
+}
+.date-picker .input button {
+  width: 50px;
+  height: 50px;
+  background-color: #2d3042;
+  color: white;
+  line-height: 50px;
+  border: 0;
+  font-size: 18px;
+  padding: 0;
+}
+.date-picker .input button:hover {
+  background-color: #2d3042;
+}
+.date-picker .input button:focus {
+  outline: 0;
+}
+.date-picker .calendar {
+  position: relative;
+  width: 100%;
+  background: #fff;
+  border-radius: 0px;
+  overflow: hidden;
+}
+.date-picker .ui-datepicker-inline {
+  position: relative;
+  width: 100%;
+}
+.date-picker .ui-datepicker-header {
+  height: 100%;
+  line-height: 50px;
+  background: #8392A7;
+  color: #fff;
+  margin-bottom: 10px;
+}
+.date-picker .ui-datepicker-prev, .date-picker .ui-datepicker-next {
+  width: 20px;
+  height: 20px;
+  text-indent: 9999px;
+  border: 2px solid #fff;
+  border-radius: 100%;
+  cursor: pointer;
+  overflow: hidden;
+  margin-top: 12px;
+}
+.date-picker .ui-datepicker-prev {
+  float: left;
+  margin-left: 12px;
+}
+.date-picker .ui-datepicker-prev:after {
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+  margin: -43px 0px 0px 8px;
+}
+.date-picker .ui-datepicker-next {
+  float: right;
+  margin-right: 12px;
+}
+.date-picker .ui-datepicker-next:after {
+  -webkit-transform: rotate(-135deg);
+          transform: rotate(-135deg);
+  margin: -43px 0px 0px 6px;
+}
+.date-picker .ui-datepicker-prev:after, .date-picker .ui-datepicker-next:after {
+  content: "";
+  position: absolute;
+  display: block;
+  width: 4px;
+  height: 4px;
+  border-left: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+}
+.date-picker .ui-datepicker-prev:hover, .date-picker .ui-datepicker-next:hover, .date-picker .ui-datepicker-prev:hover:after, .date-picker .ui-datepicker-next:hover:after {
+  border-color: #2d3042;
+}
+.date-picker .ui-datepicker-title {
+  text-align: center;
+}
+.date-picker .ui-datepicker-calendar {
+  width: 100%;
+  text-align: center;
+}
+.date-picker .ui-datepicker-calendar thead tr th span {
+  display: block;
+  width: 100%;
+  color: #2d3042;
+  margin-bottom: 5px;
+  font-size: 13px;
+}
+.date-picker .ui-state-default {
+  display: block;
+  text-decoration: none;
+  color: #2d3042;
+  line-height: 40px;
+  font-size: 12px;
+}
+.date-picker .ui-state-default:hover {
+  background: rgba(0, 0, 0, 0.02);
+}
+.date-picker .ui-state-highlight {
+  color: #2d3042;
+}
+.date-picker .ui-state-active {
+  color: #2d3042;
+  background-color: rgba(131, 146, 167, 0.12);
+  font-weight: 600;
+}
+.date-picker .ui-datepicker-unselectable .ui-state-default {
+  color: #eee;
+  border: 2px solid transparent;
+}
+.date-picker.open {
+  max-height: 400px;
+}
+.date-picker.open .input button {
+  background: #2d3042;
+}
+/* ----------------- Datepicker End -------------------- */

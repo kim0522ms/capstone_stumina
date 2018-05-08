@@ -2,7 +2,10 @@ package com.example.study.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.example.study.model.CategoryInfo;
+import com.example.study.model.DetailInfo;
 import com.example.study.model.StudyInfo;
 import com.example.study.model.UserInfo;
 
@@ -139,6 +144,31 @@ public class MainController extends HttpServlet {
 			request.setAttribute("studyInfos", studyInfos);
 			//response.getWriter().write(studyInfos.toString());
 		}
+		else if (subPath.equals("/createStudy"))
+		{
+			if (session.getAttribute("userInfo") == null)
+			{
+				viewName = "/Sign_In/SignIn.jsp";
+			}
+			else
+			{
+				StudyDBDAO db = new StudyDBDAO();
+				
+				ArrayList<CategoryInfo> categoryInfos = db.getCategory();
+				ArrayList<DetailInfo> detailInfos = db.getDetail();
+				
+				if (categoryInfos != null && detailInfos != null)
+				{
+					request.setAttribute("categoryInfos", categoryInfos);
+					request.setAttribute("detailInfos", detailInfos);
+					viewName = "/CreateStudy.jsp";
+				}
+				else
+				{
+					viewName = "/Error.jsp/value=NoCategoryInfo";
+				}
+			}
+		}
 	
 		// 媛� Path 湲곕뒫�쓣 �떎�뻾�븳 �썑 �쉷�뱷�븳 viewName 二쇱냼濡� Forwarding
 		if(viewName != null) {
@@ -153,6 +183,8 @@ public class MainController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		
+		System.out.println("Post Data has been arrive");
 		String subPath = request.getPathInfo();
 		String viewName = null;
 		
@@ -202,6 +234,42 @@ public class MainController extends HttpServlet {
 		else if (subPath.equals("/myStudies"))
 		{
 			this.doGet(request, response);
+		}
+		
+		else if (subPath.equals("/registStudy"))
+		{
+			StudyDBDAO db = new StudyDBDAO();
+			
+			SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat ( "yyyyMMddHHmmss", Locale.KOREA );
+			Date currentTime = new Date ();
+			String mTime = mSimpleDateFormat.format ( currentTime );
+			
+			StudyInfo studyInfo = new StudyInfo();
+			studyInfo.setStd_no(mTime);
+			studyInfo.setDetail_idx(request.getParameter("detail_idx"));
+			System.out.println(request.getParameter("detail_idx"));
+			studyInfo.setStd_name(request.getParameter("std_name"));
+			studyInfo.setStd_contents(request.getParameter("std_contents"));
+			studyInfo.setStd_leader(session.getAttribute("user_idx").toString());
+			studyInfo.setStd_location("부산");
+			studyInfo.setStd_maxattcnt(Integer.parseInt(request.getParameter("std_maxattcount")));
+			studyInfo.setStd_endflag(0);
+			studyInfo.setStd_teacher(null);
+			studyInfo.setStd_startDate(request.getParameter("std_startdate"));
+			studyInfo.setStd_endDate(request.getParameter("std_enddate"));
+			studyInfo.setStd_maxMemberCount(Integer.parseInt(request.getParameter("std_maxmember")));
+			studyInfo.setStd_theme(request.getParameter("std_theme"));
+			
+			boolean result = db.registerStudy(studyInfo);
+			
+			if (result)
+			{
+				viewName = "/Success.jsp";
+			}
+			else
+			{
+				viewName = "/Fail.jsp";
+			}
 		}
 				
 		// 媛� Path 湲곕뒫�쓣 �떎�뻾�븳 �썑 �쉷�뱷�븳 viewName 二쇱냼濡� Forwarding
