@@ -244,14 +244,34 @@ public class MainController extends HttpServlet {
 			Date currentTime = new Date ();
 			String mTime = mSimpleDateFormat.format ( currentTime );
 			
+			// 문자 형식으로 날아온 소분류 값을 idx형태로 변경해줌
+			String detail_idx = db.getDetail_IdxByName(request.getParameter("detail_idx"));
+			if (detail_idx == null)
+			{
+				viewName = "/Error.jsp?Value=DetailNotFound";
+				RequestDispatcher view = request.getRequestDispatcher(viewName);
+				view.forward(request,response);
+				return;
+			}
+			
+			/*
+			String area_idx = db.getArea_IDXbyName(request.getParameter("area_name"));
+			if (area_idx == null)
+			{
+				viewName = "/Error.jsp?Value=AreaNotFound";
+				RequestDispatcher view = request.getRequestDispatcher(viewName);
+				view.forward(request,response);
+				return;
+			}
+			*/
+			
 			StudyInfo studyInfo = new StudyInfo();
 			studyInfo.setStd_no(mTime);
-			studyInfo.setDetail_idx(request.getParameter("detail_idx"));
-			System.out.println(request.getParameter("detail_idx"));
+			studyInfo.setDetail_idx(detail_idx);
 			studyInfo.setStd_name(request.getParameter("std_name"));
 			studyInfo.setStd_contents(request.getParameter("std_contents"));
 			studyInfo.setStd_leader(session.getAttribute("user_idx").toString());
-			studyInfo.setStd_location("부산");
+			studyInfo.setStd_location("101");
 			studyInfo.setStd_maxattcnt(Integer.parseInt(request.getParameter("std_maxattcount")));
 			studyInfo.setStd_endflag(0);
 			studyInfo.setStd_teacher(null);
@@ -259,6 +279,21 @@ public class MainController extends HttpServlet {
 			studyInfo.setStd_endDate(request.getParameter("std_enddate"));
 			studyInfo.setStd_maxMemberCount(Integer.parseInt(request.getParameter("std_maxmember")));
 			studyInfo.setStd_theme(request.getParameter("std_theme"));
+			
+			System.out.println("Recived Parameters");
+			System.out.println("[STD_NO : " + studyInfo.getStd_no() + "]");
+			System.out.println("[DETAIL_IDX : " + studyInfo.getDetail_idx() + "]");
+			System.out.println("[STD_NAME : " + studyInfo.getStd_name() + "]");
+			System.out.println("[STD_CONTENTS : " + studyInfo.getStd_contents() + "]");
+			System.out.println("[STD_LEADER : " + studyInfo.getStd_leader() + "]");
+			System.out.println("[STD_LOCATION : " + studyInfo.getStd_location() + "]");
+			System.out.println("[STD_MAXATTCNT : " + studyInfo.getStd_maxattcnt() + "]");
+			System.out.println("[STD_ENDFLAG : " + studyInfo.getStd_endflag() + "]");
+			System.out.println("[STD_TEACHER : " + studyInfo.getStd_teacher() + "]");
+			System.out.println("[STD_STARTDATE : " + studyInfo.getStd_startDate() + "]");
+			System.out.println("[STD_ENDDATE : " + studyInfo.getStd_endDate() + "]");
+			System.out.println("[STD_MAXMEMBER : " + studyInfo.getStd_maxMemberCount() + "]");
+			System.out.println("[STD_THEME : " + studyInfo.getStd_theme() + "]");
 			
 			boolean result = db.registerStudy(studyInfo);
 			

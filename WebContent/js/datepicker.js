@@ -1,6 +1,6 @@
 $(function() {
   $( ".calendar" ).datepicker({
-		dateFormat: 'dd/mm/yy',
+		dateFormat: 'yy/mm/dd',
 		firstDay: 1
 	});
 	
@@ -16,5 +16,18 @@ $(function() {
 				$selected = $me.val(),
 				$parent = $me.parents('.date-picker');
 		$parent.find('.result').children('span').html($selected);
+		
+		console.log($parent.find('.result').children('span').attr('id'));
+		
+		if ($parent.find('.result').children('span').attr('id') == 'startdate')
+		{
+			console.log('find startdate');
+			document.getElementById('std_startdate').value = $me.val();
+		}
+		else if ($parent.find('.result').children('span').attr('id') == 'enddate')
+		{
+			console.log('find enddate');
+			document.getElementById('std_enddate').value = $me.val();
+		}
 	});
 });

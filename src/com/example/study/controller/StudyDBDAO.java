@@ -339,7 +339,7 @@ public class StudyDBDAO {
 	{
 		boolean isInserted = false;
 		
-		String sql = "INSERT INTO TB_STUDYINFO VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO TB_STUDYINFO VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, TO_DATE(?, 'yy/mm/dd'), TO_DATE(?, 'yy/mm/dd'), ?, ?)";
 		
 		try {
 			connect();
@@ -375,6 +375,59 @@ public class StudyDBDAO {
 		
 		return isInserted;
 	}
+	
+	public String getDetail_IdxByName(String detail_name)
+	{
+		String result = null;
+		String sql = "SELECT * FROM TB_CATEGORY_DETAIL WHERE detail_name = ?";
+		
+		try {
+			connect();
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, detail_name);
+			ResultSet rs = pstmt.executeQuery();
+			
+			if (rs.next())
+			{
+				result = rs.getString("DETAIL_IDX");
+			}
+			
+			disconnect();
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	public String getArea_IDXbyName(String area_name)
+	{
+		String result = null;
+		String sql = "SELECT * FROM TB_AREA WHERE AREA_NAME = ?";
+		
+		try {
+			connect();
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, area_name);
+			ResultSet rs = pstmt.executeQuery();
+			
+			if (rs.next())
+			{
+				result = rs.getString("AREA_IDX");
+			}
+			
+			disconnect();
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
 	
 	public StudyInfo getStudyInfo(String std_no)
 	{

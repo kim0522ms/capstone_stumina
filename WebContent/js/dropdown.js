@@ -66,6 +66,7 @@ $(document).ready(function() {
 		var options = $(this).find('a').html();
 		triggerOpen2.text(options);
 		document.getElementById('detail_idx').value = options;
+		
 
 		$('#dropdown-menu2').add(triggerOpen2).toggleClass('open');
 		m2.set('triangle').size(10);

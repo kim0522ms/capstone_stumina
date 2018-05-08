@@ -107,7 +107,7 @@
 							   	  <%
 							  	 	for (DetailInfo detail : detailInfos)
 							  		{
-							  			out.println("<li><a href='#' value='" + detail.getDetail_idx() + "'>" + detail.getDetail_name() +"</a></li>");	
+							  			out.println("<li><a href='#' id='" + detail.getDetail_idx()+ "'>" + detail.getDetail_name() +"</a></li>");	
 							  		}
 								  %>
 								  </ul>
@@ -129,7 +129,8 @@
 			                	<!-- 시작날짜 DatePicker Start-->
 			                <div class="date-picker">
 								<div class="input">
-									<div class="result">시작 날짜: <span id="std_startdate"></span></div>
+									<div class="result">시작 날짜: <span id="startdate"></span></div>
+									<input type="hidden" id="std_startdate" name="std_startdate" value="">
 									<button><i class="	fa fa-calendar"></i></button>
 								</div>
 								<div class="calendar"></div>
@@ -138,7 +139,8 @@
 							<!-- 종료날짜 DatePicker Start-->
 			                <div class="date-picker">
 								<div class="input">
-									<div class="result">종료 날짜: <span id="std_enddate"></span></div>
+									<div class="result">종료 날짜: <span id="enddate"></span></div>
+									<input type="hidden" id="std_enddate" name="std_enddate" value="">
 									<button><i class="	fa fa-calendar"></i></button>
 								</div>
 								<div class="calendar"></div>
