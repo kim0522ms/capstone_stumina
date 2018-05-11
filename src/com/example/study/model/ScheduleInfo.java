@@ -3,7 +3,7 @@ package com.example.study.model;
 public class ScheduleInfo {
 	private String schedule_idx;
 	private String schedule_date;
-	private String room_no;
+	private String room_idx;
 	private String std_no;
 	private String checkin;
 	private String checkout;
@@ -28,11 +28,11 @@ public class ScheduleInfo {
 	public void setSchedule_date(String schedule_date) {
 		this.schedule_date = schedule_date;
 	}
-	public String getRoom_no() {
-		return room_no;
+	public String getRoom_idx() {
+		return room_idx;
 	}
-	public void setRoom_no(String room_no) {
-		this.room_no = room_no;
+	public void setRoom_idx(String room_idx) {
+		this.room_idx = room_idx;
 	}
 	public String getStd_no() {
 		return std_no;

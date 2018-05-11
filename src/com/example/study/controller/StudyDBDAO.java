@@ -8,11 +8,15 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import com.example.study.model.AreaInfo;
 import com.example.study.model.CategoryInfo;
 import com.example.study.model.DetailInfo;
+import com.example.study.model.RoomsInfo;
 import com.example.study.model.ScheduleInfo;
 import com.example.study.model.StudyInfo;
+import com.example.study.model.StudyRoomInfo;
 import com.example.study.model.UserInfo;
+import com.sun.javafx.geom.Area;
 
 public class StudyDBDAO {
 	private Connection conn = null;
@@ -417,6 +421,130 @@ public class StudyDBDAO {
 		return result;
 	}
 	
+	public ArrayList<AreaInfo> getAllAreaInfo()
+	{
+		String sql = "SELECT * FROM TB_AREA";
+		
+		ArrayList<AreaInfo> areaInfos = null;
+		
+		try {
+			connect();
+			
+			pstmt = conn.prepareStatement(sql);
+			ResultSet rs = pstmt.executeQuery();
+			
+			if (rs.next())
+			{
+				areaInfos = new ArrayList<AreaInfo>();
+				AreaInfo area = null;
+				
+				do {
+					area = new AreaInfo();
+					area.setArea_idx(rs.getString("AREA_IDX"));
+					area.setArea_name(rs.getString("AREA_NAME"));
+					
+					areaInfos.add(area);
+				}while(rs.next());
+			}
+			else
+			{
+				System.out.println("Error : No Area Data Founded.");
+			}
+			
+			disconnect();
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return areaInfos;
+	}
+	
+	public ArrayList<StudyRoomInfo> getAllStudyRoomInfo()
+	{
+		String sql = "SELECT * FROM TB_STUDYROOMS";
+		
+		ArrayList<StudyRoomInfo> studyRoomInfos = null;
+		
+		try {
+			connect();
+			
+			pstmt = conn.prepareStatement(sql);
+			ResultSet rs = pstmt.executeQuery();
+			
+			if (rs.next())
+			{
+				studyRoomInfos = new ArrayList<StudyRoomInfo>();
+				StudyRoomInfo studyRoomInfo = null;
+				
+				do {
+					studyRoomInfo = new StudyRoomInfo();
+					
+					studyRoomInfo.setStudyroom_idx(rs.getString("SR_IDX"));
+					studyRoomInfo.setStudyroom_location(rs.getString("SR_LOCATION"));
+					studyRoomInfo.setArea_idx(rs.getString("AREA_IDX"));
+					studyRoomInfo.setStudyroom_name(rs.getString("SR_NAME"));
+					
+					studyRoomInfos.add(studyRoomInfo);
+				}while(rs.next());
+			}
+			else
+			{
+				System.out.println("Error : No Area Data Founded.");
+			}
+			
+			disconnect();
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return studyRoomInfos;
+	}
+	
+	public ArrayList<RoomsInfo> getAllRoomsInfo()
+	{
+		String sql = "SELECT * FROM TB_ROOMINFO";
+		
+		ArrayList<RoomsInfo> roomInfos = null;
+		
+		try {
+			connect();
+			
+			pstmt = conn.prepareStatement(sql);
+			ResultSet rs = pstmt.executeQuery();
+			
+			if (rs.next())
+			{
+				roomInfos = new ArrayList<RoomsInfo>();
+				RoomsInfo roomInfo = null;
+				
+				do {
+					roomInfo = new RoomsInfo();
+					
+					roomInfo.setStudyroom_idx(rs.getString("SR_IDX"));
+					roomInfo.setRoom_idx(rs.getString("ROOM_IDX"));
+					roomInfo.setRoom_pay(rs.getString("ROOM_PAY"));
+					roomInfo.setRoom_name(rs.getString("ROOM_NAME"));
+					roomInfo.setRoom_maxmember(rs.getString("ROOM_MAXMEMBER"));
+					
+					roomInfos.add(roomInfo);
+				}while(rs.next());
+			}
+			else
+			{
+				System.out.println("Error : No Area Data Founded.");
+			}
+			
+			disconnect();
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return roomInfos;
+	}
+	
 	public String getArea_IDXbyName(String area_name)
 	{
 		String result = null;
@@ -443,6 +571,8 @@ public class StudyDBDAO {
 		return result;
 	}
 	
+	
+	
 	public ArrayList<ScheduleInfo> getSchedules(String std_no)
 	{
 		ArrayList<ScheduleInfo> scheduleInfos = null;
@@ -466,7 +596,7 @@ public class StudyDBDAO {
 					schedule.setCheckin(rs.getString("RSCH_CHECKIN"));
 					schedule.setCheckout(rs.getString("RSCH_CHECKOUT"));
 					schedule.setStd_no(rs.getString("STD_NO"));
-					schedule.setRoom_no(rs.getString("ROOM_NO"));
+					schedule.setRoom_idx(rs.getString("ROOM_IDX"));
 					schedule.setStd_name(rs.getString("STD_NAME"));
 					schedule.setSchedule_name(rs.getString("RSCH_NAME"));
 					

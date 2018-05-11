@@ -14,10 +14,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.example.study.model.AreaInfo;
 import com.example.study.model.CategoryInfo;
 import com.example.study.model.DetailInfo;
+import com.example.study.model.RoomsInfo;
 import com.example.study.model.ScheduleInfo;
 import com.example.study.model.StudyInfo;
+import com.example.study.model.StudyRoomInfo;
 import com.example.study.model.UserInfo;
 
 /**
@@ -195,6 +198,55 @@ public class MainController extends HttpServlet {
 				request.setAttribute("scheduleInfo", scheduleInfo);
 			}
 			viewName ="/Schedule/ViewCalander.jsp";
+		}
+		
+		// 스케줄 추가를 위해 지역 및 스터디룸 정보 쿼리 후 request에 담아 전송
+		else if (subPath.equals("/createSchedule"))
+		{
+			String std_no = request.getParameter("std_no");
+			
+			StudyDBDAO db = new StudyDBDAO();
+			
+			// 지역 정보 쿼리
+			ArrayList<AreaInfo> areaInfos = db.getAllAreaInfo();
+			if (areaInfos != null)
+			{
+				System.out.println("[/createSchedule] : AreaInfo Added.");
+				request.setAttribute("areaInfos", areaInfos);
+			}
+			else
+			{
+				System.out.println("[/createSchedule] : Error in AreaInfo Add.");
+				viewName = "/Error.jsp?value=NoAreaData";
+			}
+			
+			// 스터디룸 정보 쿼리
+			ArrayList<StudyRoomInfo> studyRoomInfos = db.getAllStudyRoomInfo();
+			if (studyRoomInfos != null)
+			{
+				System.out.println("[/createSchedule] : StudyRoomInfo Added.");
+				request.setAttribute("studyRoomInfos", studyRoomInfos);
+			}
+			else
+			{
+				System.out.println("[/createSchedule] : Error in StudyRoomInfo Add.");
+				viewName = "/Error.jsp?value=NoStudyRoomData";
+			}
+			
+			// 방 정보 쿼리
+			ArrayList<RoomsInfo> roomInfos = db.getAllRoomsInfo();
+			if (roomInfos != null)
+			{
+				System.out.println("[/createSchedule] : RoomsInfo Added.");
+				request.setAttribute("roomInfos", roomInfos);
+			}
+			else
+			{
+				System.out.println("[/createSchedule] : Error in RoomsInfo Add.");
+				viewName ="/Error.jsp?value=NoRoomInfoData";
+			}
+			
+			viewName = "/CreateSchedule.jsp";
 		}
 	
 		// 媛� Path 湲곕뒫�쓣 �떎�뻾�븳 �썑 �쉷�뱷�븳 viewName 二쇱냼濡� Forwarding

@@ -117,7 +117,7 @@ function fill_table(month, month_length, indexMonth) {
 			schedules = (ArrayList<ScheduleInfo>)request.getAttribute("scheduleInfo");
 		}
 	%>
-	<h1>${studyInfo.std_name} 스터디의 스케줄을 확인해 볼까요?</h1>
+	<h1>[${studyInfo.std_name}]의 스케줄을 확인해 볼까요?</h1>
 <headers>
   <div class="wrapper">
     <div class="c-monthyear">
@@ -148,7 +148,8 @@ function fill_table(month, month_length, indexMonth) {
 </headers>
   <div class="c-calendar">
     <div class="c-calendar__style c-aside">
-      <a class="c-add o-btn js-event__add" href="javascript:;">일정 추가하기 <span class="fa fa-plus"></span></a>
+      <!-- <a class="c-add o-btn js-event__add" href="javascript:;">일정 추가하기 <span class="fa fa-plus"></span></a> -->
+      <a class="c-add o-btn js-event__add" href="/Graduation_KMS/op/createSchedule">일정 추가하기 <span class="fa fa-plus"></span></a>
       <div class="c-aside__day">
         <span class="c-aside__num"></span> <span class="c-aside__month"></span>
       </div>
@@ -205,10 +206,13 @@ function fill_table(month, month_length, indexMonth) {
 	SimpleDateFormat oldFormat = new SimpleDateFormat("yy-MM-dd HH:mm:ss.SSS");
 	SimpleDateFormat newFormat = new SimpleDateFormat("yyyy-MM-dd");
 	
-	for (ScheduleInfo schedule : schedules)
+	if (schedules != null)
 	{
-		String dateString = schedule.getSchedule_date();
-		out.println("defaultEvents('"+ newFormat.format(oldFormat.parse(schedule.getSchedule_date())) +"','"+schedule.getCheckin()+"시 ~ " + schedule.getCheckout()+ "시', '"+schedule.getSchedule_name()+"')");
+		for (ScheduleInfo schedule : schedules)
+		{
+			String dateString = schedule.getSchedule_date();
+			out.println("defaultEvents('"+ newFormat.format(oldFormat.parse(schedule.getSchedule_date())) +"','"+schedule.getCheckin()+"시 ~ " + schedule.getCheckout()+ "시', '"+schedule.getSchedule_name()+"')");
+		}
 	}
 	%>
 	</script>
