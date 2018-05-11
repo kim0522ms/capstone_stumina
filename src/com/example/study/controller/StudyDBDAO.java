@@ -10,15 +10,33 @@ import java.util.ArrayList;
 
 import com.example.study.model.CategoryInfo;
 import com.example.study.model.DetailInfo;
+import com.example.study.model.ScheduleInfo;
 import com.example.study.model.StudyInfo;
 import com.example.study.model.UserInfo;
 
 public class StudyDBDAO {
 	private Connection conn = null;
 	private PreparedStatement pstmt = null;
+	
+	/* 
+	// localhost 
 	private final String DB_URL = "jdbc:oracle:thin://@localhost:1521/xe";
 	private final String DB_USER = "mskim";
 	private final String DB_PW = "4321";
+	*/
+	
+	/* 
+	// MainServer
+	private final String DB_URL = "jdbc:oracle:thin://@172.17.14.204:1521/xe";
+	private final String DB_USER = "mskim";
+	private final String DB_PW = "4321";
+	*/
+	
+	// Home
+	private final String DB_URL = "jdbc:oracle:thin://@192.168.0.2:1521/xe";
+	private final String DB_USER = "mskim";
+	private final String DB_PW = "4321";
+	
 	
 	public void connect() throws ClassNotFoundException, SQLException{
 		Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -197,7 +215,7 @@ public class StudyDBDAO {
 	{
 		ArrayList<StudyInfo> studyInfos = null;
 		
-		String sql = "SELECT * FROM tb_joininfo NATURAL JOIN (SELECT * FROM TB_STUDYINFO NATURAL JOIN TB_CATEGORY_DETAIL) WHERE USER_IDX = ?";;
+		String sql = "SELECT * FROM tb_joininfo NATURAL JOIN (SELECT * FROM TB_STUDYINFO NATURAL JOIN TB_CATEGORY_DETAIL) WHERE USER_IDX = ?";
 		System.out.println("Created SQL : " + sql);
 		try {
 			connect();
@@ -206,10 +224,8 @@ public class StudyDBDAO {
 			pstmt.setString(1, user_idx);
 			
 			ResultSet rs = pstmt.executeQuery();
-			System.out.println("aaaa");
 			if (rs.next())
 			{
-				System.out.println("aaaa");
 				studyInfos = new ArrayList<StudyInfo>();
 				StudyInfo studyInfo;
 				do {
@@ -235,15 +251,14 @@ public class StudyDBDAO {
 					sql = "SELECT user_name FROM TB_USERS where user_idx = ?";
 					pstmt = conn.prepareStatement(sql);
 					pstmt.setString(1, rs.getString("STD_LEADER"));
-					rs = pstmt.executeQuery();
+					ResultSet rs2 = pstmt.executeQuery();
 					
-					if (rs.next())
+					if (rs2.next())
 					{
-						studyInfo.setStd_leader(rs.getString("USER_NAME"));
+						studyInfo.setStd_leader(rs2.getString("USER_NAME"));
 					}
 					
-					
-					System.out.println("aaaa");
+					System.out.println("StudyCard Added.");
 					studyInfos.add(studyInfo);
 				}while (rs.next());
 			}
@@ -426,6 +441,46 @@ public class StudyDBDAO {
 		}
 		
 		return result;
+	}
+	
+	public ArrayList<ScheduleInfo> getSchedules(String std_no)
+	{
+		ArrayList<ScheduleInfo> scheduleInfos = null;
+		String sql = "SELECT  * FROM TB_ROOM_SCHEDULE NATURAL JOIN TB_STUDYINFO WHERE STD_NO = ?";
+		
+		try {
+			connect();
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, std_no);
+			ResultSet rs = pstmt.executeQuery();
+			
+			if (rs.next())
+			{
+				scheduleInfos = new ArrayList<ScheduleInfo>();
+				ScheduleInfo schedule = null;
+				do {
+					schedule = new ScheduleInfo();
+					schedule.setSchedule_idx(rs.getString("RSCH_IDX"));
+					schedule.setSchedule_date(rs.getString("RSCH_DATE"));
+					schedule.setCheckin(rs.getString("RSCH_CHECKIN"));
+					schedule.setCheckout(rs.getString("RSCH_CHECKOUT"));
+					schedule.setStd_no(rs.getString("STD_NO"));
+					schedule.setRoom_no(rs.getString("ROOM_NO"));
+					schedule.setStd_name(rs.getString("STD_NAME"));
+					schedule.setSchedule_name(rs.getString("RSCH_NAME"));
+					
+					scheduleInfos.add(schedule);
+				}while(rs.next());
+			}
+			
+			disconnect();
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return scheduleInfos;
 	}
 	
 	

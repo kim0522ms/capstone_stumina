@@ -66,7 +66,7 @@
 			    	else{
 			    		%>
 			    			<br>
-			    			<h3>직접 스터디를 만들어 볼까요?&nbsp<a href='/Graduation_KMS/op/createStudy'>만들러 가기!</a></h3>
+			    			<h3>직접 스터디를 만들어 볼까요?&nbsp<a href='/Graduation_KMS/op/createStudy' style="color: #36474f;">만들러 가기!</a></h3>
 			    			<br>
 			    		<%
 			    	}

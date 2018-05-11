@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 
 import com.example.study.model.CategoryInfo;
 import com.example.study.model.DetailInfo;
+import com.example.study.model.ScheduleInfo;
 import com.example.study.model.StudyInfo;
 import com.example.study.model.UserInfo;
 
@@ -83,7 +84,7 @@ public class MainController extends HttpServlet {
 			}
 			else
 			{
-				viewName = "/Error.jsp?value=NoUserInfo";
+				viewName = "/Sign_In/SignIn.jsp";
 			}
 			
 		}
@@ -168,6 +169,32 @@ public class MainController extends HttpServlet {
 					viewName = "/Error.jsp/value=NoCategoryInfo";
 				}
 			}
+		}
+		else if (subPath.equals("/ScheduleCalender"))
+		{
+			String std_no = request.getParameter("std_no");
+			
+			StudyDBDAO db = new StudyDBDAO();
+			
+			// 스터디 정보 쿼리
+			StudyInfo studyInfo = db.getStudyInfo(std_no);
+			if (studyInfo != null)
+			{
+				request.setAttribute("studyInfo", studyInfo);
+			}
+			else
+			{
+				//TODO: 스터디 정보가 없을 경우 예외처리 할 것.
+			}
+			
+			// 스케줄 쿼리
+			ArrayList<ScheduleInfo> scheduleInfo = db.getSchedules(std_no);
+			
+			if (scheduleInfo != null)
+			{
+				request.setAttribute("scheduleInfo", scheduleInfo);
+			}
+			viewName ="/Schedule/ViewCalander.jsp";
 		}
 	
 		// 媛� Path 湲곕뒫�쓣 �떎�뻾�븳 �썑 �쉷�뱷�븳 viewName 二쇱냼濡� Forwarding
@@ -299,12 +326,28 @@ public class MainController extends HttpServlet {
 			
 			if (result)
 			{
-				viewName = "/Success.jsp";
+				response.setContentType("text/html;charset=utf-8");
+				PrintWriter out = response.getWriter();
+				out.println("<script>");
+				out.println("alert('정상적으로 등록되었습니다!');");
+				out.println("</script>");
+
+				session.setAttribute("studyInfo", studyInfo);
+				viewName = "/op/myStudies";
 			}
 			else
 			{
-				viewName = "/Fail.jsp";
+				response.setContentType("text/html;charset=utf-8");
+				PrintWriter out = response.getWriter();
+				out.println("<script>");
+				out.println("alert('등록되지 않았습니다!');");
+				out.println("</script>");
+				viewName = "/Error.jsp?value=RegisterStudyFail";
 			}
+		}
+		else if (subPath.equals("/myStudies"))
+		{
+			this.doGet(request, response);
 		}
 				
 		// 媛� Path 湲곕뒫�쓣 �떎�뻾�븳 �썑 �쉷�뱷�븳 viewName 二쇱냼濡� Forwarding

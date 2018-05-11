@@ -38,11 +38,12 @@ function defaultEvents(dataDay,dataName,dataNotes,classTag){
   date.addClass("event--" + classTag);
 }
 
-defaultEvents(today, 'YEAH!','Today is your day','important');
-defaultEvents('2017-12-25', 'MERRY CHRISTMAS','A lot of gift!!!!','festivity');
-defaultEvents('2017-05-04', "LUCA'S BIRTHDAY",'Another gifts...?','birthday');
-defaultEvents('2017-03-03', "MY LADY'S BIRTHDAY",'A lot of money to spent!!!!','birthday');
-
+/*
+defaultEvents('2018-05-11', 'YEAH!','Today is your day','important');
+defaultEvents('2018-12-25', 'MERRY CHRISTMAS','A lot of gift!!!!','festivity');
+defaultEvents('2018-05-04', "LUCA'S BIRTHDAY",'Another gifts...?','birthday');
+defaultEvents('2018-03-03', "MY LADY'S BIRTHDAY",'A lot of money to spent!!!!','birthday');
+*/
 
 // ------ functions control -------
 
@@ -253,4 +254,4 @@ moveNext(indexMonth - 1, false);
 
 //fill the sidebar with current day
 $(".c-aside__num").text(day);
-$(".c-aside__month").text(monthText[month - 1]);
+$(".c-aside__month").text(monthText[month - 1]);	

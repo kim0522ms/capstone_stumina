@@ -1,4 +1,4 @@
-$(function() {
+/*$(function() {
   $('.toggle-btn').click(function() {
     $('.filter-btn').toggleClass('open');
 
@@ -35,4 +35,4 @@ $('#three').click(function() {
     $('.three').slideDown(300);
 
   });
-});
+});*/

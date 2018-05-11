@@ -1,17 +1,18 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="com.example.study.model.StudyInfo"%>
+<%@page import="com.example.study.model.ScheduleInfo" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en" class="bgBlur">
 
 <head>
   <meta charset="UTF-8">
   <title>Simple Calendar</title>
-  
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
-
-  <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css'>
-
-      <link rel="stylesheet" href="css/style.css">
+  	<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css'>
+    <link rel="stylesheet" href="/Graduation_KMS/Schedule/css/style.css">
 </head>
 
 <body>
@@ -55,7 +56,7 @@ function fill_table(month, month_length, indexMonth) {
     // fill the first week of days
     for (var i = start_day; i < 8; i++) {
       document.write(
-        "<div data-day='2017-" +
+        "<div data-day='2018-" +
           indexMonth +
           "-0" +
           day +
@@ -73,7 +74,7 @@ function fill_table(month, month_length, indexMonth) {
       for (var i = 1; i <= 7 && day <= month_length; i++) {
         if (day >= 1 && day <= 9) {
           document.write(
-            "<div data-day='2017-" +
+            "<div data-day='2018-" +
               indexMonth +
               "-0" +
               day +
@@ -84,7 +85,7 @@ function fill_table(month, month_length, indexMonth) {
           day++;
         } else {
           document.write(
-            "<div data-day='2017-" +
+            "<div data-day='2018-" +
               indexMonth +
               "-" +
               day +
@@ -99,12 +100,24 @@ function fill_table(month, month_length, indexMonth) {
       // the first day of the next month
       start_day = i;
     }
-
     document.write("</div>");
   }
 </script>
 <div class="wrapper">
-<h1>null ½ºÅÍµğÀÇ ½ºÄÉÁÙÀ» È®ÀÎÇØº¼±î¿ä?</h1>
+	<%
+		StudyInfo studyInfo = null;
+		if (request.getAttribute("studyInfo") != null)
+		{
+			studyInfo = (StudyInfo)request.getAttribute("studyInfo");
+		}
+		
+		ArrayList<ScheduleInfo> schedules = null;
+		if (request.getAttribute("scheduleInfo") != null)
+		{
+			schedules = (ArrayList<ScheduleInfo>)request.getAttribute("scheduleInfo");
+		}
+	%>
+	<h1>${studyInfo.std_name} ìŠ¤í„°ë””ì˜ ìŠ¤ì¼€ì¤„ì„ í™•ì¸í•´ ë³¼ê¹Œìš”?</h1>
 <headers>
   <div class="wrapper">
     <div class="c-monthyear">
@@ -135,7 +148,7 @@ function fill_table(month, month_length, indexMonth) {
 </headers>
   <div class="c-calendar">
     <div class="c-calendar__style c-aside">
-      <a class="c-add o-btn js-event__add" href="javascript:;">ÀÏÁ¤ Ãß°¡ÇÏ±â <span class="fa fa-plus"></span></a>
+      <a class="c-add o-btn js-event__add" href="javascript:;">ì¼ì • ì¶”ê°€í•˜ê¸° <span class="fa fa-plus"></span></a>
       <div class="c-aside__day">
         <span class="c-aside__num"></span> <span class="c-aside__month"></span>
       </div>
@@ -184,15 +197,21 @@ function fill_table(month, month_length, indexMonth) {
     <a href="javascript:;" class="o-btn js-event__save">SAVE <span class="fa fa-save"></span></a>
   </div>
 </div>
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery.cycle2/2.1.6/jquery.cycle2.core.min.js'></script>
-
-  
-
-    <script  src="js/index.js"></script>
-
-
-
+  	<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery.cycle2/2.1.6/jquery.cycle2.core.min.js'></script>
+	<script src="/Graduation_KMS/Schedule/js/index.js"></script>
+	<script>
+	<%
+	SimpleDateFormat oldFormat = new SimpleDateFormat("yy-MM-dd HH:mm:ss.SSS");
+	SimpleDateFormat newFormat = new SimpleDateFormat("yyyy-MM-dd");
+	
+	for (ScheduleInfo schedule : schedules)
+	{
+		String dateString = schedule.getSchedule_date();
+		out.println("defaultEvents('"+ newFormat.format(oldFormat.parse(schedule.getSchedule_date())) +"','"+schedule.getCheckin()+"ì‹œ ~ " + schedule.getCheckout()+ "ì‹œ', '"+schedule.getSchedule_name()+"')");
+	}
+	%>
+	</script>
 </div>
 </body>
 

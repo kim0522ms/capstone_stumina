@@ -14,6 +14,12 @@
 	<link rel="stylesheet" href="/Graduation_KMS/ScheduleCard/css/style.css">
 	
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+    <style>
+	    .ion-android-funnel:before {
+			    content: "\f38b";
+			    margin-top: 9px;
+		}	
+    </style>
 </head>
 
 <body>
@@ -25,11 +31,11 @@
 		if(request.getAttribute("studyInfos") != null)
 		{
 			ArrayList<StudyInfo> studyInfos = (ArrayList<StudyInfo>)request.getAttribute("studyInfos");
-			
+			%><div class="cardwrapper"><%
 			for (StudyInfo studyinfo : studyInfos)
 			{
 			%>
-				<div class="cardwrapper">
+				
 				<!-- Card Start -->
 					<div class="muck-up">
 					  <div class="overlay"></div>
@@ -46,11 +52,13 @@
 					    </div>
 					  </div>
 					  <div class="clearfix"></div>
-					  <div class="filter-btn">
+					  <div class="filter-btn" onclick="location.href='/Graduation_KMS/op/ScheduleCalender?std_no=<%=studyinfo.getStd_no()%>'">
+					    <!-- 
 					    <a id="one" href="#"><i class="ion-ios-checkmark-outline"></i></a>
 					    <a id="two" href="#"><i class="ion-ios-alarm-outline"></i></a>
 					    <a id="three" href="#"><i class="ion-ios-heart-outline"></i></a>
-					    <a id="all" href="#"><i class="ion-ios-star-outline"></i></a>
+					    <a id="all" href="#"><i class="ion-ios-star-outline"></i></a> 
+					    -->
 					    <span class="toggle-btn ion-android-funnel"></span>
 					  </div>
 					  <div class="clearfix"></div>
@@ -61,53 +69,37 @@
 					    </div>
 					    <ul class="tasks">
 					      <li class="one red">
-					        <span class="task-title">Make New Icon</span>
+					        <span class="task-title">스케줄1</span>
 					        <span class="task-time">5pm</span>
-					        <span class="task-cat">Web App</span>
+					        <span class="task-cat">X월 XX일</span>
 					
 					      </li>
 					      <li class="one red">
-					        <span class="task-title">Catch up with Brian</span>
+					        <span class="task-title">스케줄2</span>
 					        <span class="task-time">3pm</span>
-					        <span class="task-cat">Mobile Project</span>
+					        <span class="task-cat">X월 XX일</span>
 					
 					      </li>
 					      <li class="two green">
-					        <span class="task-title">Design Explorations</span>
+					        <span class="task-title">스케줄3</span>
 					        <span class="task-time">2pm</span>
-					        <span class="task-cat">Company Web site</span>
+					        <span class="task-cat">X월 XX일</span>
 					
 					      </li>
 					      </li>
-					      <li class="tow green hang">
-					        <span class="task-title">Team Meeting</span>
-					        <span class="task-time">2pm</span>
-					        <span class="task-cat">Hangouts</span>
-					        <img src="https://raw.githubusercontent.com/arjunamgain/FilterMenu/master/images/2.jpg">
-					        <img src="https://raw.githubusercontent.com/arjunamgain/FilterMenu/master/images/3.jpg">
-					        <img src="https://raw.githubusercontent.com/arjunamgain/FilterMenu/master/images/profile.jpg">
-					      </li>
-					      <li class="three yellow">
-					        <span class="task-title">New Projects</span>
-					        <span class="task-time">2pm</span>
-					        <span class="task-cat">Starting</span>
-					
-					
-					      </li>
-					
-					      <li class="three yellow">
-					        <span class="task-title">Lunch with Mary</span>
-					        <span class="task-time">2pm</span>
-					        <span class="task-cat">Grill House</span>
-					      </li>
-					      <li class="three yellow">
-					        <span class="task-title">Team Meeting</span>
-					        <span class="task-time">2pm</span>
-					        <span class="task-cat">Hangouts</span>
-					      </li>
+					      <!-- 
+						      <li class="tow green hang">
+						        <span class="task-title">Team Meeting</span>
+						        <span class="task-time">2pm</span>
+						        <span class="task-cat">Hangouts</span>
+						        <img src="https://raw.githubusercontent.com/arjunamgain/FilterMenu/master/images/2.jpg">
+						        <img src="https://raw.githubusercontent.com/arjunamgain/FilterMenu/master/images/3.jpg">
+						        <img src="https://raw.githubusercontent.com/arjunamgain/FilterMenu/master/images/profile.jpg">
+						      </li> 
+					      -->
 					
 					    </ul>
-					  </div>
+					  </div>	
 					</div>
 					<!-- Card End -->
 					<%
