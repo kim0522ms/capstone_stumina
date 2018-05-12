@@ -1,5 +1,7 @@
 package com.example.study.model;
 
+import java.util.ArrayList;
+
 public class StudyInfo {
 	private String std_no;
 	private String std_category;
@@ -12,17 +14,24 @@ public class StudyInfo {
 	private String std_endDate;
 	private String std_teacher;
 	private String std_theme;
+	private int std_maxMemberCount;
+	private int std_remainMember;
+	private int std_maxattcnt;
+	private int std_endflag;
+	private ArrayList<ScheduleInfo> scheduleInfo;
+	
+	public ArrayList<ScheduleInfo> getScheduleInfo() {
+		return scheduleInfo;
+	}
+	public void setScheduleInfo(ArrayList<ScheduleInfo> scheduleInfo) {
+		this.scheduleInfo = scheduleInfo;
+	}
 	public String getDetail_idx() {
 		return detail_idx;
 	}
 	public void setDetail_idx(String detail_idx) {
 		this.detail_idx = detail_idx;
-	}
-	private int std_maxMemberCount;
-	private int std_remainMember;
-	private int std_maxattcnt;
-	private int std_endflag;
-	
+	}	
 	public String getStd_theme() {
 		return std_theme;
 	}

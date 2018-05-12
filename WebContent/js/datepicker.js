@@ -25,5 +25,15 @@ $(function() {
 			console.log('find selectedDate');
 			document.getElementById('rsch_date').value = $me.val();
 		}
+		else if ($parent.find('.result').children('span').attr('id') == 'startdate')
+		{
+			console.log('find startdate');
+			document.getElementById('std_startdate').value = $me.val();
+		}
+		else if ($parent.find('.result').children('span').attr('id') == 'enddate')
+		{
+			console.log('find enddate');
+			document.getElementById('std_enddate').value = $me.val();
+		}
 	});
 });

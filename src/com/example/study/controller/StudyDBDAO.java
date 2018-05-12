@@ -24,6 +24,7 @@ import com.example.study.model.UserInfo;
 public class StudyDBDAO {
 	private Connection conn = null;
 	private PreparedStatement pstmt = null;
+	private boolean recursion = false;
 	
 	/* 
 	// localhost 
@@ -255,7 +256,7 @@ public class StudyDBDAO {
 					studyInfo.setStd_teacher(rs.getString("STD_TEACHER"));
 					studyInfo.setStd_maxMemberCount(rs.getInt("STD_MAXMEMBER"));
 					studyInfo.setStd_theme(rs.getString("STD_THEME"));
-					
+
 					sql = "SELECT user_name FROM TB_USERS where user_idx = ?";
 					pstmt = conn.prepareStatement(sql);
 					pstmt.setString(1, rs.getString("STD_LEADER"));
@@ -265,6 +266,12 @@ public class StudyDBDAO {
 					{
 						studyInfo.setStd_leader(rs2.getString("USER_NAME"));
 					}
+					
+					// 각 스터디의 스케쥴 쿼리 후 저장
+					
+					recursion = true;
+					studyInfo.setScheduleInfo(this.getSchedules(studyInfo.getStd_no()));
+					recursion = false;
 					
 					System.out.println("StudyCard Added.");
 					studyInfos.add(studyInfo);
@@ -659,7 +666,8 @@ public class StudyDBDAO {
 			+ "WHERE STD_NO = ?";
 		
 		try {
-			connect();
+			if (!recursion)
+				connect();
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, std_no);
@@ -683,13 +691,14 @@ public class StudyDBDAO {
 					schedule.setStudyroom_location(rs.getString("SR_LOCATION"));
 					schedule.setRoom_name(rs.getString("ROOM_NAME"));
 					schedule.setSchedule_comment(rs.getString("RSCH_COMMENT"));
-					schedule.setRoom_pay(rs.getString("ROOM_PAY"));
+					schedule.setRoom_pay(rs.getString("RSCH_PAY"));
 					
 					scheduleInfos.add(schedule);
 				}while(rs.next());
 			}
 			
-			disconnect();
+			if (!recursion)
+				disconnect();
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -88,8 +88,8 @@
 			                	<!-- 드롭다운 시작 -->
 							<div class="button-group">
 								<i id="icon"></i>
-								<a id="input" href="">대분류</a>
-								  <ul id="dropdown-menu">
+								<a id="input_Study1" href="">대분류</a>
+								  <ul id="dropdown-menu_Study1">
 								  <%
 								  	for (CategoryInfo category : categoryInfos)
 								  	{
@@ -97,17 +97,18 @@
 								  	}
 								  %>
 								  </ul>
+								  <input type="hidden" id="area_idx" name="area_idx" value="">
 							</div>
 							<!-- 드롭다운 끝 -->
 							<!-- 드롭다운 시작 -->
 							<div class="button-group">
 								<i id="icon"></i>
-								<a id="input2" href="">소분류</a>
-								  <ul id="dropdown-menu2">
+								<a id="input_Study2" href="">소분류</a>
+								  <ul id="dropdown-menu_Study2">
 							   	  <%
 							  	 	for (DetailInfo detail : detailInfos)
 							  		{
-							  			out.println("<li><a href='#' id='" + detail.getDetail_idx()+ "'>" + detail.getDetail_name() +"</a></li>");	
+							  			out.println("<li><a href='#' id='" + detail.getCategory_idx() + "'value='" + detail.getDetail_idx() + "'>" + detail.getDetail_name() +"</a></li>");	
 							  		}
 								  %>
 								  </ul>

@@ -226,7 +226,7 @@
 							</div>
 							<div style="margin-bottom: 15px;">
 								<h2 id="pay_amount" name="pay_amount" style="display:none;"></h2>
-								<input type="hidden" id="rsch_pay" name="rsch_pay" value="" />
+								<input type="hidden" id="rsch_pay" name="rsch_pay" value=""/>
 							</div>
 			                <input type="button" name="previous" class="previous action-button-previous" value="이전"/>
 			                <input type="button" name="next" class="next action-button" value="다음"/>

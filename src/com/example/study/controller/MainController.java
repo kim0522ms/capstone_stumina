@@ -347,9 +347,11 @@ public class MainController extends HttpServlet {
 			String mTime = mSimpleDateFormat.format ( currentTime );
 			
 			// 문자 형식으로 날아온 소분류 값을 idx형태로 변경해줌
-			String detail_idx = db.getDetail_IdxByName(request.getParameter("detail_idx"));
+			// String detail_idx = db.getDetail_IdxByName(request.getParameter("detail_idx"));
+			String detail_idx = request.getParameter("detail_idx");
 			if (detail_idx == null)
 			{
+				System.out.println("[/registStudy] Failed to Find 'detail_idx'");
 				viewName = "/Error.jsp?Value=DetailNotFound";
 				RequestDispatcher view = request.getRequestDispatcher(viewName);
 				view.forward(request,response);

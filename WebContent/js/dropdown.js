@@ -1,4 +1,108 @@
 $(document).ready(function() {
+	
+	
+	var triggerOpen_Study1		= $('#input_Study1');
+	var triggerClose_Study1 	= $('#dropdown-menu_Study1').find('li');
+	var marka_Study1			= $('#icon_Study1');
+	var select_Study1			= '';
+	
+	var triggerOpen_Study2		= $('#input_Study2');
+	var triggerClose_Study2 	= $('#dropdown-menu_Study2').find('li');
+	var marka_Study2 			= $('#icon_Study2');
+
+	//////////////////////
+	// Dropdown #Study1 //
+	//////////////////////
+	
+	// set initial Marka icon
+	var m_Study1 = new Marka('#icon');
+	m_Study1.set('triangle').size(10);
+	m_Study1.rotate('down');
+
+	// trigger dropdown
+    triggerOpen_Study1.add(marka_Study1).on('click', function(e) {
+		e.preventDefault();
+		$('#dropdown-menu_Study1').add(triggerOpen_Study1).toggleClass('open');
+
+		if($('#icon').hasClass("marka-icon-times")) {
+			m_Study1.set('triangle').size(10);
+		} else {
+			m_Study1.set('times').size(15);
+		}
+	});
+
+	triggerClose_Study1.on('click', function() {
+		// set new placeholder for demo
+		var options = $(this).find('a').html();
+		
+		// 선택한 값 반영
+		triggerOpen_Study1.text(options);
+		triggerOpen_Study2.text('소분류');
+		document.getElementById('detail_idx').value = '';
+		
+
+		// hidden value 변경
+		select_Study1 = $(this).find('a').attr('value');
+		console.log(select_Study1);
+		document.getElementById('area_idx').value = select_Study1;
+		
+		$('#dropdown-menu_Study2').find('li').find('a').each(function() 
+		{
+			console.log($(this).attr('id'));
+			if ($(this).attr('id') != select_Study1)
+			{
+				$(this).hide();
+			}
+			else
+			{
+				$(this).show();
+			}
+		});
+		
+
+		$('#dropdown-menu_Study1').add(triggerOpen_Study1).toggleClass('open');
+		m_Study1.set('triangle').size(10);
+	});
+	
+	
+	//////////////////////
+	// Dropdown #Study2 //
+	//////////////////////
+
+	// set initial Marka icon
+	var m_Study2 = new Marka('#icon');
+	m_Study2.set('triangle').size(10);
+	m_Study2.rotate('down');
+
+	// trigger dropdown
+    triggerOpen_Study2.add(marka_Study2).on('click', function(e) {
+		e.preventDefault();
+		$('#dropdown-menu_Study2').add(triggerOpen_Study2).toggleClass('open');
+
+		if($('#icon').hasClass("marka-icon-times")) {
+			m_Study2.set('triangle').size(10);
+		} else {
+			m_Study2.set('times').size(15);
+		}
+	});
+
+	triggerClose_Study2.on('click', function() {
+		// set new placeholder for demo
+		var options = $(this).find('a').html();
+		
+		// 선택한 값 반영
+		triggerOpen_Study2.text(options);
+
+		// hidden value 변경
+		var select_Study2 = $(this).find('a').attr('value');
+		console.log(select_Study2);
+		document.getElementById('detail_idx').value = select_Study2;
+
+		$('#dropdown-menu_Study2').add(triggerOpen_Study2).toggleClass('open');
+		m_Study2.set('triangle').size(10);
+	});
+	
+	
 	/////////////////
 	// Dropdown #1 //
 	/////////////////
