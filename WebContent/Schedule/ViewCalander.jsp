@@ -104,6 +104,7 @@ function fill_table(month, month_length, indexMonth) {
   }
 </script>
 <div class="wrapper">
+	<input type="hidden" id="selectedDate" value="" />
 	<%
 		StudyInfo studyInfo = null;
 		if (request.getAttribute("studyInfo") != null)

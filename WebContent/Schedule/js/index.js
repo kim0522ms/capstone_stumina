@@ -177,6 +177,9 @@ dataCel.on("click", function() {
 
   dataCel.removeClass("isSelected");
   thisEl.addClass("isSelected");
+  
+  console.log(thisDay);
+  document.getElementById('selectedDate').value = String(year).substr(2,4) + '/' + thisMonth + '/' +thisDay;
 
 });
 
