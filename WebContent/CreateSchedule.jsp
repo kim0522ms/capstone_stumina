@@ -55,15 +55,16 @@
 			</div>
 		</div>
 		<%
-			
+			String std_no = null;
 			ArrayList<AreaInfo> areaInfos = null;
 			ArrayList<StudyRoomInfo> studyRoomInfos = null;
 			ArrayList<RoomsInfo> roomInfos = null;
-			if (request.getAttribute("areaInfos") != null && request.getAttribute("studyRoomInfos") != null && request.getAttribute("roomInfos") != null)
+			if (request.getAttribute("areaInfos") != null && request.getAttribute("studyRoomInfos") != null && request.getAttribute("roomInfos") != null && request.getAttribute("std_no") != null)
 			{
 				areaInfos = (ArrayList<AreaInfo>)request.getAttribute("areaInfos");
 				studyRoomInfos = (ArrayList<StudyRoomInfo>)request.getAttribute("studyRoomInfos");
 				roomInfos = (ArrayList<RoomsInfo>)request.getAttribute("roomInfos");
+				std_no = request.getAttribute("std_no").toString();
 			}
 			else
 			{
@@ -73,13 +74,14 @@
 		<div class="cardwrapper">
 			<div class="row" style="margin:0 auto">
 			    <div class="col-md-6 col-md-offset-3">
-			        <form id="msform" method="post" action="/Graduation_KMS/op/registStudy">
+			        <form id="msform" method="post" action="/Graduation_KMS/op/registSchedule">
+			        	<input type="hidden" name="std_no" value="<%=std_no%>" />
 			            <!-- progressbar -->
 			            <ul id="progressbar">
 			                <li class="active">스케쥴 이름 설정</li>
 			                <li>스터디룸 선택</li>
-			                <li>기타 설정</li>
-			                <li>스터디 소개 작성</li>
+			                <li>날짜 및 설정</li>
+			                <li>기타 메모 작성</li>
 			            </ul>
 			            <!-- fieldsets -->
 			            <fieldset>
@@ -148,7 +150,7 @@
 							</div>
 							<!-- 드롭다운 끝 -->
 							<div style="margin-bottom: 15px;">
-								<h2 id="payment_head" style="display:none;">시간당 요금 : </h2><h2 id="payment" style="display:none;">xxxxx</h2><h2 id="payment_tail" style="display:none;">원</h2>
+								<h2 id="payment" style="display:none;"></h2>
 							</div>
 			                <!-- <input type="text" name="std_theme" placeholder="스터디의 테마를 입력해 주세요."/> -->
 			                <!-- 
@@ -157,39 +159,82 @@
 			                <input type="button" name="previous" class="previous action-button-previous" value="이전"/>
 			                <input type="button" name="next" class="next action-button" value="다음"/>
 			            </fieldset>
-			            <fieldset>
-			                <h2 class="fs-title">기타 설정을 입력해 주세요!</h2>
-			                <h3 class="fs-subtitle">스터디 기간, 최대 인원 등을 설정합니다.</h3>
-			                <input type="text" name="std_maxmember" placeholder="최대 인원" onKeypress="if(event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;" style="IME-MODE:disabled;"/>
-			                <input type="text" name="std_maxattcount" placeholder="최대 결석 가능 횟수" onKeypress="if(event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;" style="IME-MODE:disabled;"/>
-			                	<!-- 시작날짜 DatePicker Start-->
+			            <fieldset style="max-width: 700px;">
+			                <h2 class="fs-title">날짜와 시간을 선택해 주세요!</h2>
+			                <h3 class="fs-subtitle">예약은 1달 전까지만 가능합니다.</h3>
+			                <!-- 시작날짜 DatePicker Start-->
 			                <div class="date-picker">
 								<div class="input">
-									<div class="result">시작 날짜: <span id="startdate"></span></div>
-									<input type="hidden" id="std_startdate" name="std_startdate" value="">
+									<div class="result">예약 날짜 : <span id="selectedDate"></span></div>
+									<input type="hidden" id="rsch_date" name="rsch_date" value="">
 									<button><i class="	fa fa-calendar"></i></button>
 								</div>
 								<div class="calendar"></div>
 							</div>
 							<!-- 시작날짜 DatePicker End -->
-							<!-- 종료날짜 DatePicker Start-->
-			                <div class="date-picker">
-								<div class="input">
-									<div class="result">종료 날짜: <span id="enddate"></span></div>
-									<input type="hidden" id="std_enddate" name="std_enddate" value="">
-									<button><i class="	fa fa-calendar"></i></button>
+			                <%-- 
+			                <input type="text" name="std_maxmember" placeholder="최대 인원" onKeypress="if(event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;" style="IME-MODE:disabled;"/>
+			                <input type="text" name="std_maxattcount" placeholder="최대 결석 가능 횟수" onKeypress="if(event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;" style="IME-MODE:disabled;"/>
+			                 --%>
+			                <div style="width=100%;">
+			                <!-- 드롭다운 시작 -->
+								<div id="ddl_4" class="button-group" style="max-width: 48%;float: left;">
+									<i id="icon" style="z-index: 50;"></i>
+									<a id="input4" href="">입실 시간</a>
+									  <ul id="dropdown-menu4">
+										  <li><a id = '9' href='#'>오전 9시</a></li>
+										  <li><a id = '10' href='#'>오전 10시</a></li>
+										  <li><a id = '11' href='#'>오전 11시</a></li>
+										  <li><a id = '12' href='#'>오전 12시</a></li>
+										  <li><a id = '13' href='#'>오후 1시</a></li>
+										  <li><a id = '14' href='#'>오후 2시</a></li>
+										  <li><a id = '15' href='#'>오후 3시</a></li>
+										  <li><a id = '16' href='#'>오후 4시</a></li>
+										  <li><a id = '17' href='#'>오후 5시</a></li>
+										  <li><a id = '18' href='#'>오후 6시</a></li>
+										  <li><a id = '19' href='#'>오후 7시</a></li>
+										  <li><a id = '20' href='#'>오후 8시</a></li>
+										  <li><a id = '21' href='#'>오후 9시</a></li>
+										  <li><a id = '22' href='#'>오후 10시</a></li>
+									  </ul>
+									  <input type="hidden" id="rsch_checkin" name="rsch_checkin" value="">
 								</div>
-								<div class="calendar"></div>
+								<!-- 드롭다운 끝 -->
+								<!-- 드롭다운 시작 -->
+								<div id="ddl_5" class="button-group" style="max-width: 48%; float: right;">
+									<i id="icon" style="z-index: 50;"></i>
+									<a id="input5" href="">퇴실 시간</a>
+									  <ul id="dropdown-menu5">
+										  <li><a id = '10' href='#'>오전 10시</a></li>
+										  <li><a id = '11' href='#'>오전 11시</a></li>
+										  <li><a id = '12' href='#'>오전 12시</a></li>
+										  <li><a id = '13' href='#'>오후 1시</a></li>
+										  <li><a id = '14' href='#'>오후 2시</a></li>
+										  <li><a id = '15' href='#'>오후 3시</a></li>
+										  <li><a id = '16' href='#'>오후 4시</a></li>
+										  <li><a id = '17' href='#'>오후 5시</a></li>
+										  <li><a id = '18' href='#'>오후 6시</a></li>
+										  <li><a id = '19' href='#'>오후 7시</a></li>
+										  <li><a id = '20' href='#'>오후 8시</a></li>
+										  <li><a id = '21' href='#'>오후 9시</a></li>
+										  <li><a id = '22' href='#'>오후 10시</a></li>
+										  <li><a id = '23' href='#'>오후 11시</a></li>
+									  </ul>
+									  <input type="hidden" id="rsch_checkout" name="rsch_checkout" value="">
+								</div>
+								<!-- 드롭다운 끝 -->
 							</div>
-							<!-- 종료날짜 DatePicker End -->
+							<div style="margin-bottom: 15px;">
+								<h2 id="pay_amount" name="pay_amount" style="display:none;"></h2>
+								<input type="hidden" id="rsch_pay" name="rsch_pay" value="" />
+							</div>
 			                <input type="button" name="previous" class="previous action-button-previous" value="이전"/>
 			                <input type="button" name="next" class="next action-button" value="다음"/>
 			            </fieldset>
 			            <fieldset>
-			                <h2 class="fs-title">스터디 소개를 입력해 주세요!</h2>
-			                <h3 class="fs-subtitle">Fill in your credentials</h3>
-			                <textarea rows="5" cols="30" name="std_contents"></textarea>
-			                <!-- <input type="text" name="email" placeholder="Email"/> -->
+			                <h2 class="fs-title">스케쥴 공지사항을 입력해 주세요!</h2>
+			                <h3 class="fs-subtitle">준비물 등이 있다면 멤버들에게 알려주세요.</h3>
+			                <textarea rows="5" cols="30" name="rsch_commnet"></textarea>
 			                <input type="button" name="previous" class="previous action-button-previous" value="이전"/>
 			                <input type="submit" name="submit" class="submit action-button" value="등록하기!"/>
 			            </fieldset>

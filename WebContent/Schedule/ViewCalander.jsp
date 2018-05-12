@@ -149,7 +149,7 @@ function fill_table(month, month_length, indexMonth) {
   <div class="c-calendar">
     <div class="c-calendar__style c-aside">
       <!-- <a class="c-add o-btn js-event__add" href="javascript:;">일정 추가하기 <span class="fa fa-plus"></span></a> -->
-      <a class="c-add o-btn js-event__add" href="/Graduation_KMS/op/createSchedule">일정 추가하기 <span class="fa fa-plus"></span></a>
+      <a class="c-add o-btn js-event__add" href="/Graduation_KMS/op/createSchedule?std_no=<%=request.getAttribute("std_no").toString()%>">일정 추가하기 <span class="fa fa-plus"></span></a>
       <div class="c-aside__day">
         <span class="c-aside__num"></span> <span class="c-aside__month"></span>
       </div>
@@ -211,7 +211,7 @@ function fill_table(month, month_length, indexMonth) {
 		for (ScheduleInfo schedule : schedules)
 		{
 			String dateString = schedule.getSchedule_date();
-			out.println("defaultEvents('"+ newFormat.format(oldFormat.parse(schedule.getSchedule_date())) +"','"+schedule.getCheckin()+"시 ~ " + schedule.getCheckout()+ "시', '"+schedule.getSchedule_name()+"')");
+			out.println("defaultEvents('"+ newFormat.format(oldFormat.parse(schedule.getSchedule_date())) +"','"+schedule.getCheckin()+"시 ~ " + schedule.getCheckout()+ "시<br><br> • 제목<br>', '"+schedule.getSchedule_name()+"<br><br> • 장소<br>" + schedule.getStudyroom_name() + " " +schedule.getRoom_name() + "<br><br> • 상세 주소<br>" + schedule.getStudyroom_location() + "<br><br> • 대여 비용<br>" + schedule.getRoom_pay() + "원<br><br> • 공지사항<br>" + schedule.getSchedule_comment() + "')");          
 		}
 	}
 	%>

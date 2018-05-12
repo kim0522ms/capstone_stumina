@@ -127,6 +127,7 @@ $(document).ready(function() {
 	var triggerOpen3	= $('#input3');
 	var triggerClose3 	= $('#dropdown-menu3').find('li');
 	var marka3 			= $('#icon3');
+	var payment 		= 0;
 
 	// set initial Marka icon
 	var m3 = new Marka('#icon');
@@ -172,7 +173,9 @@ $(document).ready(function() {
 			if ($(this).attr('id') == select3)
 			{
 				console.log($(this).attr('value'));
-				$('#payment').text($(this).attr('value'));
+				$('#payment').text('시간당 요금 : ' + $(this).attr('value') + '원');
+				payment = $(this).attr('value');
+				console.log('시간당요굼 : ' + payment);
 			}
 		});
 		
@@ -180,4 +183,116 @@ $(document).ready(function() {
 		$("#payment").css("display","inline");
 		$("#payment_tail").css("display","inline");
 	});
+	
+	/////////////////
+	// Dropdown #4 //
+	/////////////////
+	
+	var triggerOpen4	= $('#input4');
+	var triggerClose4 	= $('#dropdown-menu4').find('li');
+	var marka4 			= $('#icon4');
+	var select4			= 0;
+
+	// set initial Marka icon
+	var m4 = new Marka('#icon');
+	m4.set('triangle').size(10);
+	m4.rotate('down');
+
+	// trigger dropdown
+    triggerOpen4.add(marka4).on('click', function(e) {
+		e.preventDefault();
+		$('#dropdown-menu4').add(triggerOpen4).toggleClass('open');
+
+		if($('#icon').hasClass("marka-icon-times")) {
+			m4.set('triangle').size(10);
+		} else {
+			m4.set('times').size(15);
+		}
+	});
+
+	triggerClose4.on('click', function() {
+		// set new placeholder for demo
+		var options = $(this).find('a').html();
+		triggerOpen4.text(options);
+		
+		// 선택한 값 반영
+		
+		triggerOpen5.text('퇴실 시간');
+		
+		// hidden value 변경
+		select4 = $(this).find('a').attr('id');
+		console.log(select4);
+		
+		document.getElementById('rsch_checkin').value = select4;
+		document.getElementById('rsch_checkout').value = '';
+		
+		$('#dropdown-menu5').find('li').each(function() 
+		{
+			if (parseInt($(this).find('a').attr('id')) <= parseInt(select4))
+			{
+				$(this).hide();
+			}
+			else
+			{
+				$(this).show();
+			}
+		});
+
+		$('#dropdown-menu4').add(triggerOpen4).toggleClass('open');
+		$('#pay_amount').hide();
+		m4.set('triangle').size(10);
+		// $('#ddl_3').show();
+	});
+	
+	
+	/////////////////
+	// Dropdown #5 //
+	/////////////////
+	
+	var triggerOpen5	= $('#input5');
+	var triggerClose5 	= $('#dropdown-menu5').find('li');
+	var marka5 			= $('#icon5');
+	var pay_amount		= 0;
+	var select5			= 0;
+
+	// set initial Marka icon
+	var m5 = new Marka('#icon');
+	m5.set('triangle').size(10);
+	m5.rotate('down');
+
+	// trigger dropdown
+    triggerOpen5.add(marka5).on('click', function(e) {
+		e.preventDefault();
+		$('#dropdown-menu5').add(triggerOpen5).toggleClass('open');
+
+		if($('#icon').hasClass("marka-icon-times")) {
+			m5.set('triangle').size(10);
+		} else {
+			m5.set('times').size(15);
+		}
+	});
+
+	triggerClose5.on('click', function() {
+		// set new placeholder for demo
+		var options = $(this).find('a').html();
+		triggerOpen5.text(options);
+		
+		select5 = $(this).find('a').attr('id');
+		console.log(select5);
+		
+		pay_amount = (select5 - select4) * payment;
+		
+		document.getElementById('rsch_checkout').value = select5;
+		
+		$('#pay_amount').text('총 요금 : ' + pay_amount + '원');
+		$('#pay_amount').show();
+
+		document.getElementById('rsch_pay').value = pay_amount;
+		
+		$('#dropdown-menu5').add(triggerOpen5).toggleClass('open');
+		m5.set('triangle').size(10);
+		// $('#ddl_3').show();
+	});
+	
+	
 });

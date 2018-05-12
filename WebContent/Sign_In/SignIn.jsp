@@ -24,18 +24,22 @@
 			        <div class="content">
 				            <div class="signin-cont cont">
 					                <form action="/Graduation_KMS/op/signIn" method="post">
-						                    <input type="text" name="id" id="loginid" class="inpt" required="required" placeholder="Your ID">
-						                    <label for="text">Login ID</label>
-						                    <input type="password" name="passwd" id="loginpw" class="inpt" required="required" placeholder="Your Password">
-                						    <label for="password">Your password</label>
-						                    <input type="checkbox" id="remember" class="checkbox" checked>
-						                    <label for="remember">ID/PW 기억하기</label>
-						                    <div class="submit-wrap">
-							                        <input type="button" value="회원가입" onclick="window.location.href='/Sogong/SignUp.jsp'" class="submit">
-							                        <br>
-							                        <input type="submit" value="로그인" class="submit">
-							                        <a href="#" class="more">비밀번호를 잊어버리셨습니까?</a>
-						                    </div>
+										<%
+											System.out.println("[SignIn.jsp] requestURL : " + request.getParameter("requestURL"));
+										%>
+										<input type="hidden" name="requestURL" value="<%=request.getParameter("requestURL") %>" />
+					                    <input type="text" name="id" id="loginid" class="inpt" required="required" placeholder="Your ID">
+					                    <label for="text">Login ID</label>
+					                    <input type="password" name="passwd" id="loginpw" class="inpt" required="required" placeholder="Your Password">
+               						    <label for="password">Your password</label>
+					                    <input type="checkbox" id="remember" class="checkbox" checked>
+					                    <label for="remember">ID/PW 기억하기</label>
+					                    <div class="submit-wrap">
+						                        <input type="button" value="회원가입" onclick="window.location.href='/Sogong/SignUp.jsp'" class="submit">
+						                        <br>
+						                        <input type="submit" value="로그인" class="submit">
+						                        <a href="#" class="more">비밀번호를 잊어버리셨습니까?</a>
+					                    </div>
         					        </form>
     				        </div>
     				        <div class="signup-cont cont">

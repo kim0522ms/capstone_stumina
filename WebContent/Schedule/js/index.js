@@ -127,7 +127,7 @@ function fillEventSidebar(self) {
       $(".c-aside__eventList").append(
         "<p class='c-aside__event c-aside__event--important'>" +
         thisName +
-        " <span> • " +
+        " <span>" +
         thisNotes +
         "</span></p>"
       );
@@ -136,7 +136,7 @@ function fillEventSidebar(self) {
       $(".c-aside__eventList").append(
         "<p class='c-aside__event c-aside__event--birthday'>" +
         thisName +
-        " <span> • " +
+        " <span>" +
         thisNotes +
         "</span></p>"
       );
@@ -145,7 +145,7 @@ function fillEventSidebar(self) {
       $(".c-aside__eventList").append(
         "<p class='c-aside__event c-aside__event--festivity'>" +
         thisName +
-        " <span> • " +
+        " <span>" +
         thisNotes +
         "</span></p>"
       );
@@ -154,7 +154,7 @@ function fillEventSidebar(self) {
       $(".c-aside__eventList").append(
         "<p class='c-aside__event'>" +
         thisName +
-        " <span> • " +
+        " <span> " +
         thisNotes +
         "</span></p>"
       );

@@ -11,10 +11,11 @@
 		  <span class="profile_picture"></span>
 		  <ul></ul>
 		  	<%
+		  	  System.out.println("[SideBar_Profile.jsp] " + request.getRequestURI());
 			  if (session.getAttribute("user_idx") == null) 
 			  {
 			  %>
-			     <a href="dfsggsdfg/Graduation_KMS/Sign_In/SignIn.jsp">로그인 해 주세요.</a>
+			     <a href="/Graduation_KMS/Sign_In/SignIn.jsp">로그인 해 주세요.</a>
 			  <%
 			  }
 			  else

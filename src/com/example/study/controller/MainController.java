@@ -2,6 +2,7 @@ package com.example.study.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -43,6 +44,10 @@ public class MainController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		
+		System.out.println("[MainController.java] Get Data has been arrive");
+		System.out.println();
+		
 		String subPath = request.getPathInfo();
 		String viewName = null;
 		
@@ -52,12 +57,9 @@ public class MainController extends HttpServlet {
 		System.out.println(subPath);
 		if (subPath.equals("/signOut"))
 		{
-			if (session.getAttribute("userInfo") != null)
-			{
-				session.setAttribute("user_name", null);
-				session.setAttribute("user_idx", null);
-				session.setAttribute("userInfo", null);
-			}
+			session.setAttribute("user_name", null);
+			session.setAttribute("user_idx", null);
+			session.setAttribute("userInfo", null);
 			
 			viewName = "/MainPage.jsp";
 		}
@@ -87,7 +89,7 @@ public class MainController extends HttpServlet {
 			}
 			else
 			{
-				viewName = "/Sign_In/SignIn.jsp";
+				viewName = "/Sign_In/SignIn.jsp?requestURL=" + request.getRequestURI();
 			}
 			
 		}
@@ -197,6 +199,8 @@ public class MainController extends HttpServlet {
 			{
 				request.setAttribute("scheduleInfo", scheduleInfo);
 			}
+			
+			request.setAttribute("std_no", std_no);
 			viewName ="/Schedule/ViewCalander.jsp";
 		}
 		
@@ -204,6 +208,7 @@ public class MainController extends HttpServlet {
 		else if (subPath.equals("/createSchedule"))
 		{
 			String std_no = request.getParameter("std_no");
+			System.out.println("[/createSchedule] :" + std_no);
 			
 			StudyDBDAO db = new StudyDBDAO();
 			
@@ -246,12 +251,14 @@ public class MainController extends HttpServlet {
 				viewName ="/Error.jsp?value=NoRoomInfoData";
 			}
 			
+			request.setAttribute("std_no", std_no);
+			
 			viewName = "/CreateSchedule.jsp";
 		}
 	
 		// 媛� Path 湲곕뒫�쓣 �떎�뻾�븳 �썑 �쉷�뱷�븳 viewName 二쇱냼濡� Forwarding
 		if(viewName != null) {
-			System.out.println("Forward to " + viewName);
+			System.out.println("[MainController.java.doGet()] Forward to " + viewName);
 			RequestDispatcher view = request.getRequestDispatcher(viewName);
 			view.forward(request,response);
 		}
@@ -263,7 +270,9 @@ public class MainController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
-		System.out.println("Post Data has been arrive");
+		System.out.println("[MainController.java] Get Data has been arrive");
+		System.out.println();
+		
 		String subPath = request.getPathInfo();
 		String viewName = null;
 		
@@ -272,8 +281,10 @@ public class MainController extends HttpServlet {
 		
 		if (subPath.equals("/signIn"))
 		{
-			StudyDBDAO db = new StudyDBDAO();
+			System.out.println("[/signIn] Request From : " + request.getParameter("requestURL").replace("/Graduation_KMS", ""));
 			
+			StudyDBDAO db = new StudyDBDAO();
+
 			String id = null;
 			String passwd = null;
 			UserInfo userInfo = null;
@@ -297,7 +308,19 @@ public class MainController extends HttpServlet {
 				session.setAttribute("user_name", userInfo.getUser_name());
 				session.setAttribute("user_idx", userInfo.getUser_idx());
 				session.setAttribute("userInfo", userInfo);
-				viewName = "/MainPage.jsp";
+				
+				if (request.getParameter("requestURL").equals(null))
+				{
+					System.out.println("[/signIn] Redirect URL : " + request.getParameter("requestURL").replace("/Graduation_KMS", ""));
+					viewName = request.getParameter("requestURL").replace("/Graduation_KMS", "");
+				}
+				else
+				{
+					System.out.println("[/signIn] Redirect URL : /MainPage.jsp");
+					viewName = "/MainPage.jsp";
+				}
+				
+				//viewName = "/MainPage.jsp";
 			}
 			else
 			{
@@ -305,7 +328,7 @@ public class MainController extends HttpServlet {
 				PrintWriter out = response.getWriter();
 				
 				out.print("<script>");
-				out.println("alert('�븘�씠�뵒 �삉�뒗 鍮꾨�踰덊샇媛� �옒紐삳릺�뿀�뒿�땲�떎!');");
+				out.println("alert('잘못된 아이디 또는 비밀번호입니다!');");
 				out.println("history.back();");
 				out.println("</script>");
 			}
@@ -359,20 +382,20 @@ public class MainController extends HttpServlet {
 			studyInfo.setStd_maxMemberCount(Integer.parseInt(request.getParameter("std_maxmember")));
 			studyInfo.setStd_theme(request.getParameter("std_theme"));
 			
-			System.out.println("Recived Parameters");
-			System.out.println("[STD_NO : " + studyInfo.getStd_no() + "]");
-			System.out.println("[DETAIL_IDX : " + studyInfo.getDetail_idx() + "]");
-			System.out.println("[STD_NAME : " + studyInfo.getStd_name() + "]");
-			System.out.println("[STD_CONTENTS : " + studyInfo.getStd_contents() + "]");
-			System.out.println("[STD_LEADER : " + studyInfo.getStd_leader() + "]");
-			System.out.println("[STD_LOCATION : " + studyInfo.getStd_location() + "]");
-			System.out.println("[STD_MAXATTCNT : " + studyInfo.getStd_maxattcnt() + "]");
-			System.out.println("[STD_ENDFLAG : " + studyInfo.getStd_endflag() + "]");
-			System.out.println("[STD_TEACHER : " + studyInfo.getStd_teacher() + "]");
-			System.out.println("[STD_STARTDATE : " + studyInfo.getStd_startDate() + "]");
-			System.out.println("[STD_ENDDATE : " + studyInfo.getStd_endDate() + "]");
-			System.out.println("[STD_MAXMEMBER : " + studyInfo.getStd_maxMemberCount() + "]");
-			System.out.println("[STD_THEME : " + studyInfo.getStd_theme() + "]");
+			System.out.println("[/registStudy] Recived Parameters");
+			System.out.println("[/registStudy] STD_NO : " + studyInfo.getStd_no() + "]");
+			System.out.println("[/registStudy] DETAIL_IDX : " + studyInfo.getDetail_idx() + "]");
+			System.out.println("[/registStudy] STD_NAME : " + studyInfo.getStd_name() + "]");
+			System.out.println("[/registStudy] STD_CONTENTS : " + studyInfo.getStd_contents() + "]");
+			System.out.println("[/registStudy] STD_LEADER : " + studyInfo.getStd_leader() + "]");
+			System.out.println("[/registStudy] STD_LOCATION : " + studyInfo.getStd_location() + "]");
+			System.out.println("[/registStudy] STD_MAXATTCNT : " + studyInfo.getStd_maxattcnt() + "]");
+			System.out.println("[/registStudy] STD_ENDFLAG : " + studyInfo.getStd_endflag() + "]");
+			System.out.println("[/registStudy] STD_TEACHER : " + studyInfo.getStd_teacher() + "]");
+			System.out.println("[/registStudy] STD_STARTDATE : " + studyInfo.getStd_startDate() + "]");
+			System.out.println("[/registStudy] STD_ENDDATE : " + studyInfo.getStd_endDate() + "]");
+			System.out.println("[/registStudy] STD_MAXMEMBER : " + studyInfo.getStd_maxMemberCount() + "]");
+			System.out.println("[/registStudy] STD_THEME : " + studyInfo.getStd_theme() + "]");
 			
 			boolean result = db.registerStudy(studyInfo);
 			
@@ -397,13 +420,79 @@ public class MainController extends HttpServlet {
 				viewName = "/Error.jsp?value=RegisterStudyFail";
 			}
 		}
+		
+		// 스케쥴 등록
+		else if (subPath.equals("/registSchedule"))
+		{
+			StudyDBDAO db = new StudyDBDAO();
+			
+			String rsch_date = request.getParameter("rsch_date");	
+			String room_idx = request.getParameter("room_idx");
+			String std_no = request.getParameter("std_no");
+			String rsch_checkin = request.getParameter("rsch_checkin");
+			String rsch_checkout = request.getParameter("rsch_checkout");
+			String rsch_name = request.getParameter("rsch_name");
+			String rsch_commnet = request.getParameter("rsch_commnet");
+			String rsch_pay = request.getParameter("rsch_pay"); 
+			
+			// rsch_idx_head 값 확인 (나중에 지우자) /////////////////////
+			SimpleDateFormat oldDateFormat = new SimpleDateFormat("yy/MM/dd", Locale.KOREA);
+			SimpleDateFormat newDateFormat = new SimpleDateFormat("yyMMdd", Locale.KOREA);
+			
+			String rsch_idx_head = "";
+			Date oldDate;
+			try {
+				oldDate = oldDateFormat.parse(rsch_date);
+				rsch_idx_head = newDateFormat.format(oldDate);
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			System.out.println("[/registSchedule] rsch_idx_head : " + rsch_idx_head);
+			///////////////////////////////
+			
+			
+			System.out.println("[/registSchedule] Recived Parameter");
+			System.out.println("[/registSchedule] rsch_date : " + rsch_date);
+			System.out.println("[/registSchedule] room_idx : " + room_idx);
+			System.out.println("[/registSchedule] std_no : " + std_no);
+			System.out.println("[/registSchedule] rsch_checkin : " + rsch_checkin);
+			System.out.println("[/registSchedule] rsch_checkout : " + rsch_checkout);
+			System.out.println("[/registSchedule] rsch_name : " + rsch_name);
+			System.out.println("[/registSchedule] rsch_commnet " + rsch_commnet);
+			System.out.println("[/registSchedule] rsch_pay : " + rsch_pay);
+			System.out.println();
+			
+			boolean isInserted = db.registSchedule(rsch_date, room_idx, std_no, rsch_checkin, rsch_checkout, rsch_name, rsch_commnet, rsch_pay);
+			
+			if (isInserted)
+			{
+				System.out.println("[/registSchedule] Success to Insert Schedule !! ");
+				viewName = "/op/ScheduleCalender";
+				RequestDispatcher view = request.getRequestDispatcher(viewName);
+				view.forward(request, response);
+				return;
+			}
+			else
+			{
+				System.out.println("[/registSchedule] Failed to Insert Schedule !! ");
+				viewName = "/Error.jsp?value=InsertScheduleFailed";
+			}
+		}
+		
 		else if (subPath.equals("/myStudies"))
 		{
 			this.doGet(request, response);
 		}
+		else if (subPath.equals("/ScheduleCalender"))
+		{
+			this.doGet(request, response);
+		}
 				
-		// 媛� Path 湲곕뒫�쓣 �떎�뻾�븳 �썑 �쉷�뱷�븳 viewName 二쇱냼濡� Forwarding
+		// Forwarding
 		if(viewName != null) {
+			System.out.println("[MainController.java.doPost()] Forward to " + viewName);
+			System.out.println("[MainController.java.doPost()] request.getPathInfo() : " + request.getPathInfo());
 			RequestDispatcher view = request.getRequestDispatcher(viewName);
 			view.forward(request,response);
 		}

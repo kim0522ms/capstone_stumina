@@ -6,7 +6,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 import com.example.study.model.AreaInfo;
 import com.example.study.model.CategoryInfo;
@@ -16,7 +20,6 @@ import com.example.study.model.ScheduleInfo;
 import com.example.study.model.StudyInfo;
 import com.example.study.model.StudyRoomInfo;
 import com.example.study.model.UserInfo;
-import com.sun.javafx.geom.Area;
 
 public class StudyDBDAO {
 	private Connection conn = null;
@@ -83,7 +86,8 @@ public class StudyDBDAO {
 				userInfo.setUser_sex(rs.getString("USER_SEX"));
 				userInfo.setUser_jobno(rs.getString("USER_JOBNO"));
 				
-				System.out.println("User " + id + " has log in.");
+				System.out.println("[StudyDBDAO.java.signin()] User " + id + " has log in.");
+				System.out.println();
 			}
 			disconnect();
 		} catch (ClassNotFoundException | SQLException e) {
@@ -545,6 +549,76 @@ public class StudyDBDAO {
 		return roomInfos;
 	}
 	
+	public boolean registSchedule(String rsch_date, String room_idx, String std_no, String rsch_checkin, String rsch_checkout, String rsch_name, String rsch_commnet, String rsch_pay)
+	{
+		boolean isRegist = false;
+		
+		SimpleDateFormat oldDateFormat = new SimpleDateFormat("yy/MM/dd", Locale.KOREA);
+		SimpleDateFormat newDateFormat = new SimpleDateFormat("yyMMdd", Locale.KOREA);
+		
+		String rsch_idx_head = "";
+		Date oldDate;
+		try {
+			oldDate = oldDateFormat.parse(rsch_date);
+			rsch_idx_head = newDateFormat.format(oldDate);
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		// 해당 일자의 시퀀스 획득
+		String sql = "SELECT LPAD( (COUNT(*) + 1), 4, '0') AS COUNT FROM TB_ROOM_SCHEDULE WHERE RSCH_IDX LIKE '%" + rsch_idx_head +"%'";
+
+		System.out.println("[StudyDBDAO/registSchedule()] rsch_idx_head : " + rsch_idx_head);
+		System.out.println("[StudyDBDAO/registSchedule()] Created SQL : " + sql);
+		
+		try {
+			connect();
+			
+			pstmt = conn.prepareStatement(sql);
+			ResultSet rs = pstmt.executeQuery();
+			
+			if (rs.next())
+			{
+				System.out.println("[StudyDBDAO/registSchedule()] rs.getString(\"COUNT\") : " + rs.getString("COUNT"));
+				System.out.println("[StudyDBDAO/registSchedule()] RSCH_IDX : " + rsch_idx_head + "_" + rs.getString("COUNT"));
+				System.out.println();
+				
+				sql = "INSERT INTO TB_ROOM_SCHEDULE VALUES (TO_DATE(?, 'YY/MM/DD'), ?, ?, ?, ?, ?, ?, ?, ?)";
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, rsch_date);
+				pstmt.setString(2, rsch_idx_head + "_" + rs.getString("COUNT"));
+				pstmt.setString(3, room_idx);
+				pstmt.setString(4, std_no);
+				pstmt.setInt(5, Integer.parseInt(rsch_checkin));
+				pstmt.setInt(6, Integer.parseInt(rsch_checkout));
+				pstmt.setString(7, rsch_name);
+				pstmt.setString(8, rsch_commnet);
+				pstmt.setInt(9, Integer.parseInt(rsch_pay));
+				
+				int result = pstmt.executeUpdate();
+				
+				System.out.println("[StudyDBDAO/registSchedule()] Insert Result Value : " + result);
+				
+				if (result > 0)
+					isRegist = true;
+				else
+					isRegist = false;
+			}
+			else
+			{
+				System.out.println("[StudyDBDAO/registSchedule()] Failed to get PK Sequence!!");
+				
+			}
+			disconnect();
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return isRegist;
+	}
+	
 	public String getArea_IDXbyName(String area_name)
 	{
 		String result = null;
@@ -578,6 +652,12 @@ public class StudyDBDAO {
 		ArrayList<ScheduleInfo> scheduleInfos = null;
 		String sql = "SELECT  * FROM TB_ROOM_SCHEDULE NATURAL JOIN TB_STUDYINFO WHERE STD_NO = ?";
 		
+		sql = "SELECT  * FROM TB_STUDYINFO NATURAL JOIN "
+				+ "(SELECT * FROM TB_ROOM_SCHEDULE NATURAL JOIN "
+					+ "(SELECT * FROM TB_ROOMINFO NATURAL JOIN TB_STUDYROOMS)"
+				+ ") "
+			+ "WHERE STD_NO = ?";
+		
 		try {
 			connect();
 			
@@ -599,6 +679,11 @@ public class StudyDBDAO {
 					schedule.setRoom_idx(rs.getString("ROOM_IDX"));
 					schedule.setStd_name(rs.getString("STD_NAME"));
 					schedule.setSchedule_name(rs.getString("RSCH_NAME"));
+					schedule.setStudyroom_name(rs.getString("SR_NAME"));
+					schedule.setStudyroom_location(rs.getString("SR_LOCATION"));
+					schedule.setRoom_name(rs.getString("ROOM_NAME"));
+					schedule.setSchedule_comment(rs.getString("RSCH_COMMENT"));
+					schedule.setRoom_pay(rs.getString("ROOM_PAY"));
 					
 					scheduleInfos.add(schedule);
 				}while(rs.next());
