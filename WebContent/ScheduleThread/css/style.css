@@ -62,7 +62,7 @@ a:focus {
   background: #fff;
   border: 1px solid #e2e2e2;
   margin-bottom: 40px;
-  border-radius: 3px;
+  border-radius: 10px;
 }
 .post .row .col-md-10 h1, .post .row .col-md-10 h2 {
   margin-bottom: 10px;

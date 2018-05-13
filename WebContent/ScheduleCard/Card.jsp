@@ -108,9 +108,9 @@
 						        <span class="task-title">Team Meeting</span>
 						        <span class="task-time">2pm</span>
 						        <span class="task-cat">Hangouts</span>
-						        <img src="https://raw.githubusercontent.com/arjunamgain/FilterMenu/master/images/2.jpg">
-						        <img src="https://raw.githubusercontent.com/arjunamgain/FilterMenu/master/images/3.jpg">
-						        <img src="https://raw.githubusercontent.com/arjunamgain/FilterMenu/master/images/profile.jpg">
+						        <img src="https://u.o0bc.com/avatars/no-user-image.gif">
+						        <img src="https://u.o0bc.com/avatars/no-user-image.gif">
+						        <img src="https://u.o0bc.com/avatars/no-user-image.gif">
 						      </li> 
 					      -->
 					

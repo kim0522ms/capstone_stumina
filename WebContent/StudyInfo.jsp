@@ -11,8 +11,6 @@
 	<link rel='stylesheet prefetch' href='http://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css'>
 	<link rel='stylesheet' href='http://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/semantic.css'>
 	<link rel="stylesheet" href="/Graduation_KMS/css/style.css">
-
-  
 </head>
 <body>
 	<header>

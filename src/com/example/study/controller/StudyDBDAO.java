@@ -34,18 +34,19 @@ public class StudyDBDAO {
 	private final String DB_PW = "4321";
 	*/
 	
-	/* 
+	
 	// MainServer
 	private final String DB_URL = "jdbc:oracle:thin://@172.17.14.204:1521/xe";
 	private final String DB_USER = "mskim";
 	private final String DB_PW = "4321";
-	*/
 	
+	
+	/*
 	// Home
 	private final String DB_URL = "jdbc:oracle:thin://@192.168.0.2:1521/xe";
 	private final String DB_USER = "mskim";
 	private final String DB_PW = "4321";
-	
+	*/
 	
 	public void connect() throws ClassNotFoundException, SQLException{
 		Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -806,6 +807,44 @@ public class StudyDBDAO {
 		}
 		
 		return scheduleName;
+	}
+	
+	public boolean uploadThread(String rsch_idx, String scb_title, String scb_content, String user_idx)
+	{
+		boolean isUploaded = false;
+		
+		String sql = "INSERT INTO TB_SCHEDULE_BOARD VALUES ('SCB_' || SCB_SEQ.NEXTVAL , ?, ?, ?, ?, SYSDATE)";
+		
+		try {
+			if (!recursion)
+				connect();
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, rsch_idx);
+			pstmt.setString(2, scb_title);
+			pstmt.setString(3, scb_content);
+			pstmt.setString(4, user_idx);
+			
+			int result = pstmt.executeUpdate();
+			
+			if (result > 0)
+			{
+				isUploaded = true;
+				System.out.println("[StudyDBDAO.java.uploadThread()] Insert Thread Success !");
+			}
+			else
+			{
+				System.out.println("[StudyDBDAO.java.uploadThread()] Insert Thread Failed...");
+			}
+			
+			if (!recursion)
+				disconnect();
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return isUploaded;
 	}
 	
 	// 스케쥴 게시판(Thread) 조회

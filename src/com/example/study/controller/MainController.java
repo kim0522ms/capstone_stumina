@@ -515,7 +515,89 @@ public class MainController extends HttpServlet {
 				viewName = "/Error.jsp?value=InsertScheduleFailed";
 			}
 		}
+		else if (subPath.equals("/uploadThread"))
+		{
+			String user_idx;
+			String rsch_idx = request.getParameter("rsch_idx");
+			String title = "";
+			String content = request.getParameter("content");
+			
+			if (content == null)
+			{
+				System.out.println("[/uploadThread] Error : content is null ");		
+			}
+			else if (session.getAttribute("user_idx") == null)
+			{
+				System.out.println("[/uploadThread] Error : user_idx is null ");
+			}
+			else if (rsch_idx == null)
+			{
+				System.out.println("[/uploadThread] Error : rsch_idx is null ");
+			}
+			else
+			{
+				user_idx = session.getAttribute("user_idx").toString();
+				
+				//////// DB에 넣기 위해 값 처리 /////////
+				System.out.println("[/registSchedule] Recieved parameter user_idx : " + user_idx);
+				System.out.println("[/registSchedule] Recieved parameter content : " + content);
+				System.out.println("[/registSchedule] Recieved parameter content : " + rsch_idx);
+	
+				String replaced_content = content.replace("<div class=\"ps-scrollbar-x-rail\" style=\"left: 0px; bottom: 3px;\"><div class=\"ps-scrollbar-x\" style=\"left: 0px; width: 0px;\"></div></div><div class=\"ps-scrollbar-y-rail\" style=\"top: 0px; right: 3px;\"><div class=\"ps-scrollbar-y\" style=\"top: 0px; height: 0px;\"></div></div>", "");			
+				replaced_content = replaced_content.replace("<p style=\"background-color: rgb(255, 255, 255);\">", "");
+				replaced_content = replaced_content.replace("</p>", "<div><br></div>");
+				System.out.println("[/registSchedule] Replaced parameter content 1 : " + replaced_content);
+				
+				replaced_content =replaced_content.replace("</div>", "");
+				System.out.println("[/registSchedule] Replaced parameter content 2 : " + replaced_content);
+				
+				// 제목 처리
+				for (String str : replaced_content.split("<div>"))
+				{
+					if (str.equals("") || str.equals("<br>"))
+					{
+						continue;
+					}
+					else
+					{
+						if (str.length() > 30)
+						{
+							str = str.substring(0, 30);
+							str = str + "...";
+						}
+						title = str;
+						break;
+					}
+				}
+				System.out.println("[/registSchedule] Title : " + title);
+				
+				replaced_content = replaced_content.replace("<div><br>", System.getProperty("line.separator"));
+				replaced_content = replaced_content.replace("<div>", System.getProperty("line.separator"));
+				
+				System.out.println("[/registSchedule] Content : " + System.getProperty("line.separator") + replaced_content);
+				
+				////////// 문자열 처리 끝 //////////
+				
+				// DB에 입력
+				StudyDBDAO db = new StudyDBDAO();
+				
+				boolean isInserted = db.uploadThread(rsch_idx, title, replaced_content, user_idx);
+				
+				if (isInserted)
+				{
+					viewName = "/op/viewThread";
+				}
+				else
+				{
+					viewName = "Error.jsp?value=FailedToInsertThread";
+				}
+			}
+		}
 		
+		else if (subPath.equals("/viewThread"))
+		{
+			this.doGet(request, response);
+		}		
 		else if (subPath.equals("/myStudies"))
 		{
 			this.doGet(request, response);

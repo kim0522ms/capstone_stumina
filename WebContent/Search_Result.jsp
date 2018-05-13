@@ -6,15 +6,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>Stumina</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
-	<link rel='stylesheet prefetch' href='http://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css'>
-	<link rel='stylesheet' href='http://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/semantic.css'>
-	<link rel="stylesheet" href="/Graduation_KMS/css/style.css">
-
-  
+	<meta charset="UTF-8">
+	<title>Stumina</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+    	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+		<link rel='stylesheet prefetch' href='http://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css'>
+		<link rel='stylesheet' href='http://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/semantic.css'>
+		<link rel="stylesheet" href="/Graduation_KMS/css/style.css">
 </head>
 <body>
 	<header>
@@ -26,7 +24,7 @@
 	  <div class="board">
 		  <div class="content">
 			<jsp:include page="/Sidebar/SideBar_Profile.jsp" />
-		    <h3>
+		    <h3 style="color: #2d3042;">
 		    <%
 		    if (request.getAttribute("keyword") != null)
 		    {%>
@@ -34,7 +32,7 @@
 		    <%}
 		    else
 		    {%>
-		    	<h3>검색 결과가 없습니다!</h3>
+		    	검색 결과가 없습니다!
 		    <%}%>
 		    </h3>
 		    <div class="ui segment">
@@ -66,7 +64,7 @@
 			    	else{
 			    		%>
 			    			<br>
-			    			<h3>직접 스터디를 만들어 볼까요?&nbsp<a href='/Graduation_KMS/op/createStudy' style="color: #36474f;">만들러 가기!</a></h3>
+			    			<h3 style="color: #2d3042;">직접 스터디를 만들어 볼까요?&nbsp<a href='/Graduation_KMS/op/createStudy' style="color: #36474f;">만들러 가기!</a></h3>
 			    			<br>
 			    		<%
 			    	}
@@ -76,7 +74,7 @@
 		  </div>
 	  
 		  <div class="content">
-			    <h3>이런 스터디는 어떠세요?</h3>
+			    <h3 style="color: #2d3042;">이런 스터디는 어떠세요?</h3>
 			    
 			    <!-- 카드 리스트 시작 -->
 			    <div class="ui segment">
