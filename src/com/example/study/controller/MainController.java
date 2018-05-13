@@ -19,6 +19,7 @@ import com.example.study.model.AreaInfo;
 import com.example.study.model.CategoryInfo;
 import com.example.study.model.DetailInfo;
 import com.example.study.model.RoomsInfo;
+import com.example.study.model.ScheduleBoardInfo;
 import com.example.study.model.ScheduleInfo;
 import com.example.study.model.StudyInfo;
 import com.example.study.model.StudyRoomInfo;
@@ -203,12 +204,45 @@ public class MainController extends HttpServlet {
 			request.setAttribute("std_no", std_no);
 			viewName ="/Schedule/ViewCalander.jsp";
 		}
-		
+		// 해당 스케줄 게시판 내용을 request에 담아 전송
+		else if (subPath.equals("/viewThread"))
+		{
+			String rsch_idx = request.getParameter("rsch_idx");
+			System.out.println("[/viewThread] rsch_idx : " + rsch_idx);
+			
+			if (rsch_idx == null)
+			{
+				System.out.println("[/viewThread] Error : rsch_idx is null !!");
+			}
+			else
+			{
+				StudyDBDAO db = new StudyDBDAO();
+				
+				ArrayList<ScheduleBoardInfo> threadInfos = db.getThreads(rsch_idx);
+				
+				// Thread가 있을 경우
+				if (threadInfos != null)
+				{
+					request.setAttribute("threadInfos", threadInfos);
+					System.out.println("[/viewThread] threadInfos has been added to request.");
+				}
+				// Thread가 없을 경우
+				else
+				{
+					System.out.println("[/viewThread] threadInfos is null");
+				}
+				
+				request.setAttribute("rsch_name", db.getScheduleName(rsch_idx)); ;
+
+				viewName = "/ScheduleThread/Thread.jsp";
+			}
+		}
+
 		// 스케줄 추가를 위해 지역 및 스터디룸 정보 쿼리 후 request에 담아 전송
 		else if (subPath.equals("/createSchedule"))
 		{
 			String std_no = request.getParameter("std_no");
-			System.out.println("[/createSchedule] :" + std_no);
+			System.out.println("[/createSchedule] std_no :" + std_no);
 			
 			StudyDBDAO db = new StudyDBDAO();
 			

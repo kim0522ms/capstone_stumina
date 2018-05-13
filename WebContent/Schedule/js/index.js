@@ -66,6 +66,7 @@ dataCel.each(function() {
   }
 });
 
+/*
 //window event creator
 addBtn.on("click", function() {
   winCreator.addClass("isVisible");
@@ -111,6 +112,7 @@ saveBtn.on("click", function() {
   $("body").removeClass("overlay");
   $("#addEvent")[0].reset();
 });
+*/
 
 //fill sidebar event info
 function fillEventSidebar(self) {

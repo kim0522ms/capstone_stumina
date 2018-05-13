@@ -16,6 +16,7 @@ import com.example.study.model.AreaInfo;
 import com.example.study.model.CategoryInfo;
 import com.example.study.model.DetailInfo;
 import com.example.study.model.RoomsInfo;
+import com.example.study.model.ScheduleBoardInfo;
 import com.example.study.model.ScheduleInfo;
 import com.example.study.model.StudyInfo;
 import com.example.study.model.StudyRoomInfo;
@@ -771,5 +772,110 @@ public class StudyDBDAO {
 		}
 		
 		return studyInfo;
+	}
+	
+	public String getScheduleName(String rsch_idx)
+	{
+		String scheduleName = "";
+		
+		String sql = "SELECT RSCH_NAME FROM TB_ROOM_SCHEDULE WHERE rsch_idx = ?";
+
+		try {
+			if (!recursion)
+				connect();
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, rsch_idx);
+			ResultSet rs = pstmt.executeQuery();
+			
+			if (rs.next())
+			{
+				scheduleName = rs.getString("RSCH_NAME");
+			}
+			else
+			{
+				System.out.println("[StudyDBDAO.java.getScheduleName()] Schedule Name not found !");
+			}
+			
+			
+			if (!recursion)
+				disconnect();
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return scheduleName;
+	}
+	
+	// 스케쥴 게시판(Thread) 조회
+	public ArrayList<ScheduleBoardInfo> getThreads(String rsch_idx)
+	{
+		String sql = "SELECT * FROM TB_SCHEDULE_BOARD NATURAL JOIN TB_USERS WHERE RSCH_IDX = ? ORDER BY SCB_TIME DESC";
+		
+		ArrayList<ScheduleBoardInfo> threadInfos = null;
+		
+		try {
+			// Connect
+			if (!recursion)
+				connect();
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, rsch_idx);
+			ResultSet rs = pstmt.executeQuery();
+			
+			if (rs.next())
+			{
+				SimpleDateFormat oldDateFormat = new SimpleDateFormat("yy-MM-dd hh:mm:ss.SSS");
+				SimpleDateFormat newDateFormat = new SimpleDateFormat("yyyy년 MM월 dd일"+ System.getProperty("line.separator") + "a hh시 mm분 ss초");
+				
+				threadInfos = new ArrayList<ScheduleBoardInfo>();
+				ScheduleBoardInfo thread = null;
+				do
+				{
+					thread = new ScheduleBoardInfo();
+					
+					// Date 포맷 변경
+					Date date = oldDateFormat.parse(rs.getString("SCB_TIME"));
+					String rsch_time = newDateFormat.format(date);
+					System.out.println("[StudyDBDAO.java.getThreads()] Changed DateFormat : " + rsch_time);
+					
+					thread.setScb_time(rsch_time);
+					
+					
+					thread.setRsch_idx(rs.getString("RSCH_IDX"));
+					thread.setProfile_pic_idx(null);
+					thread.setScb_idx(rs.getString("SCB_IDX"));
+					thread.setScb_title(rs.getString("SCB_TITLE"));
+					thread.setScb_content(rs.getString("SCB_CONTENT"));
+					thread.setUser_idx(rs.getString("USER_IDX"));
+					thread.setUser_name(rs.getString("USER_NAME"));
+					thread.setUser_belong(rs.getString("USER_BELONG"));
+					
+					
+					
+					threadInfos.add(thread);
+					System.out.println("[StudyDBDAO.java.getThreads()] Thread inserted successfuly !");
+				}while(rs.next());
+				System.out.println("[StudyDBDAO.java.getThreads()] All Threads inserted successfuly !");
+			}
+			else
+			{
+				System.out.println("[StudyDBDAO.java.getThreads()] Thread not found !");
+			}
+			
+			// Disconnect
+			if (!recursion)
+				disconnect();
+			
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return threadInfos;
 	}
 }

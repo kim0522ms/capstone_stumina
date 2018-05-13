@@ -13,6 +13,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
   	<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css'>
     <link rel="stylesheet" href="/Graduation_KMS/Schedule/css/style.css">
+  <%
+  	String rsch_no = "";
+  %>
 </head>
 
 <body>
@@ -103,102 +106,90 @@ function fill_table(month, month_length, indexMonth) {
     document.write("</div>");
   }
 </script>
-<div class="wrapper">
-	<input type="hidden" id="selectedDate" value="" />
-	<%
-		StudyInfo studyInfo = null;
-		if (request.getAttribute("studyInfo") != null)
-		{
-			studyInfo = (StudyInfo)request.getAttribute("studyInfo");
-		}
-		
-		ArrayList<ScheduleInfo> schedules = null;
-		if (request.getAttribute("scheduleInfo") != null)
-		{
-			schedules = (ArrayList<ScheduleInfo>)request.getAttribute("scheduleInfo");
-		}
-	%>
-	<h1>[${studyInfo.std_name}]의 스케줄을 확인해 볼까요?</h1>
-<headers>
-  <div class="wrapper">
-    <div class="c-monthyear">
-    <div class="c-month">
-        <span id="prev" class="prev fa fa-angle-left" aria-hidden="true"></span>
-        <div id="c-paginator">
-          <span class="c-paginator__month">JANUARY</span>
-          <span class="c-paginator__month">FEBRUARY</span>
-          <span class="c-paginator__month">MARCH</span>
-          <span class="c-paginator__month">APRIL</span>
-          <span class="c-paginator__month">MAY</span>
-          <span class="c-paginator__month">JUNE</span>
-          <span class="c-paginator__month">JULY</span>
-          <span class="c-paginator__month">AUGUST</span>
-          <span class="c-paginator__month">SEPTEMBER</span>
-          <span class="c-paginator__month">OCTOBER</span>
-          <span class="c-paginator__month">NOVEMBER</span>
-          <span class="c-paginator__month">DECEMBER</span>
-        </div>
-        <span id="next" class="next fa fa-angle-right" aria-hidden="true"></span>
-      </div>
-      <span class="c-paginator__year">2018</span>
-    </div>
-    <div class="c-sort">
-      <a class="o-btn c-today__btn" href="javascript:;">TODAY</a>
-    </div>
-  </div>
-</headers>
-  <div class="c-calendar">
-    <div class="c-calendar__style c-aside">
-      <!-- <a class="c-add o-btn js-event__add" href="javascript:;">일정 추가하기 <span class="fa fa-plus"></span></a> -->
-      <a class="c-add o-btn js-event__add" href="/Graduation_KMS/op/createSchedule?std_no=<%=request.getAttribute("std_no").toString()%>">일정 추가하기 <span class="fa fa-plus"></span></a>
-      <div class="c-aside__day">
-        <span class="c-aside__num"></span> <span class="c-aside__month"></span>
-      </div>
-      <div class="c-aside__eventList">
-      </div>
-    </div>
-    <div class="c-cal__container c-calendar__style">
-      <script>
-      
-      // CAHNGE the below variable to the CURRENT YEAR
-      year = 2018;
-
-      // first day of the week of the new year
-      today = new Date("January 1, " + year);
-      start_day = today.getDay() + 1;
-      fill_table("January", 31, "01");
-      fill_table("February", 28, "02");
-      fill_table("March", 31, "03");
-      fill_table("April", 30, "04");
-      fill_table("May", 31, "05");
-      fill_table("June", 30, "06");
-      fill_table("July", 31, "07");
-      fill_table("August", 31, "08");
-      fill_table("September", 30, "09");
-      fill_table("October", 31, "10");
-      fill_table("November", 30, "11");
-      fill_table("December", 31, "12");
-      </script>
-    </div>
-  </div>
-
-  <div class="c-event__creator c-calendar__style js-event__creator">
-    <a href="javascript:;" class="o-btn js-event__close">CLOSE <span class="fa fa-close"></span></a>
-    <form id="addEvent">
-      <input placeholder="Event name" type="text" name="name">
-      <input type="date" name="date">
-      <textarea placeholder="Notes" name="notes" cols="30" rows="10"></textarea>
-      <select name="tags">
-          <option value="event">event</option>
-          <option value="important">important</option>
-          <option value="birthday">birthday</option>
-          <option value="festivity">festivity</option>
-        </select>
-    </form>
-    <br>
-    <a href="javascript:;" class="o-btn js-event__save">SAVE <span class="fa fa-save"></span></a>
-  </div>
-</div>
+	<div class="wrapper">
+		<input type="hidden" id="selectedDate" value="" />
+		<%
+			StudyInfo studyInfo = null;
+			if (request.getAttribute("studyInfo") != null)
+			{
+				studyInfo = (StudyInfo)request.getAttribute("studyInfo");
+			}
+			
+			ArrayList<ScheduleInfo> schedules = null;
+			if (request.getAttribute("scheduleInfo") != null)
+			{
+				schedules = (ArrayList<ScheduleInfo>)request.getAttribute("scheduleInfo");
+			}
+		%>
+		<h1>[${studyInfo.std_name}]의 스케줄을 확인해 볼까요?</h1>
+	<headers>
+	  <div class="wrapper">
+	    <div class="c-monthyear">
+	    <div class="c-month">
+	        <span id="prev" class="prev fa fa-angle-left" aria-hidden="true"></span>
+	        <div id="c-paginator">
+	          <span class="c-paginator__month">JANUARY</span>
+	          <span class="c-paginator__month">FEBRUARY</span>
+	          <span class="c-paginator__month">MARCH</span>
+	          <span class="c-paginator__month">APRIL</span>
+	          <span class="c-paginator__month">MAY</span>
+	          <span class="c-paginator__month">JUNE</span>
+	          <span class="c-paginator__month">JULY</span>
+	          <span class="c-paginator__month">AUGUST</span>
+	          <span class="c-paginator__month">SEPTEMBER</span>
+	          <span class="c-paginator__month">OCTOBER</span>
+	          <span class="c-paginator__month">NOVEMBER</span>
+	          <span class="c-paginator__month">DECEMBER</span>
+	        </div>
+	        <span id="next" class="next fa fa-angle-right" aria-hidden="true"></span>
+	      </div>
+	      <span class="c-paginator__year">2018</span>
+	    </div>
+	    <div class="c-sort">
+	      <a class="o-btn c-today__btn" href="javascript:;">TODAY</a>
+	    </div>
+	  </div>
+	</headers>
+	  <div class="c-calendar">
+	    <div class="c-calendar__style c-aside">
+	      <!-- <a class="c-add o-btn js-event__add" href="javascript:;">일정 추가하기 <span class="fa fa-plus"></span></a> -->
+	      
+	      <!-- 일정 추가하기 버튼 -->
+	      <a class="c-add o-btn js-event__add" href="/Graduation_KMS/op/createSchedule?std_no=<%=request.getAttribute("std_no").toString()%>">일정 추가하기 <span class="fa fa-plus"></span></a>
+	      <br>
+	      <br>
+	      
+	      <div class="c-aside__day">
+	        <span class="c-aside__num"></span> <span class="c-aside__month"></span>
+	      </div>
+	      <div class="c-aside__eventList">
+	      </div>
+	    </div>
+	    <div class="c-cal__container c-calendar__style">
+	      <script>
+	      
+	      // CAHNGE the below variable to the CURRENT YEAR
+	      year = 2018;
+	
+	      // first day of the week of the new year
+	      today = new Date("January 1, " + year);
+	      start_day = today.getDay() + 1;
+	      fill_table("January", 31, "01");
+	      fill_table("February", 28, "02");
+	      fill_table("March", 31, "03");
+	      fill_table("April", 30, "04");
+	      fill_table("May", 31, "05");
+	      fill_table("June", 30, "06");
+	      fill_table("July", 31, "07");
+	      fill_table("August", 31, "08");
+	      fill_table("September", 30, "09");
+	      fill_table("October", 31, "10");
+	      fill_table("November", 30, "11");
+	      fill_table("December", 31, "12");
+	      </script>
+	    </div>
+	  </div>
+	</div>
   	<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
 	<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery.cycle2/2.1.6/jquery.cycle2.core.min.js'></script>
 	<script src="/Graduation_KMS/Schedule/js/index.js"></script>
@@ -212,7 +203,7 @@ function fill_table(month, month_length, indexMonth) {
 		for (ScheduleInfo schedule : schedules)
 		{
 			String dateString = schedule.getSchedule_date();
-			out.println("defaultEvents('"+ newFormat.format(oldFormat.parse(schedule.getSchedule_date())) +"','"+schedule.getCheckin()+"시 ~ " + schedule.getCheckout()+ "시<br><br> • 제목<br>', '"+schedule.getSchedule_name()+"<br><br> • 장소<br>" + schedule.getStudyroom_name() + " " +schedule.getRoom_name() + "<br><br> • 상세 주소<br>" + schedule.getStudyroom_location() + "<br><br> • 대여 비용<br>" + schedule.getRoom_pay() + "원<br><br> • 공지사항<br>" + schedule.getSchedule_comment() + "')");          
+			out.println("defaultEvents('"+ newFormat.format(oldFormat.parse(schedule.getSchedule_date())) +"','"+schedule.getCheckin()+"시 ~ " + schedule.getCheckout()+ "시<br><br> • 제목<br>', '"+schedule.getSchedule_name()+"<br><br> • 장소<br>" + schedule.getStudyroom_name() + " " +schedule.getRoom_name() + "<br><br> • 상세 주소<br>" + schedule.getStudyroom_location() + "<br><br> • 대여 비용<br>" + schedule.getRoom_pay() + "원<br><br> • 공지사항<br>" + schedule.getSchedule_comment() + "<br><br><br><br><a href=\"/Graduation_KMS/op/viewThread?rsch_idx=" + schedule.getSchedule_idx() +"\" style=\"font-size: 1.6rem;\">스터디 게시판 확인</a>  " +"')");          
 		}
 	}
 	%>

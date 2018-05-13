@@ -74,7 +74,7 @@
 					  <div class="clearfix"></div>
 					  <div class="bottom">
 					    <div class="title">
-					      <h3>스터디 일정</h3>
+					      <h3 style="color: #000000;">스터디 일정</h3>
 					      <small>자세한 내용은 우측의 버튼을 눌려주세요</small>
 					    </div>
 					    <ul class="tasks">

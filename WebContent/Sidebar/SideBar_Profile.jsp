@@ -8,7 +8,7 @@
 <body>
 	<div class="navi">
 		  <ul></ul>
-		  <span class="profile_picture"></span>
+		  <img src="https://u.o0bc.com/avatars/no-user-image.gif" class="img-responsive" alt="User Picture">
 		  <ul></ul>
 		  	<%
 		  	  System.out.println("[SideBar_Profile.jsp] " + request.getRequestURI());
