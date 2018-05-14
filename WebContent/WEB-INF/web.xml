@@ -20,4 +20,17 @@
   <session-config>
     <session-timeout>1800</session-timeout>
   </session-config>
+  
+  <!-- Exception 처리 -->
+  <!-- 
+  <error-page>
+  	<exception-type>500</exception-type>
+  	<location></location>
+  </error-page>
+  -->
+  
+  <error-page>
+  	<exception-type>404</exception-type>
+  	<location>/ErrorPage/404</location>
+  </error-page>
 </web-app>

@@ -116,4 +116,5 @@ select > option {
    overflow: hidden;
    word-break: break-all;
    outline: none;
+   z-index: 49;
 }

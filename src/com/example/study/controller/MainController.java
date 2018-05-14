@@ -376,7 +376,7 @@ public class MainController extends HttpServlet {
 		{
 			StudyDBDAO db = new StudyDBDAO();
 			
-			SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat ( "yyyyMMddHHmmss", Locale.KOREA );
+			SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat ( "yyyyMMdd", Locale.KOREA );
 			Date currentTime = new Date ();
 			String mTime = mSimpleDateFormat.format ( currentTime );
 			
@@ -504,6 +504,7 @@ public class MainController extends HttpServlet {
 			if (isInserted)
 			{
 				System.out.println("[/registSchedule] Success to Insert Schedule !! ");
+				System.out.println();
 				viewName = "/op/ScheduleCalender";
 				RequestDispatcher view = request.getRequestDispatcher(viewName);
 				view.forward(request, response);
@@ -512,6 +513,7 @@ public class MainController extends HttpServlet {
 			else
 			{
 				System.out.println("[/registSchedule] Failed to Insert Schedule !! ");
+				System.out.println();
 				viewName = "/Error.jsp?value=InsertScheduleFailed";
 			}
 		}
@@ -525,14 +527,17 @@ public class MainController extends HttpServlet {
 			if (content == null)
 			{
 				System.out.println("[/uploadThread] Error : content is null ");		
+				System.out.println();
 			}
 			else if (session.getAttribute("user_idx") == null)
 			{
 				System.out.println("[/uploadThread] Error : user_idx is null ");
+				System.out.println();
 			}
 			else if (rsch_idx == null)
 			{
 				System.out.println("[/uploadThread] Error : rsch_idx is null ");
+				System.out.println();
 			}
 			else
 			{
@@ -542,7 +547,30 @@ public class MainController extends HttpServlet {
 				System.out.println("[/registSchedule] Recieved parameter user_idx : " + user_idx);
 				System.out.println("[/registSchedule] Recieved parameter content : " + content);
 				System.out.println("[/registSchedule] Recieved parameter content : " + rsch_idx);
+				System.out.println();
 	
+				
+				// 개행문자 치환
+				content = content.replaceAll("\\<br(/?[^\\>]+)\\>", System.getProperty("line.separator"));
+				
+				// h 태그 제거(h1, h2...)
+				content = content.replaceAll("\\<h(/?[^\\>]+)\\>", "");
+				
+				// HTML 태그 제거
+				content = content.replaceAll("<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>", "");
+				System.out.println("[/registSchedule] Replaced parameter content : " + content);
+				System.out.println();
+				
+				if (content.length() > 30)
+				{
+					title = content.substring(0, 30) + "...";
+				}
+				else
+				{
+					title = content;
+				}
+				
+				/*
 				String replaced_content = content.replace("<div class=\"ps-scrollbar-x-rail\" style=\"left: 0px; bottom: 3px;\"><div class=\"ps-scrollbar-x\" style=\"left: 0px; width: 0px;\"></div></div><div class=\"ps-scrollbar-y-rail\" style=\"top: 0px; right: 3px;\"><div class=\"ps-scrollbar-y\" style=\"top: 0px; height: 0px;\"></div></div>", "");			
 				replaced_content = replaced_content.replace("<p style=\"background-color: rgb(255, 255, 255);\">", "");
 				replaced_content = replaced_content.replace("</p>", "<div><br></div>");
@@ -577,11 +605,14 @@ public class MainController extends HttpServlet {
 				System.out.println("[/registSchedule] Content : " + System.getProperty("line.separator") + replaced_content);
 				
 				////////// 문자열 처리 끝 //////////
+				*/
+				
+				
 				
 				// DB에 입력
 				StudyDBDAO db = new StudyDBDAO();
 				
-				boolean isInserted = db.uploadThread(rsch_idx, title, replaced_content, user_idx);
+				boolean isInserted = db.uploadThread(rsch_idx, title, content, user_idx);
 				
 				if (isInserted)
 				{
@@ -611,6 +642,7 @@ public class MainController extends HttpServlet {
 		if(viewName != null) {
 			System.out.println("[MainController.java.doPost()] Forward to " + viewName);
 			System.out.println("[MainController.java.doPost()] request.getPathInfo() : " + request.getPathInfo());
+			System.out.println();
 			RequestDispatcher view = request.getRequestDispatcher(viewName);
 			view.forward(request,response);
 		}

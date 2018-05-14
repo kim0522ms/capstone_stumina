@@ -43,6 +43,7 @@
 		<button id="align-right" title="Right"><i class="fa fa-align-right"></i></button>
 		<button id="list-ul" title="Unordered List"><i class="fa fa-list-ul"></i></button>
 		<button id="list-ol" title="Ordered List"><i class="fa fa-list-ol"></i></button>
+		<button id="upload_File" title ="Upload File"><i class="fa fa-save"></i></button>
 	</div>
 	<div id="contents" class="editor" contenteditable></div>
 	</div>

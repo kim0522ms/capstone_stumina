@@ -56,8 +56,8 @@
 					    <div class="user-profile">
 					      <img src="https://raw.githubusercontent.com/arjunamgain/FilterMenu/master/images/profile.jpg">
 					      <div class="user-details">
-					        <h4><%=studyinfo.getStd_theme() %></h4>
-					        <p><%=studyinfo.getStd_leader() %></p>
+					        <h4><%=studyinfo.getStd_theme().length() <= 15 ? studyinfo.getStd_theme() : studyinfo.getStd_theme().substring(0,12) + "..." %></h4>
+					        <p>¡∂¿Â : <%=studyinfo.getStd_leader() %></p>
 					      </div>
 					    </div>
 					  </div>

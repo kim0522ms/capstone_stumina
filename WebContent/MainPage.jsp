@@ -122,7 +122,7 @@
     <!-- 카드 리스트 끝 -->
     
     
-  </div>
+  	</div>
 </section>
   <script src='http://code.jquery.com/jquery-2.2.4.min.js'></script>
 <script src='http://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.js'></script>

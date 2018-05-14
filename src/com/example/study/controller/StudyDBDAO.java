@@ -371,7 +371,7 @@ public class StudyDBDAO {
 	{
 		boolean isInserted = false;
 		
-		String sql = "INSERT INTO TB_STUDYINFO VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, TO_DATE(?, 'yy/mm/dd'), TO_DATE(?, 'yy/mm/dd'), ?, ?)";
+		String sql = "INSERT INTO TB_STUDYINFO VALUES (? || STUDY_SEQ.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, TO_DATE(?, 'yy/mm/dd'), TO_DATE(?, 'yy/mm/dd'), ?, ?)";
 		
 		try {
 			connect();
@@ -574,51 +574,31 @@ public class StudyDBDAO {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		// 해당 일자의 시퀀스 획득
-		String sql = "SELECT LPAD( (COUNT(*) + 1), 4, '0') AS COUNT FROM TB_ROOM_SCHEDULE WHERE RSCH_IDX LIKE '%" + rsch_idx_head +"%'";
-
-		System.out.println("[StudyDBDAO/registSchedule()] rsch_idx_head : " + rsch_idx_head);
-		System.out.println("[StudyDBDAO/registSchedule()] Created SQL : " + sql);
-		
 		try {
 			connect();
+
+			String sql = "INSERT INTO TB_ROOM_SCHEDULE VALUES (TO_DATE(?, 'YY/MM/DD'), ? || '_' || SCHEDULE_SEQ.NEXTVAL , ?, ?, ?, ?, ?, ?, ?)";
 			
 			pstmt = conn.prepareStatement(sql);
-			ResultSet rs = pstmt.executeQuery();
+			pstmt.setString(1, rsch_date);
+			pstmt.setString(2, rsch_idx_head);
+			pstmt.setString(3, room_idx);
+			pstmt.setString(4, std_no);
+			pstmt.setInt(5, Integer.parseInt(rsch_checkin));
+			pstmt.setInt(6, Integer.parseInt(rsch_checkout));
+			pstmt.setString(7, rsch_name);
+			pstmt.setString(8, rsch_commnet);
+			pstmt.setInt(9, Integer.parseInt(rsch_pay));
 			
-			if (rs.next())
-			{
-				System.out.println("[StudyDBDAO/registSchedule()] rs.getString(\"COUNT\") : " + rs.getString("COUNT"));
-				System.out.println("[StudyDBDAO/registSchedule()] RSCH_IDX : " + rsch_idx_head + "_" + rs.getString("COUNT"));
-				System.out.println();
-				
-				sql = "INSERT INTO TB_ROOM_SCHEDULE VALUES (TO_DATE(?, 'YY/MM/DD'), ?, ?, ?, ?, ?, ?, ?, ?)";
-				
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, rsch_date);
-				pstmt.setString(2, rsch_idx_head + "_" + rs.getString("COUNT"));
-				pstmt.setString(3, room_idx);
-				pstmt.setString(4, std_no);
-				pstmt.setInt(5, Integer.parseInt(rsch_checkin));
-				pstmt.setInt(6, Integer.parseInt(rsch_checkout));
-				pstmt.setString(7, rsch_name);
-				pstmt.setString(8, rsch_commnet);
-				pstmt.setInt(9, Integer.parseInt(rsch_pay));
-				
-				int result = pstmt.executeUpdate();
-				
-				System.out.println("[StudyDBDAO/registSchedule()] Insert Result Value : " + result);
-				
-				if (result > 0)
-					isRegist = true;
-				else
-					isRegist = false;
-			}
+			int result = pstmt.executeUpdate();
+			
+			System.out.println("[StudyDBDAO/registSchedule()] Insert Result Value : " + result);
+			
+			if (result > 0)
+				isRegist = true;
 			else
-			{
-				System.out.println("[StudyDBDAO/registSchedule()] Failed to get PK Sequence!!");
-				
-			}
+				isRegist = false;
+			
 			disconnect();
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block

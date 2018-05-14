@@ -86,7 +86,7 @@
 		            <div class="answer text-right">
 		                <a class="ma-button answer"><i class="fa fa-reply" aria-hidden="true"></i> 답글 달기</a>
 		                <!-- <a class="ma-button quote-id" data-quote-id="text-1" data-name="Max Lorem"><i class="fa fa-quote-left" aria-hidden="true"></i> Zitieren</a> -->
-		                <a class="ma-button"><i class="fa fa-thumbs-up" aria-hidden="true"></i> 삭제</a>
+		                <a class="ma-button"><i class="fa fa-trash"></i> 삭제</a>
 		            </div>
 		        	</section>
 		        	<%
@@ -114,8 +114,8 @@
 	            </div>
 	            <div class="answer text-right">
 	                <a class="ma-button answer"><i class="fa fa-reply" aria-hidden="true"></i> 답글 달기</a>
-	                <a class="ma-button quote-id" data-quote-id="text-1" data-name="Max Lorem"><i class="fa fa-quote-left" aria-hidden="true"></i> Zitieren</a>
-	                <a class="ma-button"><i class="fa fa-thumbs-up" aria-hidden="true"></i> Danke</a>
+	                <!-- <a class="ma-button quote-id" data-quote-id="text-1" data-name="Max Lorem"><i class="fa fa-quote-left" aria-hidden="true"></i> Zitieren</a> -->
+	                <a class="ma-button"><i class="fa fa-trash"></i> 삭제</a>
 	            </div>
 	        	</section>
 	        <%}
@@ -136,6 +136,9 @@
 	        <a href="#" class="ma-button">다음 쓰레드 <i class="fa fa-angle-double-right" aria-hidden="true"></i> </a>
 	    </div>
 	
+	
+		<!-- 꼬리쪽 카드뷰 -->
+		<!-- 
 	    <div class="headline">
 	        <h2>Ähnliche Themen</h2>
 	    </div>
@@ -169,6 +172,7 @@
 	            </div>
 	        </div>
 	    </div>
+	    -->
 	</div>
 	<script>
 	    $(function () {
