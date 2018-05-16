@@ -48,6 +48,9 @@ $(".answer").click(function() {
     }, 1000);
     $("#textarea").focus();
 });
+
+$(".delete").click(function() {
+});
 /**
  * © 2017 Sebastian Eggers
  * File: editor.js
@@ -78,6 +81,26 @@ $("#open-keyboard").click(function () {
     }
     i++;
 });
+
+function deleteThread(e){
+	console.log(document.getElementById(e.getAttribute('id')).getAttribute('id'));
+	console.log(document.getElementById(e.getAttribute('id')).getAttribute('value'));
+	var scb_idx = document.getElementById(e.getAttribute('id')).getAttribute('id');
+	var rsch_idx = document.getElementById(e.getAttribute('id')).getAttribute('value');
+	var retVal = confirm("정말로 삭제하시겠습니까?");
+
+	if( retVal == true )
+	{
+		location.href = "/Graduation_KMS/op/deleteThread?scb_idx=" + scb_idx +"&rsch_idx=" + rsch_idx;
+	}
+	else
+	{
+		
+		return;
+	}
+	
+	
+}
 
 
 $(".key-button").click(function () {

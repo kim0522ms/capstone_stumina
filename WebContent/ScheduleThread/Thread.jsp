@@ -21,11 +21,16 @@
 	<%
 		ArrayList<ScheduleBoardInfo> threadInfos = null;
 		String rsch_idx = null;
+		String user_idx = null;
 	
 		if (request.getAttribute("threadInfos") != null)
 		{
 			threadInfos = (ArrayList<ScheduleBoardInfo>)request.getAttribute("threadInfos");
 			rsch_idx = threadInfos.get(0).getRsch_idx();
+		}
+		if (session.getAttribute("user_idx") != null)
+		{
+			user_idx = session.getAttribute("user_idx").toString();
 		}
 	%>
 	<input type="hidden" id="rsch_idx" name="rsch_idx" value="<%=rsch_idx %>" />
@@ -86,7 +91,10 @@
 		            <div class="answer text-right">
 		                <a class="ma-button answer"><i class="fa fa-reply" aria-hidden="true"></i> 답글 달기</a>
 		                <!-- <a class="ma-button quote-id" data-quote-id="text-1" data-name="Max Lorem"><i class="fa fa-quote-left" aria-hidden="true"></i> Zitieren</a> -->
-		                <a class="ma-button"><i class="fa fa-trash"></i> 삭제</a>
+		                <%
+		                	if (user_idx.equals(thread.getUser_idx()))
+		                		out.println("<a class='ma-button delete' id='" + thread.getScb_idx() + "' value='" + thread.getRsch_idx() + "' onclick='deleteThread(this)'><i class='fa fa-trash'></i> 삭제</a>");
+		                %>
 		            </div>
 		        	</section>
 		        	<%

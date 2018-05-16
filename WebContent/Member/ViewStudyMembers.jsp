@@ -289,6 +289,20 @@
 			  {
 				  $("#actionButtonDiv02").show();
 			  }
+			  else
+			  {
+				  if(user_idx == selected_idx)
+				  {
+					  $("#actionButton02").text('clear');
+					  $("#actionButtonTooltip02").text('탈퇴');
+					  $("#actionButtonDiv02").attr('onclick', 'Quit_Button_click();');
+					  $("#actionButtonDiv02").show();  
+				  }
+				  else
+				  {
+					  $("#actionButtonDiv02").hide();  
+				  }
+			  }
 		});
 		
 
@@ -341,6 +355,20 @@
 				  if (user_idx == std_leader)
 				  {
 					  $("#actionButtonDiv02").show();
+				  }
+				  else
+				  {
+					  if(user_idx == selected_idx)
+					  {
+						  $("#actionButton02").text('clear');
+						  $("#actionButtonTooltip02").text('탈퇴');
+						  $("#actionButtonDiv02").attr('onclick', 'Quit_Button_click();');
+						  $("#actionButtonDiv02").show();  
+					  }
+					  else
+					  {
+						  $("#actionButtonDiv02").hide();  
+					  }
 				  }
 				  
 			});
@@ -423,6 +451,19 @@
 			if( retVal == true )
 			{
 				location.href = "/Graduation_KMS/op/banStudyMember?user_idx=" + selected_idx + "&std_no=" + std_no;
+			}
+			else
+			{
+				return;
+			}
+		}
+		
+		function Quit_Button_click(){
+			var retVal = confirm("정말로 탈퇴하시겠습니까?");
+
+			if( retVal == true )
+			{
+				location.href = "/Graduation_KMS/op/QuitStudyMember?user_idx=" + selected_idx + "&std_no=" + std_no;
 			}
 			else
 			{

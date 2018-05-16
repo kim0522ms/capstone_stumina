@@ -1,0 +1,153 @@
+.prtooltip {
+	display:none;
+	position:absolute;
+	border-radius:5px;
+	padding:10px;
+	font-size:12px;
+	font-weight:normal;
+	word-break: keep-all;
+	z-index:99999;
+}
+.prtt_black {
+	background-color:#000;
+	border:1px solid #000;
+	color:#ccc;
+}
+.prtt_primary {
+	background-color:#007bff;
+	border:1px solid #007bff;
+	color:#fff;
+}
+.prtt_secondary {
+	background-color:#868e96;
+	border:1px solid #868e96;
+	color:#fff;
+}
+.prtt_success {
+	background-color:#28a745;
+	border:1px solid #28a745;
+	color:#fff;
+}
+.prtt_danger {
+	background-color:#dc3545;
+	border:1px solid #dc3545;
+	color:#fff;
+}
+.prtt_warning {
+	background-color:#ffc107;
+	border:1px solid #ffc107;
+	color:#111;
+}
+.prtt_info {
+	background-color:#17a2b8;
+	border:1px solid #17a2b8;
+	color:#fff;
+}
+.prtt_light {
+	background-color:#f8f9fa;
+	border:1px solid #f8f9fa;
+	color:#111;
+}
+.prtt_dark {
+	background-color:#343a40;
+	border:1px solid #343a40;
+	color:#fff;
+}
+
+.prtt_black::after {
+	border-color:#000;
+}
+.prtt_primary::after {
+	border-color:#007bff;
+}
+.prtt_secondary::after {
+	border-color:#868e96;
+}
+.prtt_success::after {
+	border-color:#28a745;
+}
+.prtt_danger::after {
+	border-color:#dc3545;
+}
+.prtt_warning::after {
+	border-color:#ffc107;
+}
+.prtt_info::after {
+	border-color:#17a2b8;
+}
+.prtt_light::after {
+	border-color:#f8f9fa;
+}
+.prtt_dark::after {
+	border-color:#343a40;
+}
+.prtooltip::after {
+    content: "";
+    position: absolute;
+    border-width: 8px;
+    border-style: solid;
+}
+.prtt_top::after {
+	top: 100%;
+    left: 50%;
+    margin-left: -8px;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+}
+.prtt_right::after {
+	top: 50%;
+    left: -16px;
+    margin-top: -8px;
+	border-top-color: transparent;
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+}
+.prtt_bottom::after {
+	top: -16px;
+    left: 50%;
+    margin-left: -8px;
+	border-top-color: transparent;
+    border-right-color: transparent;
+    border-left-color: transparent;
+}
+.prtt_left::after {
+	top: 50%;
+    left: 100%;
+    margin-top: -8px;
+	border-top-color: transparent;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+}
+.prtt_t_right::after {
+	top: 100%;
+    left: 20px;
+    margin-left: -8px;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+}
+.prtt_t_left::after {
+	top: 100%;
+    left: 100%;
+    margin-left: -28px;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+}
+.prtt_b_right::after {
+	top: -16px;
+    left: 20px;
+    margin-left: -8px;
+	border-top-color: transparent;
+    border-right-color: transparent;
+    border-left-color: transparent;
+}
+.prtt_b_left::after {
+	top: -16px;
+    left: 100%;
+    margin-left: -28px;
+	border-top-color: transparent;
+    border-right-color: transparent;
+    border-left-color: transparent;
+}

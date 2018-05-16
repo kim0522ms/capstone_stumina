@@ -47,11 +47,13 @@ public class MainController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		String subPath = request.getPathInfo();
 		
 		System.out.println("[MainController.java] Get Data has been arrive");
+		System.out.println("[MainController.java] Arrived SubPath : " + subPath);
 		System.out.println();
 		
-		String subPath = request.getPathInfo();
+		
 		String viewName = null;
 		
 		request.setCharacterEncoding("UTF-8");
@@ -129,6 +131,13 @@ public class MainController extends HttpServlet {
 			StudyDBDAO db = new StudyDBDAO();
 			
 			StudyInfo studyInfo = db.getStudyInfo(std_no);
+			
+			String img_path = db.getStudyImage(std_no);
+			
+			if (img_path != null)
+			{
+				request.setAttribute("img_path", img_path);
+			}
 			
 			if (studyInfo != null)
 			{
@@ -366,6 +375,83 @@ public class MainController extends HttpServlet {
 			}
 		}
 		
+		// 스터디 정보 수정 페이지로 이동
+		else if (subPath.equals("/modifyPage"))
+		{
+			String std_no = request.getParameter("std_no");
+			String user_idx = session.getAttribute("user_idx").toString();
+			
+			System.out.println("[/modifyPage] std_no :" + std_no);
+			System.out.println("[/modifyPage] user_idx :" + user_idx);
+			System.out.println();
+			
+			StudyDBDAO db = new StudyDBDAO();
+			
+			if (user_idx.equals(db.getStudyLeader(std_no)))
+			{
+				System.out.println("[/modifyPage] Edit stdno(" + std_no+ ")'s info");
+				System.out.println();
+				
+				
+				ArrayList<CategoryInfo> categoryInfos = db.getCategory();
+				ArrayList<DetailInfo> detailInfos = db.getDetail();
+				StudyInfo studyInfo = db.getStudyInfo(std_no);
+				
+				if (categoryInfos != null && detailInfos != null && studyInfo != null)
+				{
+					request.setAttribute("categoryInfos", categoryInfos);
+					request.setAttribute("detailInfos", detailInfos);
+					request.setAttribute("studyInfo", studyInfo);
+					viewName = "/CreateStudy.jsp";
+				}
+				else
+				{
+					viewName = "/Error.jsp/value=NoCategoryInfo";
+				}
+				
+				viewName = "/ModifyStudy.jsp";
+			}
+			else
+			{
+				System.out.println("[/editStudyInfo] Error : stdno(" + std_no+ ")'s leader idx is incorrect.");
+				System.out.println();
+				
+				response.setContentType("text/html;charset=utf-8");
+				PrintWriter out = response.getWriter();
+				out.print("<script>");
+				out.println("alert('스터디 정보를 수정할 수 있는 권한이 없습니다!!');");
+				out.println("history.back();");
+				out.println("</script>");
+			}
+		}
+		
+		// 스터디에서 탈퇴
+		else if (subPath.equals("/QuitStudyMember"))
+		{
+			String std_no = request.getParameter("std_no");
+			String user_idx = request.getParameter("user_idx");
+			
+			System.out.println("[/QuitStudyMember] std_no :" + std_no);
+			System.out.println("[/QuitStudyMember] user_idx :" + user_idx);
+			System.out.println();
+			
+			StudyDBDAO db = new StudyDBDAO();
+			
+			boolean isQuited = db.deleteStudyMember(std_no, user_idx);
+			
+			if (isQuited)
+			{
+				System.out.println("[/QuitStudyMember] Success to Quit user_idx(" +user_idx+ ") from std_no(" + std_no + ")!" );
+			}
+			else
+			{
+				System.out.println("[/QuitStudyMember] Failed to Quit user_idx(" +user_idx+ ") from std_no(" + std_no + ")..." );
+			}
+			
+			viewName = "/MainPage.jsp";
+		}
+		
+		
 		// 스터디에서 유저 추방
 		else if (subPath.equals("/banStudyMember"))
 		{
@@ -449,6 +535,47 @@ public class MainController extends HttpServlet {
 				out.println("</script>");
 			}
 		}
+		
+		// 쓰레드 삭제
+		else if (subPath.equals("/deleteThread"))
+		{
+			String scb_idx = request.getParameter("scb_idx");
+			String rsch_idx = request.getParameter("rsch_idx");
+			System.out.println("[/modifyStudyInfo] scb_idx : " + scb_idx);
+			System.out.println("[/modifyStudyInfo] rsch_idx : " + rsch_idx);
+			
+			response.setContentType("text/html;charset=utf-8");
+			PrintWriter out = response.getWriter();
+			
+			if (scb_idx != null)
+			{
+				StudyDBDAO db = new StudyDBDAO();
+				
+				boolean isDeleted = db.deleteThread(scb_idx);
+				
+				if (isDeleted)
+				{
+					out.println("<script>");
+					out.println("alert('성공적으로 삭제되었습니다!');");
+					out.println("document.location.href='/Graduation_KMS/op/viewThread?rsch_idx="+ rsch_idx +"';");
+					out.println("</script>");
+				}
+				else
+				{
+					out.println("<script>");
+					out.println("alert('쓰레드 삭제에 실패했습니다! 새로고침 후 다시 시도해주세요.');");
+					out.println("history.back();");
+					out.println("</script>");
+				}
+			}
+			else
+			{
+				out.println("<script>");
+				out.println("alert('존재하지 않는 쓰레드입니다!');");
+				out.println("history.back();");
+				out.println("</script>");
+			}
+		}
 
 		// 스케줄 추가를 위해 지역 및 스터디룸 정보 쿼리 후 request에 담아 전송
 		else if (subPath.equals("/createSchedule"))
@@ -505,6 +632,7 @@ public class MainController extends HttpServlet {
 		// 媛� Path 湲곕뒫�쓣 �떎�뻾�븳 �썑 �쉷�뱷�븳 viewName 二쇱냼濡� Forwarding
 		if(viewName != null) {
 			System.out.println("[MainController.java.doGet()] Forward to " + viewName);
+			System.out.println();
 			RequestDispatcher view = request.getRequestDispatcher(viewName);
 			view.forward(request,response);
 		}
@@ -761,6 +889,8 @@ public class MainController extends HttpServlet {
 	
 				
 				// 개행문자 치환
+				content = content.replaceAll("<br>", System.getProperty("line.separator"));
+				content = content.replaceAll("\\<p(/?[^\\>]+)\\></p>", System.getProperty("line.separator"));
 				content = content.replaceAll("\\<br(/?[^\\>]+)\\>", System.getProperty("line.separator"));
 				
 				// h 태그 제거(h1, h2...)
@@ -834,6 +964,83 @@ public class MainController extends HttpServlet {
 				}
 			}
 		}
+
+		// 스터디 정보 갱신
+		else if (subPath.equals("/modifyStudyInfo"))
+		{
+			StudyDBDAO db = new StudyDBDAO();
+			
+			SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat ( "yyyyMMdd", Locale.KOREA );
+			Date currentTime = new Date ();
+			String mTime = mSimpleDateFormat.format ( currentTime );
+			
+			// 문자 형식으로 날아온 소분류 값을 idx형태로 변경해줌
+			// String detail_idx = db.getDetail_IdxByName(request.getParameter("detail_idx"));
+			String detail_idx = request.getParameter("detail_idx");
+			if (detail_idx == null)
+			{
+				System.out.println("[/modifyStudyInfo] Failed to Find 'detail_idx'");
+				viewName = "/Error.jsp?Value=DetailNotFound";
+				RequestDispatcher view = request.getRequestDispatcher(viewName);
+				view.forward(request,response);
+				return;
+			}
+			
+			System.out.println("[/modifyStudyInfo] detail_idx : " + detail_idx);
+			
+			StudyInfo studyInfo = new StudyInfo();
+			studyInfo.setStd_no(request.getParameter("std_no"));
+			studyInfo.setDetail_idx(detail_idx);
+			studyInfo.setStd_name(request.getParameter("std_name"));
+			studyInfo.setStd_contents(request.getParameter("std_contents"));
+			studyInfo.setStd_leader(session.getAttribute("user_idx").toString());
+			studyInfo.setStd_location("101");
+			studyInfo.setStd_maxattcnt(Integer.parseInt(request.getParameter("std_maxattcount")));
+			studyInfo.setStd_endflag(0);
+			studyInfo.setStd_teacher(null);
+			studyInfo.setStd_startDate(request.getParameter("std_startdate"));
+			studyInfo.setStd_endDate(request.getParameter("std_enddate"));
+			studyInfo.setStd_maxMemberCount(Integer.parseInt(request.getParameter("std_maxmember")));
+			studyInfo.setStd_theme(request.getParameter("std_theme"));
+			
+			System.out.println("[/modifyStudyInfo] Recived Parameters");
+			System.out.println("[/modifyStudyInfo] STD_NO : " + studyInfo.getStd_no() + "]");
+			System.out.println("[/modifyStudyInfo] DETAIL_IDX : " + studyInfo.getDetail_idx() + "]");
+			System.out.println("[/modifyStudyInfo] STD_NAME : " + studyInfo.getStd_name() + "]");
+			System.out.println("[/modifyStudyInfo] STD_CONTENTS : " + studyInfo.getStd_contents() + "]");
+			System.out.println("[/modifyStudyInfo] STD_LEADER : " + studyInfo.getStd_leader() + "]");
+			System.out.println("[/modifyStudyInfo] STD_LOCATION : " + studyInfo.getStd_location() + "]");
+			System.out.println("[/modifyStudyInfo] STD_MAXATTCNT : " + studyInfo.getStd_maxattcnt() + "]");
+			System.out.println("[/modifyStudyInfo] STD_ENDFLAG : " + studyInfo.getStd_endflag() + "]");
+			System.out.println("[/modifyStudyInfo] STD_TEACHER : " + studyInfo.getStd_teacher() + "]");
+			System.out.println("[/modifyStudyInfo] STD_STARTDATE : " + studyInfo.getStd_startDate() + "]");
+			System.out.println("[/modifyStudyInfo] STD_ENDDATE : " + studyInfo.getStd_endDate() + "]");
+			System.out.println("[/modifyStudyInfo] STD_MAXMEMBER : " + studyInfo.getStd_maxMemberCount() + "]");
+			System.out.println("[/modifyStudyInfo] STD_THEME : " + studyInfo.getStd_theme() + "]");
+			System.out.println();
+			
+			boolean result = db.modifyStudyInfo(studyInfo);
+			
+			if (result)
+			{
+				response.setContentType("text/html;charset=utf-8");
+				PrintWriter out = response.getWriter();
+				out.println("<script>");
+				out.println("alert('정상적으로 변경되었습니다!');");
+				out.println("location.href = '/Graduation_KMS/op/myStudies'");
+				out.println("</script>");
+			}
+			else
+			{
+				response.setContentType("text/html;charset=utf-8");
+				PrintWriter out = response.getWriter();
+				out.println("<script>");
+				out.println("alert('스터디 정보가 변경되지 않았습니다!');");
+				out.println("history.back();");
+				out.println("</script>");
+			}
+		}
+
 		
 		else if (subPath.equals("/viewThread"))
 		{

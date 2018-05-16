@@ -103,6 +103,7 @@ public class StudyDBDAO {
 		return userInfo;
 	}
 	
+	
 	public ArrayList<StudyInfo> searchStudy(String search)
 	{
 		ArrayList<StudyInfo> studyInfos = null;
@@ -349,6 +350,7 @@ public class StudyDBDAO {
 					else
 					{
 						System.out.println("[StudyDBDAO.java.searchStudy()] Warning : Study Iamge doesn't exist.");
+						System.out.println();
 					}
 					
 					System.out.println("StudyCard Added.");
@@ -483,6 +485,94 @@ public class StudyDBDAO {
 		return detailInfos;
 	}
 	
+	// 쓰레드 삭제
+	public boolean deleteThread(String scb_idx)
+	{
+		boolean isDeleted = false;
+		
+		String sql = "DELETE FROM TB_SCHEDULE_BOARD WHERE SCB_IDX = ?";
+		
+		try {
+			connect();
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, scb_idx);
+			int result = pstmt.executeUpdate();
+			
+			if (result > 0){
+				System.out.println("[StudyDBDAO.java.deleteThread()] SCB_IDX("+ scb_idx + ") thread has successfully deleted!");
+				isDeleted = true;
+			}
+			else
+			{
+				System.out.println("[StudyDBDAO.java.deleteThread()] Failed to delete SCB_IDX("+ scb_idx + ") thread..");
+			}
+			System.out.println();
+			
+			disconnect();
+			
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return isDeleted;
+	}
+	
+	
+	// study update
+	public boolean modifyStudyInfo(StudyInfo studyInfo)
+	{
+		boolean isUpdated = false;
+		
+		String sql = "UPDATE TB_STUDYINFO SET "
+				+ "DETAIL_IDX = ?,"								// String
+				+ "STD_NAME = ?,"								// String
+				+ "STD_CONTENTS = ?,"							// String
+				+ "STD_LOCATION = ?,"							// String
+				+ "STD_MAXATTCNT = ?,"							// Int
+				+ "STD_STARTDATE = TO_DATE(?, 'yy/MM/dd'),"		// String
+				+ "STD_ENDDATE = TO_DATE(?, 'yy/MM/dd'),"		// String					
+				+ "STD_MAXMEMBER = ?,"							// Int
+				+ "STD_THEME = ? "								// String
+				+ "WHERE STD_NO = ?";
+				
+		try {
+			connect();
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, studyInfo.getDetail_idx());
+			pstmt.setString(2, studyInfo.getStd_name());
+			pstmt.setString(3, studyInfo.getStd_contents());
+			pstmt.setString(4, studyInfo.getStd_location());
+			pstmt.setInt(5, studyInfo.getStd_maxattcnt());
+			pstmt.setString(6, studyInfo.getStd_startDate());
+			pstmt.setString(7, studyInfo.getStd_endDate());
+			pstmt.setInt(8, studyInfo.getStd_maxMemberCount());
+			pstmt.setString(9, studyInfo.getStd_theme());
+			pstmt.setString(10, studyInfo.getStd_no());
+	
+			int result = pstmt.executeUpdate();
+			
+			if (result > 0)
+			{
+				System.out.println("[StudyDBDAO.java.modifyStudyInfo()] 1 StudyInfo has successfully updated.");
+				isUpdated = true;
+			}
+			else
+			{
+				System.out.println("[StudyDBDAO.java.modifyStudyInfo()] Failed to update StudyInfo.");
+			}
+			
+			disconnect();
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return isUpdated;
+	}
+	
+	// study insert
 	public boolean registerStudy(StudyInfo studyInfo)
 	{
 		boolean isInserted = false;

@@ -123,6 +123,8 @@ headers > .wrapper {
   font-size: 13px;
   margin-top: 1%;
   position: relative;
+  width: 90%;
+  margin-left: 10%;
 }
 headers > .wrapper a {
   color: #ffffff;
@@ -274,6 +276,8 @@ headers > .wrapper a {
   display: flex;
   justify-content: space-between;
   flex-direction: row;
+  width: 90%;
+  margin-left: 10%;
 }
 .c-calendar__style {
   /* background-color: #2D3042; */

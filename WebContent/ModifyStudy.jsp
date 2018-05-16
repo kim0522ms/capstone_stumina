@@ -2,6 +2,8 @@
     pageEncoding="EUC-KR"%>
 <%@ page import="com.example.study.model.CategoryInfo" %>
 <%@ page import="com.example.study.model.DetailInfo" %>
+<%@ page import="com.example.study.model.StudyInfo" %>
+<%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.ArrayList" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -46,26 +48,36 @@
 	<h1> </h1>
 	</header>
 	<section class="container" style=”clear:both;”>
-		  <div class="content">
-			<jsp:include page="/Sidebar/SideBar_Profile.jsp" />
-			</div>
+	  <div class="content">
+		<jsp:include page="/Sidebar/SideBar_Profile.jsp" />
+		</div>
 		<%
 			ArrayList<CategoryInfo> categoryInfos = null;
 			ArrayList<DetailInfo> detailInfos = null;
-			if (request.getAttribute("categoryInfos") != null && request.getAttribute("detailInfos") != null)
+			StudyInfo studyInfo = null;
+			if (request.getAttribute("categoryInfos") != null && request.getAttribute("detailInfos") != null && request.getAttribute("studyInfo") != null)
 			{
 				categoryInfos = (ArrayList<CategoryInfo>)request.getAttribute("categoryInfos");
 				detailInfos = (ArrayList<DetailInfo>)request.getAttribute("detailInfos");
+				studyInfo = (StudyInfo)request.getAttribute("studyInfo");
 			}
 			else
 			{
-				//TODO: 예외처리
+				out.print("<script>");
+				out.println("alert('세션이 만료되어 메인 페이지로 이동합니다!!');");
+				out.println("history.back();");
+				out.println("</script>");
 			}
+			SimpleDateFormat oldDateFormat = new SimpleDateFormat("yy-MM-dd hh:mm:ss.SSS");
+			SimpleDateFormat newDateFormat = new SimpleDateFormat("yy/MM/dd");
+			String start_date = newDateFormat.format(oldDateFormat.parse(studyInfo.getStd_startDate()));
+			String end_date = newDateFormat.format(oldDateFormat.parse(studyInfo.getStd_endDate()));
 		%>
 		<div class="cardwrapper">
 			<div class="row" style="margin:0 auto">
 			    <div class="col-md-6 col-md-offset-3">
-			        <form id="msform" method="post" action="/Graduation_KMS/op/registStudy">
+			        <form id="msform" method="post" action="/Graduation_KMS/op/modifyStudyInfo">
+			        <input type="hidden" name="std_no" value="<%=request.getParameter("std_no") %>">
 			            <!-- progressbar -->
 			            <ul id="progressbar">
 			                <li class="active">스터디 이름 설정</li>
@@ -77,7 +89,7 @@
 			            <fieldset>
 			                <h2 class="fs-title">스터디 이름을 입력해주세요!</h2>
 			                <h3 class="fs-subtitle">최대 50자까지 가능합니다.</h3>
-			                <input type="text" name="std_name" placeholder="이름 입력"/>
+			                <input type="text" name="std_name" placeholder="이름 입력" value="<%=studyInfo.getStd_name()%>">
 			                <input type="button" name="next" class="next action-button" value="다음"/>
 			            </fieldset>
 			            <fieldset>
@@ -113,7 +125,7 @@
 								  <input type="hidden" id="detail_idx" name="detail_idx" value="">
 							</div>
 							<!-- 드롭다운 끝 -->
-			                <input type="text" name="std_theme" placeholder="스터디의 테마를 입력해 주세요."/>
+			                <input type="text" name="std_theme" placeholder="스터디의 테마를 입력해 주세요." value="<%=studyInfo.getStd_theme()%>"/>
 			                <!-- 
 			                <input type="text" name="gplus" placeholder="Google Plus"/>
 			                -->
@@ -123,13 +135,13 @@
 			            <fieldset>
 			                <h2 class="fs-title">기타 설정을 입력해 주세요!</h2>
 			                <h3 class="fs-subtitle">스터디 기간, 최대 인원 등을 설정합니다.</h3>
-			                <input type="text" name="std_maxmember" placeholder="최대 인원" onKeypress="if(event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;" style="IME-MODE:disabled;"/>
-			                <input type="text" name="std_maxattcount" placeholder="최대 결석 가능 횟수" onKeypress="if(event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;" style="IME-MODE:disabled;"/>
+			                <input type="text" name="std_maxmember" placeholder="최대 인원" value="<%=studyInfo.getStd_maxMemberCount() %>" onKeypress="if(event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;" style="IME-MODE:disabled;"/>
+			                <input type="text" name="std_maxattcount" placeholder="최대 결석 가능 횟수" value="<%=studyInfo.getStd_maxattcnt()%>"onKeypress="if(event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;" style="IME-MODE:disabled;"/>
 			                	<!-- 시작날짜 DatePicker Start-->
 			                <div class="date-picker">
 								<div class="input">
-									<div class="result">시작 날짜: <span id="startdate"></span></div>
-									<input type="hidden" id="std_startdate" name="std_startdate" value="">
+									<div class="result">시작 날짜: <span id="startdate"><%=start_date %></span></div>
+									<input type="hidden" id="std_startdate" name="std_startdate" value="<%=start_date %>">
 									<button><i class="	fa fa-calendar"></i></button>
 								</div>
 								<div class="calendar"></div>
@@ -138,8 +150,8 @@
 							<!-- 종료날짜 DatePicker Start-->
 			                <div class="date-picker">
 								<div class="input">
-									<div class="result">종료 날짜: <span id="enddate"></span></div>
-									<input type="hidden" id="std_enddate" name="std_enddate" value="">
+									<div class="result">종료 날짜: <span id="enddate"><%=end_date %></span></div>
+									<input type="hidden" id="std_enddate" name="std_enddate" value="<%=end_date %>">
 									<button><i class="	fa fa-calendar"></i></button>
 								</div>
 								<div class="calendar"></div>
@@ -151,7 +163,7 @@
 			            <fieldset>
 			                <h2 class="fs-title">스터디 소개를 입력해 주세요!</h2>
 			                <h3 class="fs-subtitle">Fill in your credentials</h3>
-			                <textarea rows="5" cols="30" name="std_contents"></textarea>
+			                <textarea rows="5" cols="30" name="std_contents"><%=studyInfo.getStd_contents() %></textarea>
 			                <!-- <input type="text" name="email" placeholder="Email"/> -->
 			                <input type="button" name="previous" class="previous action-button-previous" value="이전"/>
 			                <input type="submit" name="submit" class="submit action-button" value="등록하기!"/>

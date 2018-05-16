@@ -16,6 +16,7 @@
 	<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css'>
 	<link rel='stylesheet prefetch' href='https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css'>
 	<link rel="stylesheet" href="/Graduation_KMS/ScheduleCard/css/style.css">
+	<link rel="stylesheet" href="/Graduation_KMS/Tooltip/pr_tooltip.css">
 	
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
     <style>
@@ -90,7 +91,7 @@
 					  </div>
 					  <div class="clearfix"></div>
 					  <!-- 멤버 정보 확인 버튼 -->
-					  <div class="viewmember-btn" onclick="location.href='/Graduation_KMS/op/viewStudyMember?std_no=<%=studyinfo.getStd_no()%>'">
+					  <div class="viewmember-btn pr_tooltip" title="멤버 정보 확인" pr_position="top" pr_color="light" onclick="location.href='/Graduation_KMS/op/viewStudyMember?std_no=<%=studyinfo.getStd_no()%>'">
 					    <!-- 
 					    <a id="one" href="#"><i class="ion-ios-checkmark-outline"></i></a>
 					    <a id="two" href="#"><i class="ion-ios-alarm-outline"></i></a>
@@ -101,7 +102,7 @@
 					  </div>
 					  <!-- 멤버 정보 확인 버튼 END -->
 					  <!-- 스터디 정보 수정 버튼 -->
-					  <div class="editstudy-btn" onclick="location.href='/Graduation_KMS/op/editStudyInfo?std_no=<%=studyinfo.getStd_no()%>'">
+					  <div class="editstudy-btn pr_tooltip" title="스터디 정보 수정 " pr_position="top" pr_color="light" onclick="location.href='/Graduation_KMS/op/modifyPage?std_no=<%=studyinfo.getStd_no()%>'">
 					    <!-- 
 					    <a id="one" href="#"><i class="ion-ios-checkmark-outline"></i></a>
 					    <a id="two" href="#"><i class="ion-ios-alarm-outline"></i></a>
@@ -112,7 +113,7 @@
 					  </div>
 					  <!-- 스터디 정보 수정 버튼 END -->
 					  <!-- 스케줄 확인 버튼 -->
-					  <div class="filter-btn" onclick="location.href='/Graduation_KMS/op/ScheduleCalender?std_no=<%=studyinfo.getStd_no()%>'">
+					  <div class="filter-btn pr_tooltip" title="스케줄 확인" pr_position="top" pr_color="light" onclick="location.href='/Graduation_KMS/op/ScheduleCalender?std_no=<%=studyinfo.getStd_no()%>'">
 					    <!-- 
 					    <a id="one" href="#"><i class="ion-ios-checkmark-outline"></i></a>
 					    <a id="two" href="#"><i class="ion-ios-alarm-outline"></i></a>
@@ -175,13 +176,8 @@
 			%>
 	</div>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
-
-  
-
-    <script  src="/Graduation_KMS/ScheduleCard/js/index.js"></script>
-
-
-
+  <script  src="/Graduation_KMS/ScheduleCard/js/index.js"></script>
+  <script  src="/Graduation_KMS/Tooltip/pr_tooltip.js"></script>
 
 </body>
 

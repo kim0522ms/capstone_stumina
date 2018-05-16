@@ -28,10 +28,10 @@
 		    <h3>나의 스터디</h3>
 		    <ul class="Sections">
 		      <li><a href="/Graduation_KMS/op/myStudies">참여중인 스터디</a></li>
-		      <li><a href="#">출석 관리</a></li>
+		      <!-- <li><a href="#">출석 관리</a></li> -->
 		      <li><a href="/Graduation_KMS/op/createStudy">스터디 만들기</a></li>
 		    </ul>
-		
+			<!-- 
 		    <h3>지역별 검색</h3>
 		
 		    <ul class="Topics">
@@ -40,7 +40,7 @@
 		    <h3>주제별 검색</h3>
 		
 		    <ul class="Qpolitical">
-		    </ul>
+		    </ul> -->
 		</div>
 </body>
 </html>

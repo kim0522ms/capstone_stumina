@@ -19,12 +19,38 @@
 	<jsp:include page="/Search_Bar/SearchBar.jsp" />  
 	<h1> </h1>
 	</header>
+	<style>
+		.container .board {
+		    background-image: url(/Graduation_KMS/Schedule/background.jpg);
+		    background-size: cover;
+		    height: 100%;
+		}
+		.ui.segment {
+		    position: relative;
+		    box-shadow: rgba(34, 36, 38, 0.15) 0px 1px 2px 0px;
+		    margin: 1rem 0em;
+		    padding: 1em;
+		    border-radius: 0.285714rem;
+		    border-width: 1px;
+		    border-style: solid;
+		    border-color: rgba(34, 36, 38, 0.15);
+		    border-image: initial;
+		    background: rgba(45, 48, 66, 0.7);
+		}		
+		.ui.cards > .card, .ui.card {
+			background: #2d3042;
+		    box-shadow: none;
+		}
+		.container p {
+	    	color: white;
+		}
+		
+	</style>
 	<section class="container" style=”clear:both;”>
-	
 	  <div class="board">
 		  <div class="content">
 			<jsp:include page="/Sidebar/SideBar_Profile.jsp" />
-		    <h3 style="color: #2d3042;">
+		    <h3>
 		    <%
 		    if (request.getAttribute("keyword") != null)
 		    {%>
@@ -74,7 +100,7 @@
 			    	else{
 			    		%>
 			    			<br>
-			    			<h3 style="color: #2d3042;">직접 스터디를 만들어 볼까요?&nbsp<a href='/Graduation_KMS/op/createStudy' style="color: #36474f;">만들러 가기!</a></h3>
+			    			<h3>직접 스터디를 만들어 볼까요?&nbsp<a href='/Graduation_KMS/op/createStudy'>만들러 가기!</a></h3>
 			    			<br>
 			    		<%
 			    	}
@@ -84,7 +110,7 @@
 		  </div>
 	  
 		  <div class="content">
-			    <h3 style="color: #2d3042;">이런 스터디는 어떠세요?</h3>
+			    <h3 style="margin-top: 8%;">이런 스터디는 어떠세요?</h3>
 			    
 			    <!-- 카드 리스트 시작 -->
 			    <div class="ui segment">

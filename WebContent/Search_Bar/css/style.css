@@ -27,6 +27,7 @@ header {
   height: 7%;
   background-color: #2D3042;
   box-shadow: 0 0px 8px rgba(212, 212, 212, 0.4);
+  padding: 0 5%;
   
 }
 header .logo {

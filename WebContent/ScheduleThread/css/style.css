@@ -264,6 +264,10 @@ nav ul li a:hover {
   margin-top: 15px;
 }
 
+.delete {
+  margin-top: 15px;
+}
+
 .ma-button {
   position: relative;
   outline: none;

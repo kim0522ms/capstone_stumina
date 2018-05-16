@@ -19,30 +19,48 @@
 	</header>
 	<%
 		StudyInfo studyInfo = null;
+		String img_path = null;
 		if (request.getAttribute("studyInfo") != null)
 		{
 			studyInfo = (StudyInfo)request.getAttribute("studyInfo");
 		}
+		if (request.getAttribute("img_path") != null)
+		{
+			img_path = request.getAttribute("img_path").toString();
+		}
+		else
+		{
+			img_path = "/Graduation_KMS/Schedule/background.jpg";
+		}
 	%>
+	<style>
+		.container {
+			background-image: url(<%=img_path%>);
+			background-size: cover;
+		    color: #444;
+		    line-height: 1.6;
+		    display: inline-block;
+		    width: 100%;
+		    height: 100%;
+		}
+	</style>
 	<section class="container">
-		<div class="board">
-			<div id="polina">
-				<h1><%=studyInfo.getStd_name()%></h1>
-				<p>리더 <%=studyInfo.getStd_leader() %></p>
-				<p>스터디 주제 : <%=studyInfo.getStd_theme() %></a>
-				<p><%=studyInfo.getStd_contents() %></p>
-				<p>정원 : <%=studyInfo.getStd_maxMemberCount() %> 남은 자리 : <%=studyInfo.getStd_remainMember()%></p>
-				<%
-					if (studyInfo.getStd_remainMember() < 1)
-					{%>
-						<button>인원이 다 차버렸네요..</button>
-					<%}
-					else
-					{%>
-						<button onclick="location.href='/Graduation_KMS/op/joinStudy?std_no=<%=studyInfo.getStd_no()%>'">지금 참여하기 !</button>
-					<%}
-				%>
-				</div>
+		<div id="polina">
+			<h1><%=studyInfo.getStd_name()%></h1>
+			<p>리더 <%=studyInfo.getStd_leader() %></p>
+			<p>스터디 주제 : <%=studyInfo.getStd_theme() %></a>
+			<p><%=studyInfo.getStd_contents() %></p>
+			<p>정원 : <%=studyInfo.getStd_maxMemberCount() %> 남은 자리 : <%=studyInfo.getStd_remainMember()%></p>
+			<%
+				if (studyInfo.getStd_remainMember() < 1)
+				{%>
+					<button>인원이 다 차버렸네요..</button>
+				<%}
+				else
+				{%>
+					<button onclick="location.href='/Graduation_KMS/op/joinStudy?std_no=<%=studyInfo.getStd_no()%>'">지금 참여하기 !</button>
+				<%}
+			%>
 			</div>
 	</section>
 
