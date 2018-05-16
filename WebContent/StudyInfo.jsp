@@ -39,7 +39,7 @@
 					<%}
 					else
 					{%>
-						<button onclick="location.href='/Graduation_KMS/op/joinStudy'">지금 참여하기 !</button>
+						<button onclick="location.href='/Graduation_KMS/op/joinStudy?std_no=<%=studyInfo.getStd_no()%>'">지금 참여하기 !</button>
 					<%}
 				%>
 				</div>

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
+import javax.jws.soap.SOAPBinding.Use;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpSession;
 import com.example.study.model.AreaInfo;
 import com.example.study.model.CategoryInfo;
 import com.example.study.model.DetailInfo;
+import com.example.study.model.JoinRequestInfo;
 import com.example.study.model.RoomsInfo;
 import com.example.study.model.ScheduleBoardInfo;
 import com.example.study.model.ScheduleInfo;
@@ -85,7 +87,14 @@ public class MainController extends HttpServlet {
 				}
 				else
 				{
-					viewName = "Error.jsp?value=NoJoinedStudy";
+					System.out.println("[/myStudies] Error : user_idx(" +user_idx+ ") has not join in any study !!");
+					response.setContentType("text/html;charset=utf-8");
+					PrintWriter out = response.getWriter();
+					
+					out.print("<script>");
+					out.println("alert('아직 가입한 스터디가 없습니다!');");
+					out.println("history.back();");
+					out.println("</script>");
 				}
 			}
 			else
@@ -129,6 +138,76 @@ public class MainController extends HttpServlet {
 			else
 				viewName = "/Error.jsp";
 		}
+		
+		// 스터디 소속 멤버 확인
+		else if (subPath.equals("/viewStudyMember"))
+		{
+			String std_no = request.getParameter("std_no");
+			System.out.println("[/viewStudyMember] Parameter std_no : " + std_no);
+			System.out.println();
+			
+			if (std_no != null)
+			{
+				StudyDBDAO db = new StudyDBDAO();
+				
+				ArrayList<UserInfo> userInfos = db.getStudyUserInfo(std_no);
+				
+				// 스터디에 가입된 회원 정보 모두 쿼리해서 request에 저장
+				if (userInfos != null)
+				{
+					request.setAttribute("userInfos", userInfos);
+					System.out.println("[/viewStudyMember] Study Member Info added successfully! ");
+					System.out.println("[/viewStudyMember] Study Member Count : " + userInfos.size());
+					System.out.println();
+				}
+				else
+				{
+					System.out.println("[/viewStudyMember] Failed to add Study Member Info... ");
+					System.out.println();
+					// TODO: 스터디에 가입된 사람이 아예 없을수는 없으므로 에러 처리 해야함. 가입요청은 없을수도 있음
+				}
+				
+				// 스터디에 가입신청한 회원 정보를 모두 쿼리해서 request에 저장
+				ArrayList<JoinRequestInfo> requestInfos = db.getJoinRequests(std_no);
+				if (requestInfos != null)
+				{
+					request.setAttribute("requestInfos", requestInfos);
+					System.out.println("[/viewStudyMember] Join Request Member Info added successfully! ");
+					System.out.println("[/viewStudyMember] Join Request Member Count : " + requestInfos.size());
+					System.out.println();
+				}
+				else
+				{
+					System.out.println("[/viewStudyMember] Failed to add Join Request Member Info... ");
+					System.out.println();
+				}
+				
+				String std_leader = db.getStudyLeader(std_no);
+				if (std_leader != null)
+				{
+					request.setAttribute("std_leader", std_leader);
+					System.out.println("[/viewStudyMember] STD_LEADER Info added successfully! ");
+					System.out.println();
+				}
+				else
+				{
+					System.out.println("[/viewStudyMember] Failed to add STD_LEADER Info... ");
+					System.out.println();
+				}
+				
+				request.setAttribute("std_no", std_no);
+				
+				viewName = "/Member/ViewStudyMembers.jsp";
+				
+			}
+			else
+			{
+				System.out.println("[/viewStudyMember] Error : Parameter std_no is null !!");
+				System.out.println();
+			}
+		}
+		
+		// TODO : 스터디 가입하기 완성할것
 		else if (subPath.equals("/joinStudy"))
 		{
 			if (session.getAttribute("userInfo") == null)
@@ -137,9 +216,56 @@ public class MainController extends HttpServlet {
 			}
 			else
 			{
-				viewName = "/MainPage.jsp";
+				String user_idx = session.getAttribute("user_idx").toString();
+				String std_no = request.getParameter("std_no");
+				
+				System.out.println("[/joinStudy] user_idx : " + user_idx);
+				System.out.println("[/joinStudy] std_no : " + std_no);
+				
+				StudyDBDAO db = new StudyDBDAO();
+				
+				boolean isJoined = db.checkJoined(std_no, user_idx);
+				
+				if (isJoined == true)
+				{
+					System.out.println("[/joinStudy] user_idx : " + user_idx + "has already join in std_no : " + std_no + " !!");
+					
+					response.setContentType("text/html;charset=utf-8");
+					PrintWriter out = response.getWriter();
+					
+					out.print("<script>");
+					out.println("alert('이미 이 스터디에 가입되어 있습니다!');");
+					out.println("history.back();");
+					out.println("</script>");
+				}
+				else
+				{
+					boolean isRequested = db.requestJoin(std_no, user_idx);
+					
+					response.setContentType("text/html;charset=utf-8");
+					PrintWriter out = response.getWriter();
+					
+					
+					if (isRequested = true)
+					{
+						out.print("<script>");
+						out.println("alert('스터디에 가입신청을 했습니다! 스터디 리더가 확인 후 승인한 뒤부터 스터디에 참여할 수 있습니다.');");
+						out.println("history.back();");
+						out.println("</script>");
+					}
+					else
+					{
+						out.print("<script>");
+						out.println("alert('가입신청에 실패했습니다... 새로고침 후 다시 시도해 주세요.');");
+						out.println("history.back();");
+						out.println("</script>");
+					}
+				}
 			}
 		}
+		
+		
+		// 메인화면에 표시되는 스터디 목록 추가
 		else if (subPath.equals("/getMainList"))
 		{
 			System.out.println("aaaa");
@@ -151,6 +277,8 @@ public class MainController extends HttpServlet {
 			request.setAttribute("studyInfos", studyInfos);
 			//response.getWriter().write(studyInfos.toString());
 		}
+		
+		// 스터디 개설
 		else if (subPath.equals("/createStudy"))
 		{
 			if (session.getAttribute("userInfo") == null)
@@ -237,6 +365,90 @@ public class MainController extends HttpServlet {
 				viewName = "/ScheduleThread/Thread.jsp";
 			}
 		}
+		
+		// 스터디에서 유저 추방
+		else if (subPath.equals("/banStudyMember"))
+		{
+			String std_no = request.getParameter("std_no");
+			String user_idx = request.getParameter("user_idx");
+			
+			System.out.println("[/banStudyMember] std_no :" + std_no);
+			System.out.println("[/banStudyMember] user_idx :" + user_idx);
+			System.out.println();
+			
+			StudyDBDAO db = new StudyDBDAO();
+			
+			boolean isDeleted = db.deleteStudyMember(std_no, user_idx);
+			
+			if (isDeleted)
+			{
+				System.out.println("[/banStudyMember] Success to Ban user_idx(" +user_idx+ ") from std_no(" + std_no + ")!" );
+			}
+			else
+			{
+				System.out.println("[/banStudyMember] Failed to Ban user_idx(" +user_idx+ ") from std_no(" + std_no + ")..." );
+			}
+			
+			viewName = "/op/viewStudyMember?std_no=" + std_no;
+		}
+		
+		// 대기중인 회원 가입 승인
+		else if (subPath.equals("/acceptMemberJoin"))
+		{
+			String std_no = request.getParameter("std_no");
+			String user_idx = request.getParameter("user_idx");
+			System.out.println("[/acceptMemberJoin] std_no : " + std_no);
+			System.out.println("[/acceptMemberJoin] user_idx : " + user_idx);
+			
+			if (std_no != null && user_idx != null)
+			{
+				StudyDBDAO db = new StudyDBDAO();
+				
+				boolean isInserted = db.acceptMemberJoin(std_no, user_idx);
+				
+				if (isInserted)
+				{
+					System.out.println("[/acceptMemberJoin] Success to add user to JOININFO!");
+				}
+				else
+				{
+					System.out.println("[/acceptMemberJoin] Failed to add user to JOININFO!");
+				}
+			}
+			else
+			{
+				System.out.println("[/acceptMemberJoin] Error : Recieved Null Parameter...");
+			}
+			viewName = "/op/viewStudyMember";
+		}
+		
+		else if (subPath.equals("/rejectMemberJoin"))
+		{
+			String std_no = request.getParameter("std_no");
+			String user_idx = request.getParameter("user_idx");
+			
+			StudyDBDAO db = new StudyDBDAO();
+			
+			boolean isDeleted = db.rejectMemberJoin(std_no, user_idx);
+			
+			if (isDeleted == true)
+			{
+				System.out.println("[/rejectMemberJoin] Success to reject Join Request stdno(" + std_no + ")");
+				viewName = "/op/viewStudyMember";
+			}
+			else
+			{
+				System.out.println("[/rejectMemberJoin] Failed to reject Join Request stdno(" + std_no + ")");
+				
+				response.setContentType("text/html;charset=utf-8");
+				PrintWriter out = response.getWriter();
+				
+				out.print("<script>");
+				out.println("alert('요청 거절에 실패했습니다! 새로고침 후 다시 시도해 주세요.');");
+				out.println("history.back();");
+				out.println("</script>");
+			}
+		}
 
 		// 스케줄 추가를 위해 지역 및 스터디룸 정보 쿼리 후 request에 담아 전송
 		else if (subPath.equals("/createSchedule"))
@@ -302,7 +514,6 @@ public class MainController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		
 		System.out.println("[MainController.java] Get Data has been arrive");
 		System.out.println();
@@ -481,7 +692,6 @@ public class MainController extends HttpServlet {
 				oldDate = oldDateFormat.parse(rsch_date);
 				rsch_idx_head = newDateFormat.format(oldDate);
 			} catch (ParseException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			System.out.println("[/registSchedule] rsch_idx_head : " + rsch_idx_head);

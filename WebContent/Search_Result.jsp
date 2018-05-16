@@ -42,6 +42,7 @@
 			    	{
 			    		ArrayList<StudyInfo> studyInfos = (ArrayList<StudyInfo>)request.getAttribute("studyInfos");
 			    		
+			    		String path;
 			    		for (StudyInfo studyinfo : studyInfos)
 			    		{
 			    			%>
@@ -50,8 +51,17 @@
 				      				<p class="card_title"><%=studyinfo.getStd_name()%></p>
 				      			</div>
 				      			<div class="ui slide masked reveal">
-				        			<img src="https://www.pagoda21.com/images/upload/2014/09/PGS_201409030639229600.jpg" class="visible content">
-				        			<div class="hidden content">
+				        		<% 
+				        			if (studyinfo.getStd_imagepath() != null)
+				        			{
+				        				path = studyinfo.getStd_imagepath();
+				        			}
+				        			else // 이미지 등록 안했으면 기본 Path
+				        			{
+				        				path = "https://www.pagoda21.com/images/upload/2014/09/PGS_201409030639229600.jpg";
+				        			}
+			        			%>
+			        			<img src="<%=path%>" class="visible content"><div class="hidden content">
 				        			<p class="p-content"><p>모집 인원 : <%=studyinfo.getStd_maxMemberCount() %>명<br>남은 인원 : <%=studyinfo.getStd_remainMember()%>명</p><button class="ui primary button" onclick="location.href='/Graduation_KMS/op/viewstudyinfo?std_no=<%=studyinfo.getStd_no()%>'">자세히 보기</button>
 				          			</p>
 				        			</div>

@@ -14,12 +14,19 @@ public class StudyInfo {
 	private String std_endDate;
 	private String std_teacher;
 	private String std_theme;
+	private String std_imagepath;
 	private int std_maxMemberCount;
 	private int std_remainMember;
 	private int std_maxattcnt;
 	private int std_endflag;
 	private ArrayList<ScheduleInfo> scheduleInfo;
 	
+	public String getStd_imagepath() {
+		return std_imagepath;
+	}
+	public void setStd_imagepath(String std_imagepath) {
+		this.std_imagepath = std_imagepath;
+	}
 	public ArrayList<ScheduleInfo> getScheduleInfo() {
 		return scheduleInfo;
 	}

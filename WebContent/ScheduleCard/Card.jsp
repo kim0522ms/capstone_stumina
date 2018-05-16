@@ -20,9 +20,28 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
     <style>
 	    .ion-android-funnel:before {
-			    content: "\f38b";
-			    margin-top: 9px;
+		    content: "\f38b";
+		    margin-top: 9px;
 		}	
+		.ion-android-alarm-clock:before {
+		    content: "\f35a";
+		    margin-top: 8px;
+		    margin-left: 2px;
+		}
+		.ion-android-calendar:before {
+		    content: "\f2d1";
+		    margin-top: 8px;
+		    margin-left: 2px;
+		}
+		.ion-android-create:before {
+    		content: "\f37e";
+    		margin-top: 8px;
+		    margin-left: 2px;
+		}
+		.ion-android-person:before {
+    		content: "\f3a0";
+    		margin-top: 8px;
+		}
     </style>
 </head>
 
@@ -42,13 +61,21 @@
 			<h1>현재 가입되어있는 스터디입니다!</h1>
 			<div class="cardwrapper">
 			<%
+			String path;
 			for (StudyInfo studyinfo : studyInfos)
-			{
-			%>
-				
+			{		
+       			if (studyinfo.getStd_imagepath() != null)
+       			{
+       				path = studyinfo.getStd_imagepath();
+       			}
+       			else // 이미지 등록 안했으면 기본 Path
+       			{
+       				path = "https://www.pagoda21.com/images/upload/2014/09/PGS_201409030639229600.jpg";
+       			}
+       			%>
 				<!-- Card Start -->
 					<div class="muck-up">
-					  <div class="overlay"></div>
+					  <div class="overlay" style = "background: url(<%=path%>) no-repeat top /contain;"></div>
 					  <div class="top">
 					    <div class="nav">
 					      <p><%=studyinfo.getStd_name()%></p>
@@ -62,6 +89,29 @@
 					    </div>
 					  </div>
 					  <div class="clearfix"></div>
+					  <!-- 멤버 정보 확인 버튼 -->
+					  <div class="viewmember-btn" onclick="location.href='/Graduation_KMS/op/viewStudyMember?std_no=<%=studyinfo.getStd_no()%>'">
+					    <!-- 
+					    <a id="one" href="#"><i class="ion-ios-checkmark-outline"></i></a>
+					    <a id="two" href="#"><i class="ion-ios-alarm-outline"></i></a>
+					    <a id="three" href="#"><i class="ion-ios-heart-outline"></i></a>
+					    <a id="all" href="#"><i class="ion-ios-star-outline"></i></a> 
+					    -->
+					    <span class="toggle-btn ion-android-person"></span>
+					  </div>
+					  <!-- 멤버 정보 확인 버튼 END -->
+					  <!-- 스터디 정보 수정 버튼 -->
+					  <div class="editstudy-btn" onclick="location.href='/Graduation_KMS/op/editStudyInfo?std_no=<%=studyinfo.getStd_no()%>'">
+					    <!-- 
+					    <a id="one" href="#"><i class="ion-ios-checkmark-outline"></i></a>
+					    <a id="two" href="#"><i class="ion-ios-alarm-outline"></i></a>
+					    <a id="three" href="#"><i class="ion-ios-heart-outline"></i></a>
+					    <a id="all" href="#"><i class="ion-ios-star-outline"></i></a> 
+					    -->
+					    <span class="toggle-btn ion-android-create"></span>
+					  </div>
+					  <!-- 스터디 정보 수정 버튼 END -->
+					  <!-- 스케줄 확인 버튼 -->
 					  <div class="filter-btn" onclick="location.href='/Graduation_KMS/op/ScheduleCalender?std_no=<%=studyinfo.getStd_no()%>'">
 					    <!-- 
 					    <a id="one" href="#"><i class="ion-ios-checkmark-outline"></i></a>
@@ -69,8 +119,9 @@
 					    <a id="three" href="#"><i class="ion-ios-heart-outline"></i></a>
 					    <a id="all" href="#"><i class="ion-ios-star-outline"></i></a> 
 					    -->
-					    <span class="toggle-btn ion-android-funnel"></span>
+					    <span class="toggle-btn ion-android-calendar"></span>
 					  </div>
+					  <!-- 스케줄 확인 버튼 END -->
 					  <div class="clearfix"></div>
 					  <div class="bottom">
 					    <div class="title">

@@ -52,6 +52,7 @@ h3 {
 
 .overlay {
   background: url(https://www.pagoda21.com/images/upload/2014/09/PGS_201409030639229600.jpg) no-repeat top /contain;
+  background-size: auto;
   position: absolute;
   left: 0;
   top: 0;
@@ -188,6 +189,144 @@ span.toggle-btn.ion-android-funnel:hover{
 .filter-btn.open .ion-android-funnel:before {
   content: "\f2d7";
 }
+
+/* 스터디 정보 수정 버튼 Start */
+
+ .editstudy-btn {
+  position: absolute;
+  z-index: 2;
+  right: 0;
+  width: 40px;
+  height: 40px;
+  transition: all 0.4s ease-in-out 0s;
+}
+
+.editstudy-btn span {
+  width: 40px;
+  height: 40px;
+  background: #36474f;
+  display: block;
+  position: absolute;
+  right: 80px;
+  top: -46px;
+  text-align: center;
+  color: #fff;
+  line-height: 40px;
+  border-radius: 50%;
+  font-size: 22px;
+  z-index: 999;
+}
+span.toggle-btn.ion-android-funnel:hover{
+      cursor: pointer;
+}
+.editstudy-btn a {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  right: 25px;
+  display: block;
+  top: -46px;
+  color: #fff;
+  z-index: 99;
+  font-size: 22px;
+  transition: all .4s cubic-bezier(.68, 1, .265, 1)
+}
+
+.editstudy-btn:after {
+  height: 170px;
+  width: 170px;
+  content: '"\f38b"';
+  background-color: #FA396B;
+  position: absolute;
+  top: -110px;
+  right: -40px;
+  border-radius: 50%;
+  transform: scale(0);
+  transition: all 0.3s ease-in-out 0s;
+}
+
+.editstudy-btn.open span.toggle-btn.ion-android-funnel {
+  background-color: #DE3963;
+}
+
+.editstudy-btn.open .ion-android-funnel:before {
+  content: "\f2d7";
+}
+
+/* 스터디 정보 수정 버튼 End */
+
+/* 멤버 정보 확인 버튼 Start */
+
+ .viewmember-btn {
+  position: absolute;
+  z-index: 2;
+  right: 0;
+  width: 40px;
+  height: 40px;
+  transition: all 0.4s ease-in-out 0s;
+}
+
+.viewmember-btn span {
+  width: 40px;
+  height: 40px;
+  background: #36474f;
+  display: block;
+  position: absolute;
+  right: 135px;
+  top: -46px;
+  text-align: center;
+  color: #fff;
+  line-height: 40px;
+  border-radius: 50%;
+  font-size: 22px;
+  z-index: 999;
+}
+span.toggle-btn.ion-android-funnel:hover{
+      cursor: pointer;
+}
+.viewmember-btn a {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  right: 25px;
+  display: block;
+  top: -46px;
+  color: #fff;
+  z-index: 99;
+  font-size: 22px;
+  transition: all .4s cubic-bezier(.68, 1, .265, 1)
+}
+
+.viewmember-btn:after {
+  height: 170px;
+  width: 170px;
+  content: '"\f38b"';
+  background-color: #FA396B;
+  position: absolute;
+  top: -110px;
+  right: -40px;
+  border-radius: 50%;
+  transform: scale(0);
+  transition: all 0.3s ease-in-out 0s;
+}
+
+.viewmember-btn.open span.toggle-btn.ion-android-funnel {
+  background-color: #DE3963;
+}
+
+.viewmember-btn.open .ion-android-funnel:before {
+  content: "\f2d7";
+}
+
+
+/* 멤버 정보 확인 버튼 End */
+
+
+
 
 .open:after {
   transform: scale(1);

@@ -9,7 +9,28 @@ public class UserInfo {
 	private String user_jobno;
 	private String user_belong;
 	private String user_area;
+	private String user_phone;
+	private String join_attcount;
+	private String join_date;
 	
+	public String getUser_phone() {
+		return user_phone;
+	}
+	public void setUser_phone(String user_phone) {
+		this.user_phone = user_phone;
+	}
+	public String getJoin_attcount() {
+		return join_attcount;
+	}
+	public void setJoin_attcount(String join_attcount) {
+		this.join_attcount = join_attcount;
+	}
+	public String getJoin_date() {
+		return join_date;
+	}
+	public void setJoin_date(String join_date) {
+		this.join_date = join_date;
+	}
 	public String getUser_idx() {
 		return user_idx;
 	}
