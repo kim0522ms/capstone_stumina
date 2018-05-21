@@ -57,7 +57,8 @@
   </div>
    -->
   
-<!--   <div class="item youtube">
+<!--   
+  <div class="item youtube">
     <iframe class="embed-player slide-media" width="980" height="520" src="https://www.youtube.com/embed/tdwbYGe8pv8?enablejsapi=1&controls=0&fs=0&iv_load_policy=3&rel=0&showinfo=0&loop=1&playlist=tdwbYGe8pv8&start=102" frameborder="0" allowfullscreen></iframe> 
     <p class="caption">YouTube</p>
   </div>
@@ -88,7 +89,7 @@
     			StudyDBDAO db = new StudyDBDAO();
     			ArrayList<StudyInfo> studyInfos = db.mainPage_Study();
     		
-		    	if(studyInfos != null)
+		    	if (studyInfos != null)
 		    	{
 		    		String path;
 		    		for (StudyInfo studyinfo : studyInfos)
@@ -130,8 +131,6 @@
     	</div>
     </div>    
     <!-- 카드 리스트 끝 -->
-    
-    
   	</div>
 </section>
   <script src='http://code.jquery.com/jquery-2.2.4.min.js'></script>

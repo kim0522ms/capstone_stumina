@@ -10,8 +10,14 @@ public class ScheduleBoardInfo {
 	private String rsch_idx;
 	private String profile_pic_idx;
 	private String scb_time;
+	private FileInfo fileInfo;
 	
-	
+	public FileInfo getFileInfo() {
+		return fileInfo;
+	}
+	public void setFileInfo(FileInfo fileInfo) {
+		this.fileInfo = fileInfo;
+	}
 	public String getScb_time() {
 		return scb_time;
 	}

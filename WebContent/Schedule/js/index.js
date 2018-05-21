@@ -26,6 +26,7 @@ var saveBtn = $(".js-event__save");
 var closeBtn = $(".js-event__close");
 var winCreator = $(".js-event__creator");
 var inputDate = $(this).data();
+var thismonth = month;
 today = year + "-" + month + "-" + day;
 
 
@@ -260,3 +261,13 @@ moveNext(indexMonth - 1, false);
 //fill the sidebar with current day
 $(".c-aside__num").text(day);
 $(".c-aside__month").text(monthText[month - 1]);	
+
+function prev()
+{
+	movePrev(1, false);
+}
+
+function next()
+{
+	moveNext(1, false);
+}

@@ -44,7 +44,8 @@
 		    height: 100%;
 		}
 	</style>
-	<section class="container">
+	<!-- style="height: 50%; background-size: contain;" -->
+	<section class="container" >
 		<div id="polina">
 			<h1><%=studyInfo.getStd_name()%></h1>
 			<p>리더 <%=studyInfo.getStd_leader() %></p>

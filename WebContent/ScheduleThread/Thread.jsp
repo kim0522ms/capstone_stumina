@@ -26,8 +26,13 @@
 		if (request.getAttribute("threadInfos") != null)
 		{
 			threadInfos = (ArrayList<ScheduleBoardInfo>)request.getAttribute("threadInfos");
-			rsch_idx = threadInfos.get(0).getRsch_idx();
 		}
+		
+		if (request.getAttribute("rsch_idx") != null)
+		{
+			rsch_idx = request.getAttribute("rsch_idx").toString();
+		}
+		
 		if (session.getAttribute("user_idx") != null)
 		{
 			user_idx = session.getAttribute("user_idx").toString();
@@ -84,7 +89,20 @@
 							%>
 							</div>
 		                    <div class="signature">
-		                        <p>TODO: 첨부파일 기능 추가할것</p>
+		                    <%
+		                    	if (thread.getFileInfo() != null)
+		                    	{
+		                    		out.print("<p>");
+		                    		out.print("[첨부 파일]<br><a style='color: #2d3042; font-weight: bold;' href='/Graduation_KMS/op/downloadFile?file_idx="  + thread.getFileInfo().getFile_idx() +"'>");
+		                    		out.print(thread.getFileInfo().getFile_originalname());
+		                    		out.print("</a>");
+		                    		out.println("</p>");
+		                    	}
+		                    	else
+		                    	{
+		                    		out.println("<p>첨부 파일이 없습니다.</p>");
+		                    	}
+		                    %>
 		                    </div>
 		                </div>
 		            </div>
@@ -135,8 +153,16 @@
 	    </div>
 	    
 	    <!-- 텍스트 에디터 -->
-	    <form name="editorForm" action="/test1234">
+	    <form name="editorForm" action="/test1234" enctype="multipart/form-data">
 	    <jsp:include page="/TextEditor/Editor.jsp" />
+	    <div class="headline" id="answer">
+	        <h2>첨부 파일</h2>
+	    </div>
+	    <div class="wrap">
+	    	<input id="myFileName" name="myFileName" type="hidden" value="">
+	    	<input id="myFile" name="myFile" type="file">
+	    </div>
+	    <!-- submit은 본문 내용 쿼리를 위해 TextEditor에 javascript로 구현해놨음 -->
 	    <a id="uploadButton" class="ma-button" ><i class="fa fa-reply" aria-hidden="true"></i> 등록</a>
 	    </form>
 	    <div class="new-old">

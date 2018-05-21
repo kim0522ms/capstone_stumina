@@ -35,7 +35,7 @@
 					                    <input type="checkbox" id="remember" class="checkbox" checked>
 					                    <label for="remember">ID/PW 기억하기</label>
 					                    <div class="submit-wrap">
-						                        <input type="button" value="회원가입" onclick="window.location.href='/Sogong/SignUp.jsp'" class="submit">
+						                        <input type="button" value="회원가입" onclick="window.location.href='/Graduation_KMS/Sign_Up/SignUp.jsp'" class="submit">
 						                        <br>
 						                        <input type="submit" value="로그인" class="submit">
 						                        <a href="#" class="more">비밀번호를 잊어버리셨습니까?</a>
@@ -52,7 +52,7 @@
                 						    <label for="password">Your password</label>
 						                    <div class="submit-wrap">
 							                        <input type="submit" value="Sign up" class="submit">
-							                        <a href="#" class="more">Terms and conditions</a>
+							                        <a href="#" class="more">이용 약관</a>
 						                    </div>
         					        </form>
             </div>

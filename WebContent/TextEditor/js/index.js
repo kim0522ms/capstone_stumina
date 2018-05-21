@@ -63,11 +63,13 @@ $(document).ready(function() {
     var form = document.createElement("form");
     form.setAttribute("method", "post");
     form.setAttribute("action", "/Graduation_KMS/op/uploadThread");
+    form.setAttribute("enctype", "multipart/form-data");
 
     var cont = $('#contents').html(); 
      
     console.log(cont);
     console.log(document.getElementById("rsch_idx").value);
+    
     var hiddenField = document.createElement("input");
 	hiddenField.setAttribute("type", "hidden");
 	hiddenField.setAttribute("name", "content");
@@ -84,9 +86,16 @@ $(document).ready(function() {
 	console.log(hidden_rsch_idx);
 	form.appendChild(hidden_rsch_idx);
 	
+	var myFile = document.getElementById("myFile");
+	var myFileName = document.getElementById("myFileName");
+
+	console.log(myFile);
+	form.appendChild(myFile);
+	form.appendChild(myFileName);
+	
+	console.log(form);
 	document.body.appendChild(form);
 
 	form.submit();
 	});
-
 });

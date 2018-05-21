@@ -6,6 +6,7 @@ public class UserInfo {
 	private String user_name;
 	private String user_sex;
 	private String user_id;
+	private String user_pw;
 	private String user_jobno;
 	private String user_belong;
 	private String user_area;
@@ -13,6 +14,12 @@ public class UserInfo {
 	private String join_attcount;
 	private String join_date;
 	
+	public String getUser_pw() {
+		return user_pw;
+	}
+	public void setUser_pw(String user_pw) {
+		this.user_pw = user_pw;
+	}
 	public String getUser_phone() {
 		return user_phone;
 	}

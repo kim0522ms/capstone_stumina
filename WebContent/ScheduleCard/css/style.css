@@ -326,6 +326,75 @@ span.toggle-btn.ion-android-funnel:hover{
 /* 멤버 정보 확인 버튼 End */
 
 
+/* 출석 확인 확인 버튼 Start */
+
+ .attandance-btn {
+  position: absolute;
+  z-index: 2;
+  right: 0;
+  width: 40px;
+  height: 40px;
+  transition: all 0.4s ease-in-out 0s;
+}
+
+.attandance-btn span {
+  width: 40px;
+  height: 40px;
+  background: #36474f;
+  display: block;
+  position: absolute;
+  right: 190px;
+  top: -46px;
+  text-align: center;
+  color: #fff;
+  line-height: 40px;
+  border-radius: 50%;
+  font-size: 22px;
+  z-index: 999;
+}
+span.toggle-btn.ion-android-funnel:hover{
+      cursor: pointer;
+}
+.attandance-btn a {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  right: 25px;
+  display: block;
+  top: -46px;
+  color: #fff;
+  z-index: 99;
+  font-size: 22px;
+  transition: all .4s cubic-bezier(.68, 1, .265, 1)
+}
+
+.attandance-btn:after {
+  height: 170px;
+  width: 170px;
+  content: '"\f38b"';
+  background-color: #FA396B;
+  position: absolute;
+  top: -110px;
+  right: -40px;
+  border-radius: 50%;
+  transform: scale(0);
+  transition: all 0.3s ease-in-out 0s;
+}
+
+.attandance-btn.open span.toggle-btn.ion-android-funnel {
+  background-color: #DE3963;
+}
+
+.attandance-btn.open .ion-android-funnel:before {
+  content: "\f2d7";
+}
+
+
+/* 출석 확인 버튼 End */
+
+
 
 
 .open:after {

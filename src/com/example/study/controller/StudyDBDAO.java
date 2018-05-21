@@ -13,8 +13,10 @@ import java.util.Date;
 import java.util.Locale;
 
 import com.example.study.model.AreaInfo;
+import com.example.study.model.AttandantInfo;
 import com.example.study.model.CategoryInfo;
 import com.example.study.model.DetailInfo;
+import com.example.study.model.FileInfo;
 import com.example.study.model.JoinRequestInfo;
 import com.example.study.model.RoomsInfo;
 import com.example.study.model.ScheduleBoardInfo;
@@ -27,6 +29,7 @@ public class StudyDBDAO {
 	private Connection conn = null;
 	private PreparedStatement pstmt = null;
 	private boolean recursion = false;
+	SimpleDateFormat dayTime = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
 	
 	 
 	// localhost 
@@ -67,6 +70,242 @@ public class StudyDBDAO {
 		}
 	}
 	
+	public int getFile_SEQ()
+	{
+		int seq = 0;
+		
+		String sql = "SELECT FILE_SEQ.NEXTVAL FROM DUAL";
+		
+		try {
+			connect();
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			ResultSet rs = pstmt.executeQuery();
+			seq = rs.getInt("NEXTVAL");
+			
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return seq;
+	}
+	
+	public String getStd_no(String rsch_idx)
+	{
+		String std_no = null;
+		
+		String sql = "SELECT * FROM TB_ROOM_SCHEDULE WHERE RSCH_IDX = ?";
+		
+		try {
+			if(!recursion)
+				connect();
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, rsch_idx);
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			if (rs.next())
+			{
+				std_no = rs.getString("std_no");
+			}
+			
+			if(!recursion)
+				disconnect();
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return std_no;
+	}
+	
+	// 파일 정보 획득
+	public FileInfo getFileInfo(String file_idx)
+	{
+		FileInfo fileInfo = null;
+		
+		String sql = "SELECT * FROM TB_UPLOAD_FILE WHERE FILE_IDX = ?";
+		
+		try {
+			if (!recursion)
+				connect();
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, file_idx);
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			if (rs.next())
+			{
+				fileInfo = new FileInfo();
+				
+				fileInfo.setFile_idx(rs.getString("file_idx"));
+				fileInfo.setFile_originalname(rs.getString("file_originalname"));
+				fileInfo.setFile_path(rs.getString("file_path"));
+				fileInfo.setFile_uploader(rs.getString("user_idx"));
+				
+				System.out.println("으악 : " + fileInfo.getFile_idx());
+				System.out.println("으악 : " + fileInfo.getFile_originalname());
+				System.out.println("으악 : " + fileInfo.getFile_path());
+				System.out.println("으악 : " + fileInfo.getFile_uploader());
+				
+			}
+			
+			if (!recursion)
+				disconnect();
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return fileInfo;
+	}
+	
+	// 파일 경로 획득
+	public String getFilePath(String file_idx)
+	{
+		String path = null;
+		
+		String sql = "SELECT * FROM TB_UPLOAD_FILE WHERE FILE_IDX = ?";
+		
+		try {
+			if(!recursion)
+				connect();
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, file_idx);
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			if (rs.next())
+			{
+				path = rs.getString("FILE_PATH");
+			}
+			
+			if(!recursion)
+				disconnect();
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return path;
+	}
+	
+	// 파일 업로드
+	public boolean uploadThreadFile(String file_originalname, String file_hashname, String file_path, String user_idx)
+	{
+		boolean isUploaded = false;
+		
+		String sql = "INSERT INTO TB_UPLOAD_FILE VALUES (FILE_SEQ.NEXTVAL, ?, ?, ?, ?)";
+		
+		try {
+			if (!recursion)
+				connect();
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, file_originalname);
+			pstmt.setString(2, file_hashname);
+			pstmt.setString(3, file_path);
+			pstmt.setString(4, user_idx);
+			
+			int result = pstmt.executeUpdate();
+			
+			if (result > 0)
+			{
+				isUploaded = true;
+				System.out.println("["+ dayTime.format(new Date()) + "][StudyDBDAO.java.uploadThreadFile()] Success to upload New File!");
+			}
+			else
+			{
+				System.out.println("["+ dayTime.format(new Date()) + "][StudyDBDAO.java.uploadThreadFile()] Failed to upload New File!");
+			}
+			
+			System.out.println();
+			if (!recursion)
+				disconnect();
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return isUploaded;
+	}
+	
+	// 신규 회원 가입
+	public boolean signUp(UserInfo newUser)
+	{
+		boolean isSuccess = false;
+		
+		String sql = "INSERT INTO TB_USERS VALUES(NEWUSER_SEQ.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?)";
+		
+		try {
+			connect();
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, newUser.getUser_name());
+			pstmt.setString(2, newUser.getUser_sex());
+			pstmt.setString(3, newUser.getUser_id());
+			pstmt.setString(4, newUser.getUser_pw());
+			pstmt.setString(5, newUser.getUser_jobno());
+			pstmt.setString(6, newUser.getUser_belong());
+			pstmt.setString(7, newUser.getUser_area());
+			pstmt.setString(8, newUser.getUser_phone());
+			
+			int result = pstmt.executeUpdate();
+			
+			if (result > 0)
+			{
+				isSuccess = true;
+				System.out.println("["+ dayTime.format(new Date()) + "][StudyDBDAO.java.signUp()] Success to add New User Info!");
+			}
+			else
+			{
+				System.out.println("["+ dayTime.format(new Date()) + "][StudyDBDAO.java.signUp()] Failed to add New User Info..");
+			}
+			System.out.println();
+			
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return isSuccess;
+	}
+	
+	public boolean checkUserIDExist(String user_id) {
+		boolean isExist = false;
+		
+		String sql = "SELECT * FROM TB_USERS WHERE USER_ID = ?";
+		
+		try {
+			if (!recursion)
+				connect();
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, user_id);
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			if (rs.next())
+			{
+				isExist = true;
+			}
+			
+			if (!recursion)
+				disconnect();
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return isExist;
+	}
+	
+	// 로그인
 	public UserInfo signin(String id, String passwd)
 	{
 		UserInfo userInfo = null;
@@ -91,7 +330,7 @@ public class StudyDBDAO {
 				userInfo.setUser_jobno(rs.getString("USER_JOBNO"));
 				userInfo.setUser_phone(rs.getString("USER_PHONE"));
 				
-				System.out.println("[StudyDBDAO.java.signin()] User " + id + " has log in.");
+				System.out.println("["+ dayTime.format(new Date()) + "][StudyDBDAO.java.signin()] User " + id + " has log in.");
 				System.out.println();
 			}
 			disconnect();
@@ -103,13 +342,40 @@ public class StudyDBDAO {
 		return userInfo;
 	}
 	
+	public String getStudyName(String std_no) {
+		String std_name = null;
+		
+		String sql = "SELECT * FROM TB_STUDYINFO WHERE STD_NO = ?";
+		
+		try {
+			if (!recursion)
+				connect();
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, std_no);
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			if (rs.next())
+			{
+				std_name = rs.getString("STD_NAME");
+			}
+			
+			if (!recursion)
+				disconnect();
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return std_name;
+	}
 	
 	public ArrayList<StudyInfo> searchStudy(String search)
 	{
 		ArrayList<StudyInfo> studyInfos = null;
 		
 		String sql = "SELECT * FROM TB_STUDYINFO NATURAL JOIN TB_CATEGORY_DETAIL WHERE STD_CONTENTS LIKE '%" + search + "%' OR STD_NAME LIKE '%" + search + "%'";
-		System.out.println("Created SQL : " + sql);
 		try {
 			connect();
 			
@@ -157,14 +423,13 @@ public class StudyDBDAO {
 					}
 					else
 					{
-						System.out.println("[StudyDBDAO.java.searchStudy()] Warning : Study Iamge doesn't exist.");
+						System.out.println("["+ dayTime.format(new Date()) + "][StudyDBDAO.java.searchStudy()] Warning : Study Iamge doesn't exist.");
 					}
-					
-					System.out.println("Param Added.");
 					studyInfos.add(studyInfo);
 				}while (rs.next());
 				
-				System.out.println("[StudyDBDAO.java.searchStudy()] Success to add all Study Info.");
+				System.out.println("["+ dayTime.format(new Date()) + "][StudyDBDAO.java.searchStudy()] Success to add all Study Info.");
+				System.out.println();
 			}
 			disconnect();
 			
@@ -174,6 +439,65 @@ public class StudyDBDAO {
 		}
 
 		return studyInfos;
+	}
+	
+	// 회원명 구하기
+	public String getUserName(String user_idx)
+	{
+		String user_name = null;
+		
+		String sql = "SELECT USER_NAME FROM TB_USERS WHERE USER_IDX = ?";
+		
+		try {
+			if (!recursion)
+				connect();
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, user_idx);
+			ResultSet rs = pstmt.executeQuery();
+			
+			if (rs.next())
+			{
+				user_name = rs.getString("USER_NAME");
+			}
+			
+			if (!recursion)
+				disconnect();	
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return user_name;
+	}
+	
+	// 스터디 리더 이름 구하기
+	public String getLeaderName(String std_no)
+	{
+		String leader_name = null;
+		
+		String sql = "SELECT USER_NAME FROM TB_USERS WHERE USER_IDX = (SELECT STD_LEADER FROM TB_STUDYINFO WHERE STD_NO = ?)";
+		
+		try {
+			if (!recursion)
+				connect();
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, std_no);
+			ResultSet rs = pstmt.executeQuery();
+			
+			if (rs.next())
+			{
+				leader_name = rs.getString("USER_NAME");
+			}
+			
+			if (!recursion)
+				disconnect();	
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return leader_name;
 	}
 	
 	
@@ -196,11 +520,11 @@ public class StudyDBDAO {
 			if (rs.next())
 			{
 				std_reader = rs.getString("STD_LEADER");
-				System.out.println("[StudyDBDAO.java.getStudyLeader()] STD_NO (" + std_no +")'s STD_LEADER : " + std_reader);
+				System.out.println("["+ dayTime.format(new Date()) + "][StudyDBDAO.java.getStudyLeader()] STD_NO (" + std_no +")'s STD_LEADER : " + std_reader);
 			}
 			else
 			{
-				System.out.println("[StudyDBDAO.java.getStudyLeader()] Failed to get STD_NO (" + std_no +")'s STD_LEADER");
+				System.out.println("["+ dayTime.format(new Date()) + "][StudyDBDAO.java.getStudyLeader()] Failed to get STD_NO (" + std_no +")'s STD_LEADER");
 			}
 			
 			if (!recursion)
@@ -222,10 +546,8 @@ public class StudyDBDAO {
 		try {
 			connect();
 			
-			System.out.println("aaaa");
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
-			System.out.println("aaaa");
 			if (rs.next())
 			{
 				studyInfos = new ArrayList<StudyInfo>();
@@ -270,15 +592,15 @@ public class StudyDBDAO {
 					}
 					else
 					{
-						System.out.println("[StudyDBDAO.java.mainPage_Study()] Warning : Study Iamge doesn't exist.");
+						System.out.println("["+ dayTime.format(new Date()) + "][StudyDBDAO.java.mainPage_Study()] Warning : Study Iamge doesn't exist.");
 					}
 					
 					
 					studyInfos.add(studyInfo);
-					System.out.println("MainPage's Study List Added");
 				}while (rs.next());
 			}
 			disconnect();
+			System.out.println();
 			
 		} catch (SQLException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -310,7 +632,6 @@ public class StudyDBDAO {
 					{
 						continue;
 					};
-					System.out.println("aaaa");
 					studyInfo = new StudyInfo();
 					studyInfo.setStd_category(rs.getString("DETAIL_NAME"));
 					studyInfo.setStd_contents(rs.getString("STD_CONTENTS"));
@@ -349,7 +670,7 @@ public class StudyDBDAO {
 					}
 					else
 					{
-						System.out.println("[StudyDBDAO.java.searchStudy()] Warning : Study Iamge doesn't exist.");
+						System.out.println("["+ dayTime.format(new Date()) + "][StudyDBDAO.java.searchStudy()] Warning : Study Image doesn't exist.");
 						System.out.println();
 					}
 					
@@ -394,7 +715,7 @@ public class StudyDBDAO {
 			}
 			else
 			{
-				System.out.println("[StudyDBDAO.java.requestJoin()] Error : Failed to Insert in TB_JOIN_REQUEST");
+				System.out.println("["+ dayTime.format(new Date()) + "][StudyDBDAO.java.requestJoin()] Error : Failed to Insert in TB_JOIN_REQUEST");
 				System.out.println();
 			}
 			
@@ -500,12 +821,12 @@ public class StudyDBDAO {
 			int result = pstmt.executeUpdate();
 			
 			if (result > 0){
-				System.out.println("[StudyDBDAO.java.deleteThread()] SCB_IDX("+ scb_idx + ") thread has successfully deleted!");
+				System.out.println("["+ dayTime.format(new Date()) + "][StudyDBDAO.java.deleteThread()] SCB_IDX("+ scb_idx + ") thread has successfully deleted!");
 				isDeleted = true;
 			}
 			else
 			{
-				System.out.println("[StudyDBDAO.java.deleteThread()] Failed to delete SCB_IDX("+ scb_idx + ") thread..");
+				System.out.println("["+ dayTime.format(new Date()) + "][StudyDBDAO.java.deleteThread()] Failed to delete SCB_IDX("+ scb_idx + ") thread..");
 			}
 			System.out.println();
 			
@@ -555,12 +876,12 @@ public class StudyDBDAO {
 			
 			if (result > 0)
 			{
-				System.out.println("[StudyDBDAO.java.modifyStudyInfo()] 1 StudyInfo has successfully updated.");
+				System.out.println("["+ dayTime.format(new Date()) + "][StudyDBDAO.java.modifyStudyInfo()] 1 StudyInfo has successfully updated.");
 				isUpdated = true;
 			}
 			else
 			{
-				System.out.println("[StudyDBDAO.java.modifyStudyInfo()] Failed to update StudyInfo.");
+				System.out.println("["+ dayTime.format(new Date()) + "][StudyDBDAO.java.modifyStudyInfo()] Failed to update StudyInfo.");
 			}
 			
 			disconnect();
@@ -682,7 +1003,7 @@ public class StudyDBDAO {
 	// 스터디에 속해있는 유저 정보 전부 획득
 	public ArrayList<UserInfo> getStudyUserInfo(String std_no)
 	{
-		String sql = "SELECT * FROM TB_JOININFO NATURAL JOIN TB_USERS WHERE STD_NO = ?";
+		String sql = "SELECT * FROM TB_JOININFO NATURAL JOIN TB_USERS WHERE STD_NO = ? ORDER BY USER_IDX";
 		
 		ArrayList<UserInfo> userInfos = null;
 		
@@ -719,7 +1040,7 @@ public class StudyDBDAO {
 				}
 				else
 				{
-					System.out.println("[StudyDBDAO.java.getStudyUserInfo()] Error : Join Info not found.");
+					System.out.println("["+ dayTime.format(new Date()) + "][StudyDBDAO.java.getStudyUserInfo()] Error : Join Info not found.");
 				}
 				
 				if (!recursion)
@@ -853,7 +1174,7 @@ public class StudyDBDAO {
 			
 			int result = pstmt.executeUpdate();
 			
-			System.out.println("[StudyDBDAO/registSchedule()] Insert Result Value : " + result);
+			System.out.println("["+ dayTime.format(new Date()) + "][StudyDBDAO/registSchedule()] Insert Result Value : " + result);
 			
 			if (result > 0)
 				isRegist = true;
@@ -964,7 +1285,7 @@ public class StudyDBDAO {
 			}
 			else
 			{
-				System.out.println("[StudyDBDAO.java.deleteStudyMember()] Failed to delete TB_JOININFO WHERE std_no = " + std_no +"AND user_idx = "+ user_idx +"  !");
+				System.out.println("["+ dayTime.format(new Date()) + "][StudyDBDAO.java.deleteStudyMember()] Failed to delete TB_JOININFO WHERE std_no = " + std_no +"AND user_idx = "+ user_idx +"  !");
 			}
 			
 			if (!recursion)
@@ -1025,11 +1346,11 @@ public class StudyDBDAO {
 			if (rs.next())
 			{
 				path = rs.getString("SIMG_PATH");
-				System.out.println("[StudyDBDAO.java.getStudyImage()] STD_NO(" + std_no +")'s image path : " + rs.getString("SIMG_PATH"));
+				System.out.println("["+ dayTime.format(new Date()) + "][StudyDBDAO.java.getStudyImage()] STD_NO(" + std_no +")'s image path : " + rs.getString("SIMG_PATH"));
 			}
 			else
 			{
-				System.out.println("[StudyDBDAO.java.getStudyImage()] Error : Failed to get STD_NO(" + std_no +")'s image path.");
+				System.out.println("["+ dayTime.format(new Date()) + "][StudyDBDAO.java.getStudyImage()] Error : Failed to get STD_NO(" + std_no +")'s image path.");
 			}
 			
 			if (!recursion)
@@ -1062,11 +1383,11 @@ public class StudyDBDAO {
 			if (result > 0)
 			{
 				isDeleted = true;
-				System.out.println("[StudyDBDAO.java.rejectMemberJoin] Success to delete TB_JOIN_REQUEST WHERE STD_NO : " + std_no + "AND USER_IDX : " + user_idx);
+				System.out.println("["+ dayTime.format(new Date()) + "][StudyDBDAO.java.rejectMemberJoin] Success to delete TB_JOIN_REQUEST WHERE STD_NO : " + std_no + "AND USER_IDX : " + user_idx);
 			}
 			else
 			{
-				System.out.println("[StudyDBDAO.java.rejectMemberJoin] Failed to delete TB_JOIN_REQUEST WHERE STD_NO : " + std_no + "AND USER_IDX : " + user_idx);
+				System.out.println("["+ dayTime.format(new Date()) + "][StudyDBDAO.java.rejectMemberJoin] Failed to delete TB_JOIN_REQUEST WHERE STD_NO : " + std_no + "AND USER_IDX : " + user_idx);
 			}
 			
 			if (!recursion)
@@ -1102,7 +1423,7 @@ public class StudyDBDAO {
 			}
 			else
 			{
-				System.out.println("[StudyDBDAO.java.acceptMemberJoin()] Failed to insert std_no : " + std_no + " AND user_idx : " + user_idx + "to JOININFO...");
+				System.out.println("["+ dayTime.format(new Date()) + "][StudyDBDAO.java.acceptMemberJoin()] Failed to insert std_no : " + std_no + " AND user_idx : " + user_idx + "to JOININFO...");
 			}
 			
 			if(!recursion)
@@ -1116,7 +1437,182 @@ public class StudyDBDAO {
 		return isInserted;
 	}
 	
+	// 출석 정보 추가
+	public boolean addAttandance(String rsch_idx, String std_no)
+	{
+		boolean isInserted = false;
+		
+		ArrayList<UserInfo> userInfos = this.getStudyUserInfo(std_no);
+		
+		String sql = "INSERT INTO TB_ATTANDANCE VALUES (?, ?, 0)";
+		if (userInfos != null)
+		{
+			try {
+				connect();
+				
+				for (UserInfo user : userInfos)
+				{
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setString(1, user.getUser_idx());
+					pstmt.setString(2, rsch_idx);
+					
+					int result = pstmt.executeUpdate();
+					
+					if (result <= 0)
+						return isInserted;
+				}
+				disconnect();
+			} catch (ClassNotFoundException | SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			isInserted = true;
+		}
+		else
+		{
+			return isInserted;
+		}
+		
+		return isInserted;
+	}
 	
+	// 출석 정보 수정
+	public boolean updateAttendantInfo(String rsch_idx, String[] students)
+	{
+		boolean isUpdated = false;
+		
+		String sql = "UPDATE TB_ATTANDANCE SET ABSENT = 0 WHERE RSCH_IDX = ?";
+		
+		try {
+			if (!recursion)
+				connect();
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, rsch_idx);
+			
+			int reset = pstmt.executeUpdate();
+			
+			if (reset > 0)
+			{
+				if (students == null)
+				{
+					System.out.println("["+ dayTime.format(new Date()) + "][StudyDBDAO.java.updateAttendantInfo()] Success to initialize TB_ATTANDANCE");
+					return true;
+				}
+				
+				sql = "UPDATE TB_ATTANDANCE SET ABSENT = 1 WHERE RSCH_IDX = ? AND USER_IDX = ?";
+				pstmt = conn.prepareStatement(sql);
+				
+				for (String student : students)
+				{
+					pstmt.setString(1, rsch_idx);
+					pstmt.setString(2, student);
+
+					int result = pstmt.executeUpdate();
+
+					if (result <= 0)
+					{
+						System.out.println("["+ dayTime.format(new Date()) + "][StudyDBDAO.java.updateAttendantInfo()] Failed to update TB_ATTANDANCE");
+						return isUpdated;
+					}
+				}
+				isUpdated = true;
+			}
+			else
+			{
+				System.out.println("["+ dayTime.format(new Date()) + "][StudyDBDAO.java.updateAttendantInfo()] Failed to reset TB_ATTANDANCE");
+			}
+			
+			if (!recursion)
+				disconnect();
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return isUpdated;
+	}
+	
+	// 출석 정보 얻기
+	public ArrayList<AttandantInfo> getAttendantInfo(String std_no)
+	{
+		ArrayList<AttandantInfo> attandantInfos = null;
+		
+		String sql = "SELECT * FROM TB_ATTANDANCE NATURAL JOIN TB_ROOM_SCHEDULE WHERE STD_NO = ? ORDER BY RSCH_DATE, USER_IDX";
+		
+		try {
+			if (!recursion)
+				connect();
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, std_no);
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			if (rs.next())
+			{
+				attandantInfos = new ArrayList<AttandantInfo>();
+				AttandantInfo attandant = null;
+				
+				do
+				{
+					attandant = new AttandantInfo();
+					attandant.setUser_idx(rs.getString("user_idx"));
+					attandant.setRsch_idx(rs.getString("rsch_idx"));
+					attandant.setAbsent(rs.getInt("absent"));
+					
+					attandantInfos.add(attandant);
+				}while(rs.next());
+			}
+			
+			if (!recursion)
+				disconnect();
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+		return attandantInfos;
+	}
+	
+	// 출석 체크 정보 수정
+	public boolean modifyAttandance(String rsch_idx, String[] users)
+	{
+		boolean isUpdated = false;
+		
+		String sql = "UPDATE TB_ATTANDANCE SET ABSENT = 1 WEHRE USER_IDX = ? AND RSCH_IDX = ?";
+		
+		try {
+			if(!recursion)
+				connect();
+			
+			for (String user_idx : users)
+			{
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, user_idx);
+				pstmt.setString(2, rsch_idx);
+				
+				int result = pstmt.executeUpdate();
+				
+				if (result <= 0)
+				{
+					return isUpdated;
+				}
+			}
+			
+			if(!recursion)
+				disconnect();
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return isUpdated;
+	}
+	
+	
+	// 해당 스터디의 스케쥴 획득
 	public ArrayList<ScheduleInfo> getSchedules(String std_no)
 	{
 		ArrayList<ScheduleInfo> scheduleInfos = null;
@@ -1126,7 +1622,7 @@ public class StudyDBDAO {
 				+ "(SELECT * FROM TB_ROOM_SCHEDULE NATURAL JOIN "
 					+ "(SELECT * FROM TB_ROOMINFO NATURAL JOIN TB_STUDYROOMS)"
 				+ ") "
-			+ "WHERE STD_NO = ?";
+			+ "WHERE STD_NO = ? ORDER BY RSCH_DATE";
 		
 		try {
 			if (!recursion)
@@ -1256,7 +1752,7 @@ public class StudyDBDAO {
 			}
 			else
 			{
-				System.out.println("[StudyDBDAO.java.getScheduleName()] Schedule Name not found !");
+				System.out.println("["+ dayTime.format(new Date()) + "][StudyDBDAO.java.getScheduleName()] Schedule Name not found !");
 			}
 			
 			
@@ -1270,39 +1766,53 @@ public class StudyDBDAO {
 		return scheduleName;
 	}
 	
-	public boolean uploadThread(String rsch_idx, String scb_title, String scb_content, String user_idx)
+	// 게시글 (쓰레드) 업로드
+	public boolean uploadThread(String rsch_idx, String scb_title, String scb_content, String user_idx, String file_hashname)
 	{
 		boolean isUploaded = false;
 		
-		String sql = "INSERT INTO TB_SCHEDULE_BOARD VALUES ('SCB_' || SCB_SEQ.NEXTVAL , ?, ?, ?, ?, SYSDATE)";
+		String sql = "SELECT * FROM TB_UPLOAD_FILE WHERE FILE_HASHNAME = ?";
+		String file_idx = null;
 		
 		try {
 			if (!recursion)
 				connect();
 			
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, file_hashname);
+			ResultSet rs = pstmt.executeQuery();
+			
+			if (rs.next())
+			{
+				file_idx = rs.getString("FILE_IDX");
+			}
+			System.out.println("8888888888888888");
+			sql = "INSERT INTO TB_SCHEDULE_BOARD VALUES ('SCB_' || SCB_SEQ.NEXTVAL , ?, ?, ?, ?, SYSDATE, ?)";
+				
+			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, rsch_idx);
 			pstmt.setString(2, scb_title);
 			pstmt.setString(3, scb_content);
 			pstmt.setString(4, user_idx);
-			
+			pstmt.setString(5, file_idx);
+			System.out.println("8888888888888888");
 			int result = pstmt.executeUpdate();
-			
+			System.out.println("8888888888888888");
 			if (result > 0)
 			{
 				isUploaded = true;
-				System.out.println("[StudyDBDAO.java.uploadThread()] Insert Thread Success !");
+				System.out.println("["+ dayTime.format(new Date()) + "][StudyDBDAO.java.uploadThread()] Insert Thread Success !");
 			}
 			else
 			{
-				System.out.println("[StudyDBDAO.java.uploadThread()] Insert Thread Failed...");
+				System.out.println("["+ dayTime.format(new Date()) + "][StudyDBDAO.java.uploadThread()] Insert Thread Failed...");
 			}
-			
+
 			if (!recursion)
 				disconnect();
-		} catch (ClassNotFoundException | SQLException e) {
+		} catch (ClassNotFoundException | SQLException e1) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e1.printStackTrace();
 		}
 
 		return isUploaded;
@@ -1338,7 +1848,7 @@ public class StudyDBDAO {
 					// Date 포맷 변경
 					Date date = oldDateFormat.parse(rs.getString("SCB_TIME"));
 					String rsch_time = newDateFormat.format(date);
-					System.out.println("[StudyDBDAO.java.getThreads()] Changed DateFormat : " + rsch_time);
+					System.out.println("["+ dayTime.format(new Date()) + "][StudyDBDAO.java.getThreads()] Changed DateFormat : " + rsch_time);
 					
 					thread.setScb_time(rsch_time);
 					
@@ -1351,17 +1861,16 @@ public class StudyDBDAO {
 					thread.setUser_idx(rs.getString("USER_IDX"));
 					thread.setUser_name(rs.getString("USER_NAME"));
 					thread.setUser_belong(rs.getString("USER_BELONG"));
-					
-					
+					thread.setFileInfo(this.getFileInfo(rs.getString("FILE_IDX")));
 					
 					threadInfos.add(thread);
-					System.out.println("[StudyDBDAO.java.getThreads()] Thread inserted successfuly !");
+					System.out.println("["+ dayTime.format(new Date()) + "][StudyDBDAO.java.getThreads()] Thread inserted successfuly !");
 				}while(rs.next());
-				System.out.println("[StudyDBDAO.java.getThreads()] All Threads inserted successfuly !");
+				System.out.println("["+ dayTime.format(new Date()) + "][StudyDBDAO.java.getThreads()] All Threads inserted successfuly !");
 			}
 			else
 			{
-				System.out.println("[StudyDBDAO.java.getThreads()] Thread not found !");
+				System.out.println("["+ dayTime.format(new Date()) + "][StudyDBDAO.java.getThreads()] Thread not found !");
 			}
 			
 			// Disconnect

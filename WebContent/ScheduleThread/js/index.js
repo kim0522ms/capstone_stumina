@@ -119,3 +119,7 @@ $(document).mouseup(function(e) {
         i = 1;
     }
 });
+
+document.getElementById('myFile').onchange = function () {
+	  document.getElementById('myFileName').value = this.value.replace(/.*[\/\\]/, '');
+};

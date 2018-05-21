@@ -43,6 +43,11 @@
     		content: "\f3a0";
     		margin-top: 8px;
 		}
+		.ion-android-checkbox-outline:before {
+		    content: "\f373";
+		    margin-top: 8.5px;
+		    margin-left: 2px;
+		}
     </style>
 </head>
 
@@ -90,6 +95,17 @@
 					    </div>
 					  </div>
 					  <div class="clearfix"></div>
+					  <!-- 출석 체크 버튼 -->
+					  <div class="attandance-btn pr_tooltip" title="출석 체크" pr_position="top" pr_color="light" onclick="location.href='/Graduation_KMS/op/checkAttandance?std_no=<%=studyinfo.getStd_no()%>'">
+					    <!-- 
+					    <a id="one" href="#"><i class="ion-ios-checkmark-outline"></i></a>
+					    <a id="two" href="#"><i class="ion-ios-alarm-outline"></i></a>
+					    <a id="three" href="#"><i class="ion-ios-heart-outline"></i></a>
+					    <a id="all" href="#"><i class="ion-ios-star-outline"></i></a> 
+					    -->
+					    <span class="toggle-btn ion-android-checkbox-outline"></span>
+					  </div>
+					  <!-- 출석 체크 버튼 END -->
 					  <!-- 멤버 정보 확인 버튼 -->
 					  <div class="viewmember-btn pr_tooltip" title="멤버 정보 확인" pr_position="top" pr_color="light" onclick="location.href='/Graduation_KMS/op/viewStudyMember?std_no=<%=studyinfo.getStd_no()%>'">
 					    <!-- 

@@ -5,17 +5,27 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html lang="en" class="bgBlur">
-
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Simple Calendar</title>
+	<meta charset="UTF-8">
+	<title>Stumina</title>
+  	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
   	<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css'>
     <link rel="stylesheet" href="/Graduation_KMS/Schedule/css/style.css">
-  <%
-  	String rsch_no = "";
-  %>
+    <style>
+    	h6 {
+		    margin: 0;
+		    padding: 0;
+		    border: 0;
+		    font-size: 100%;
+		    font: inherit;
+		    vertical-align: baseline;
+		}
+    </style>
+    <%
+	String rsch_no = "";
+	%>
 </head>
 
 <body>
@@ -126,7 +136,7 @@ function fill_table(month, month_length, indexMonth) {
 	  <div class="wrapper">
 	    <div class="c-monthyear">
 	    <div class="c-month">
-	        <span id="prev" class="prev fa fa-angle-left" aria-hidden="true"></span>
+	        <span id="prev" class="prev fa fa-angle-left" aria-hidden="true" onclick="prev();"></span>
 	        <div id="c-paginator">
 	          <span class="c-paginator__month">JANUARY</span>
 	          <span class="c-paginator__month">FEBRUARY</span>
@@ -141,13 +151,13 @@ function fill_table(month, month_length, indexMonth) {
 	          <span class="c-paginator__month">NOVEMBER</span>
 	          <span class="c-paginator__month">DECEMBER</span>
 	        </div>
-	        <span id="next" class="next fa fa-angle-right" aria-hidden="true"></span>
+	        <span id="next" class="next fa fa-angle-right" aria-hidden="true" onclick="next();")></span>
 	      </div>
 	      <span class="c-paginator__year">2018</span>
 	    </div>
-	    <div class="c-sort">
+	    <!-- <div class="c-sort">
 	      <a class="o-btn c-today__btn" href="javascript:;">TODAY</a>
-	    </div>
+	    </div> -->
 	  </div>
 	</headers>
 	  <div class="c-calendar">
