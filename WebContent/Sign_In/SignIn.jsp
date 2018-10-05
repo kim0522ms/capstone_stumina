@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "https://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
 
   
-  <link rel="stylesheet" href="/Graduation_KMS/Sign_In/css/style_signin.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/Sign_In/css/style_signin.css">
 
   
 </head>
@@ -23,7 +23,7 @@
 			        </div>
 			        <div class="content">
 				            <div class="signin-cont cont">
-					                <form action="/Graduation_KMS/op/signIn" method="post">
+					                <form action="${pageContext.request.contextPath}/op/signIn" method="post">
 										<%
 											System.out.println("[SignIn.jsp] requestURL : " + request.getParameter("requestURL"));
 										%>
@@ -35,7 +35,7 @@
 					                    <input type="checkbox" id="remember" class="checkbox" checked>
 					                    <label for="remember">ID/PW 기억하기</label>
 					                    <div class="submit-wrap">
-						                        <input type="button" value="회원가입" onclick="window.location.href='/Graduation_KMS/Sign_Up/SignUp.jsp'" class="submit">
+						                        <input type="button" value="회원가입" onclick="window.location.href='${pageContext.request.contextPath}/Sign_Up/SignUp.jsp'" class="submit">
 						                        <br>
 						                        <input type="submit" value="로그인" class="submit">
 						                        <a href="#" class="more">비밀번호를 잊어버리셨습니까?</a>
@@ -60,10 +60,10 @@
 		    </article>
 		    <div class="half bg"></div>
 	</section>
-  <script src='http://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js'></script>
-<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
 
-    <script  src="/Graduation_KMS/Sign_in/js/index.js"></script>
+    <script  src="${pageContext.request.contextPath}/Sign_in/js/index.js"></script>
 
 </body>
 </html>

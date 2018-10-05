@@ -2,14 +2,14 @@
     pageEncoding="EUC-KR"%>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="com.example.study.model.NotificationInfo" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "https://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
   <meta charset="UTF-8">
   <title>Stumina</title>
   <meta name="viewport" content="width=device-width">
   <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,600,700,900" rel="stylesheet">
-  <link rel="stylesheet" href="/Graduation_KMS/Search_Bar/css/style.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/Search_Bar/css/style.css">
 
   
 </head>
@@ -29,11 +29,11 @@
 	%>
   <header>
    <div class="logo">
-     <a href="/Graduation_KMS/MainPage.jsp">● Stumina</a>
+     <a href="${pageContext.request.contextPath}/MainPage.jsp">● Stumina</a>
   </div>
   <nav>
      <div class="search-bar">
-       <form class="search" method="do" action="/Graduation_KMS/op/search">
+       <form class="search" method="do" action="${pageContext.request.contextPath}/op/search">
          <input type="search" class="search__input" name="keyword" placeholder="스터디나 세미나를 검색해 보세요!" onload="equalWidth()" required>
          <button class="search__btn">Search</button>
          <i class="ion-ios-search search__icon"></i>
@@ -68,10 +68,10 @@
   {
   %>
   	 <div class="signin">
-     <a href="/Graduation_KMS/Sign_In/SignIn.jsp">로그인</a>
+     <a href="${pageContext.request.contextPath}/Sign_In/SignIn.jsp">로그인</a>
      </div>
      <div class="signup">
-     <a href="/Graduation_KMS/Sign_Up/SignUp.jsp">회원가입</a>
+     <a href="${pageContext.request.contextPath}/Sign_Up/SignUp.jsp">회원가입</a>
   	 </div>
   <%
   }
@@ -151,7 +151,7 @@
      <a href="#"><%=session.getAttribute("user_name")%>님 반갑습니다!</a>
      </div>
      <div class="signout">
-     <a href="/Graduation_KMS/op/signOut">로그아웃</a>
+     <a href="${pageContext.request.contextPath}/op/signOut">로그아웃</a>
   	 </div>
   <%
   }
@@ -168,10 +168,10 @@
   
   
 
-    <!-- <script  src="/Graduation_KMS/Search_Bar/js/index.js"></script> -->
+    <!-- <script  src="${pageContext.request.contextPath}/Search_Bar/js/index.js"></script> -->
 </body>
     <script src='https://unpkg.com/vue'></script>
 	<script src='https://unpkg.com/axios/dist/axios.min.js'></script>
 	<script src='https://use.fontawesome.com/releases/v5.0.4/js/all.js'></script>
-	<script src="/Graduation_KMS/Search_Bar/js/notification.js"></script>
+	<script src="${pageContext.request.contextPath}/Search_Bar/js/notification.js"></script>
 </html>

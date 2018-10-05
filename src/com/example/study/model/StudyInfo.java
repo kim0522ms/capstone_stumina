@@ -15,12 +15,21 @@ public class StudyInfo {
 	private String std_teacher;
 	private String std_theme;
 	private String std_imagepath;
+	private String std_leader_idx;
+	
 	private int std_maxMemberCount;
 	private int std_remainMember;
 	private int std_maxattcnt;
 	private int std_endflag;
 	private ArrayList<ScheduleInfo> scheduleInfo;
 	
+	
+	public String getStd_leader_idx() {
+		return std_leader_idx;
+	}
+	public void setStd_leader_idx(String std_leader_idx) {
+		this.std_leader_idx = std_leader_idx;
+	}
 	public String getStd_imagepath() {
 		return std_imagepath;
 	}

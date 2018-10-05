@@ -7,29 +7,30 @@
 <%@ page import="com.example.study.model.DetailInfo" %>
 <%@ page import="java.util.ArrayList" %>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "https://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
   <meta charset="UTF-8">
   <title>Stumina</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
-	<link rel='stylesheet prefetch' href='http://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css'>
-	<link rel='stylesheet' href='http://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/semantic.css'>
-	<link rel="stylesheet" href="/Graduation_KMS/css/style.css">
+	<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css'>
+	<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/semantic.css'>
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 	<link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'>
-	<link rel="stylesheet prefetch" href="http://fian.my.id/marka/static/marka/css/marka.css">
+	<link rel="stylesheet prefetch" href="https://fian.my.id/marka/static/marka/css/marka.css">
 	<link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css'>
   <style>
   	.col-md-offset-3 {
     margin-left: 0;
 	}
 	.col-md-6 {
-    width: 100%;
+    width: 70%;
+    margin-left: 15%;
 	}
 	.container {
     width: 100%;
-    background-image: url(/Graduation_KMS/Schedule/background.jpg);
+    background-image: url(${pageContext.request.contextPath}/Schedule/background.jpg);
     -webkit-background-size: cover;
   	-moz-background-size: cover;
   	-o-background-size: cover;
@@ -49,10 +50,8 @@
 	<h1> </h1>
 	</header>
 	<section class="container" style=”clear:both;”>
-		<div class="board">
-		  <div class="content">
+	  	<div class="content">
 			<jsp:include page="/Sidebar/SideBar_Profile.jsp" />
-			</div>
 		</div>
 		<%
 			String std_no = null;
@@ -72,9 +71,9 @@
 			}
 		%>
 		<div class="cardwrapper">
-			<div class="row" style="margin:0 auto">
-			    <div class="col-md-6 col-md-offset-3">
-			        <form id="msform" method="post" action="/Graduation_KMS/op/registSchedule">
+			<div class="row" style="margin:0 auto; width: 90%;">
+			    <div id="stepform" class="col-md-6 col-md-offset-3">
+			        <form id="msform" method="post" action="${pageContext.request.contextPath}/op/registSchedule">
 			        	<input type="hidden" name="std_no" value="<%=std_no%>" />
 			            <!-- progressbar -->
 			            <ul id="progressbar">
@@ -87,7 +86,7 @@
 			            <fieldset>
 			                <h2 class="fs-title">스케줄 제목을 입력해주세요!</h2>
 			                <h3 class="fs-subtitle">최대 50자까지 가능합니다.</h3>
-			                <input type="text" name="rsch_name" placeholder="이름 입력"/>
+			                <input type="text" name="rsch_name" placeholder="제목 입력" required/>
 			                <input type="button" name="next" class="next action-button" value="다음"/>
 			            </fieldset>
 			            <fieldset>
@@ -108,7 +107,7 @@
 								  	}
 								  %>
 								  </ul>
-								  <input type="hidden" id="area_idx" name="area_idx" value="">
+								  <input type="hidden" id="area_idx" name="area_idx" value="" >
 							</div>
 							<!-- 드롭다운 끝 -->
 							<!-- 드롭다운 시작 -->
@@ -182,6 +181,14 @@
 									<i id="icon" style="z-index: 50;"></i>
 									<a id="input4" href="">입실 시간</a>
 									  <ul id="dropdown-menu4">
+									  	  <li><a id = '1' href='#'>오전 1시</a></li>
+									  	  <li><a id = '2' href='#'>오전 2시</a></li>
+										  <li><a id = '3' href='#'>오전 3시</a></li>
+										  <li><a id = '4' href='#'>오전 4시</a></li>
+										  <li><a id = '5' href='#'>오전 5시</a></li>
+									  	  <li><a id = '6' href='#'>오전 6시</a></li>
+										  <li><a id = '7' href='#'>오전 7시</a></li>
+										  <li><a id = '8' href='#'>오전 8시</a></li>
 										  <li><a id = '9' href='#'>오전 9시</a></li>
 										  <li><a id = '10' href='#'>오전 10시</a></li>
 										  <li><a id = '11' href='#'>오전 11시</a></li>
@@ -196,6 +203,8 @@
 										  <li><a id = '20' href='#'>오후 8시</a></li>
 										  <li><a id = '21' href='#'>오후 9시</a></li>
 										  <li><a id = '22' href='#'>오후 10시</a></li>
+										  <li><a id = '23' href='#'>오후 11시</a></li> 
+										  <li><a id = '24' href='#'>오전 12시</a></li>  
 									  </ul>
 									  <input type="hidden" id="rsch_checkin" name="rsch_checkin" value="">
 								</div>
@@ -205,6 +214,15 @@
 									<i id="icon" style="z-index: 50;"></i>
 									<a id="input5" href="">퇴실 시간</a>
 									  <ul id="dropdown-menu5">
+										  <li><a id = '1' href='#'>오전 1시</a></li>
+									  	  <li><a id = '2' href='#'>오전 2시</a></li>
+										  <li><a id = '3' href='#'>오전 3시</a></li>
+										  <li><a id = '4' href='#'>오전 4시</a></li>
+										  <li><a id = '5' href='#'>오전 5시</a></li>
+									  	  <li><a id = '6' href='#'>오전 6시</a></li>
+										  <li><a id = '7' href='#'>오전 7시</a></li>
+										  <li><a id = '8' href='#'>오전 8시</a></li>
+										  <li><a id = '9' href='#'>오전 9시</a></li>
 										  <li><a id = '10' href='#'>오전 10시</a></li>
 										  <li><a id = '11' href='#'>오전 11시</a></li>
 										  <li><a id = '12' href='#'>오전 12시</a></li>
@@ -218,7 +236,8 @@
 										  <li><a id = '20' href='#'>오후 8시</a></li>
 										  <li><a id = '21' href='#'>오후 9시</a></li>
 										  <li><a id = '22' href='#'>오후 10시</a></li>
-										  <li><a id = '23' href='#'>오후 11시</a></li>
+										  <li><a id = '23' href='#'>오후 11시</a></li> 
+										  <li><a id = '24' href='#'>오전 12시</a></li>  
 									  </ul>
 									  <input type="hidden" id="rsch_checkout" name="rsch_checkout" value="">
 								</div>
@@ -245,16 +264,37 @@
 			        </div>
 			        <!-- /.link to designify.me code snippets -->
 			    </div>
+			    <fieldset id="srform" style="
+							    width: 30%;
+							    background: white;
+							    border: 0 none;
+							    border-radius: 0px;
+							    box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
+							    padding: 20px 30px;
+							    box-sizing: border-box;
+							    margin: 0 10%;
+							    position: relative;
+							    margin: auto;
+							    display: none;
+							">
+			                <h2 id="studyroom_name" class="fs-title">스터디룸 이름</h2>
+			                <div>
+			                	<img id="studyroom_img" src="" style="max-width: 100%;"/>
+			                </div>
+			                <h3 id="studyroom_time" class="fs-title">시간</h3>
+			                <h3 id="studyroom_location" class="fs-title">주소</h3>
+			                <h3 id="studyroom_info" class="fs-subtitle">소개</h3>
+			    </fieldset>
 			</div>
 		</div>
 	</section>
 	<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
 	<script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'></script>
 	<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js'></script>
-	<script src="http://fian.my.id/marka/static/marka/js/marka.js"></script>
-	<script src='http://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js'></script>
+	<script src="https://fian.my.id/marka/static/marka/js/marka.js"></script>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js'></script>
   
-	<script src="/Graduation_KMS/js/datepicker.js"></script>
-    <script src="/Graduation_KMS/js/step.js"></script>
-    <script src="/Graduation_KMS/js/dropdown.js"></script>
+	<script src="${pageContext.request.contextPath}/js/datepicker.js"></script>
+    <script src="${pageContext.request.contextPath}/js/step.js"></script>
+    <script src="${pageContext.request.contextPath}/js/dropdown.js"></script>
 </body>

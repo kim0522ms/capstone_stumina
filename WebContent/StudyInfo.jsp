@@ -1,16 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="com.example.study.model.StudyInfo" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "https://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
   <meta charset="UTF-8">
   <title>Stumina</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
-	<link rel='stylesheet prefetch' href='http://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css'>
-	<link rel='stylesheet' href='http://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/semantic.css'>
-	<link rel="stylesheet" href="/Graduation_KMS/css/style.css">
+	<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css'>
+	<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/semantic.css'>
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 </head>
 <body>
 	<header>
@@ -30,7 +30,7 @@
 		}
 		else
 		{
-			img_path = "/Graduation_KMS/Schedule/background.jpg";
+			img_path = "${pageContext.request.contextPath}/Schedule/background.jpg";
 		}
 	%>
 	<style>
@@ -59,13 +59,13 @@
 				<%}
 				else
 				{%>
-					<button onclick="location.href='/Graduation_KMS/op/joinStudy?std_no=<%=studyInfo.getStd_no()%>'">지금 참여하기 !</button>
+					<button onclick="location.href='${pageContext.request.contextPath}/op/joinStudy?std_no=<%=studyInfo.getStd_no()%>'">지금 참여하기 !</button>
 				<%}
 			%>
 			</div>
 	</section>
 
-	<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
     <script  src="js/index.js"></script>	
 </body>
 </html>

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "https://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
   <meta charset="UTF-8">
@@ -8,7 +8,7 @@
   <script src="//use.typekit.net/bzf3ugx.js"></script>
   <script>try{Typekit.load();}catch(e){}</script>
   <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css'>
-  <link rel="stylesheet" href="/Graduation_KMS/Sign_Up/css/style.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/Sign_Up/css/style.css">
 
   
 </head>
@@ -23,7 +23,7 @@
 	  </header>
 	  <!-- / START Form -->
 	  <div class='form'>
-	    <form method='post' action='/Graduation_KMS/op/signUp'>
+	    <form method='post' action='${pageContext.request.contextPath}/op/signUp'>
 	      <div class='field'>
 	        <label for='username'>이름</label>
 	        <input id='username' name='username' type='text' value='' placeholder="ex) 홍길동" required>
@@ -95,15 +95,15 @@
 	  <!-- / END Form -->
 	  <footer>
 	         세상의 모든 스터디 -
-	    <a href='http://andytran.me'>Stumina</a>
+	    <a href='https://andytran.me'>Stumina</a>
 	  </footer>
-	  <div class="half" style='height: 200px; background-image: url(http://cfile9.uf.tistory.com/image/214AB63856E182E62057D6);'></div>
+	  <div class="half" style='height: 200px; background-image: url(https://cfile9.uf.tistory.com/image/214AB63856E182E62057D6);'></div>
   </div>
   
-  <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
 
   
 
-    <script  src="/Graduation_KMS/Sign_Up/js/index.js"></script>
+    <script  src="${pageContext.request.contextPath}/Sign_Up/js/index.js"></script>
 </body>
 </html>

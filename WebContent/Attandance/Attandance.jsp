@@ -8,7 +8,7 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c"   uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "https://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 	<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
@@ -20,7 +20,7 @@
 	<link rel='stylesheet prefetch' href='https://storage.googleapis.com/code.getmdl.io/1.0.6/material.indigo-pink.min.css'>
 	<link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Roboto'>
 	<link rel='stylesheet prefetch' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
-	<link rel="stylesheet" href="/Graduation_KMS/Attandance/css/style.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/Attandance/css/style.css">
 	
 	<style>
 		a {
@@ -75,7 +75,7 @@
 	</header> 
 	
 	<div class='member'>
-		<form method="post" action="/Graduation_KMS/op/modifyAttandance" style='display: inline-block;'>
+		<form method="post" action="${pageContext.request.contextPath}/op/modifyAttandance" style='display: inline-block;'>
 		<h3 style='color: white;'>[<%=std_name %>] 스터디의 출석 체크</h2>
 		<table>
 			<thead>
@@ -121,7 +121,7 @@
 	<script src='https://storage.googleapis.com/code.getmdl.io/1.0.6/material.min.js'></script>
 	<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
 	<script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js'></script>
-	<!-- <script src="/Graduation_KMS/Attandance/js/index.js"></script> -->
+	<!-- <script src="${pageContext.request.contextPath}/Attandance/js/index.js"></script> -->
 </body>
 	<style>
 		a:focus, a:hover {
@@ -129,7 +129,7 @@
 		   text-decoration: none;
 		}
 		body{
-			background-image: url(/Graduation_KMS/Schedule/background.jpg);
+			background-image: url(${pageContext.request.contextPath}/Schedule/background.jpg);
 		    background-size: cover;
 		    backdrop-filter: blur(5px);
 		}

@@ -47,7 +47,7 @@ new Vue({
 function readNotification(noti_idx){
 	$.ajax({
 		type : "GET",
-        url : "/Graduation_KMS/op/readNofitication",
+        url : location.host + "/Graduation_KMS/op/readNofitication",
         data : {
         	noti_idx : noti_idx
 		},

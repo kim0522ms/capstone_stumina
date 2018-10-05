@@ -682,7 +682,7 @@ public class MainController extends HttpServlet {
 				{
 					out.println("<script>");
 					out.println("alert('성공적으로 삭제되었습니다!');");
-					out.println("location.href='/Graduation_KMS/op/viewThread?rsch_idx="+ rsch_idx +"';");
+					out.println("location.href='${pageContext.request.contextPath}/op/viewThread?rsch_idx="+ rsch_idx +"';");
 					out.println("</script>");
 				}
 				else
@@ -900,7 +900,7 @@ public class MainController extends HttpServlet {
 		
 		if (subPath.equals("/signIn"))
 		{
-			System.out.println("["+ dayTime.format(new Date()) + "][/signIn] Request From : " + request.getParameter("requestURL").replace("/Graduation_KMS", ""));
+			System.out.println("["+ dayTime.format(new Date()) + "][/signIn] Request From : " + request.getParameter("requestURL").replace("${pageContext.request.contextPath}", ""));
 			
 			StudyDBDAO db = new StudyDBDAO();
 
@@ -931,8 +931,8 @@ public class MainController extends HttpServlet {
 				
 				if (request.getParameter("requestURL").equals(null))
 				{
-					System.out.println("["+ dayTime.format(new Date()) + "][/signIn] Redirect URL : " + request.getParameter("requestURL").replace("/Graduation_KMS", ""));
-					viewName = request.getParameter("requestURL").replace("/Graduation_KMS", "");
+					System.out.println("["+ dayTime.format(new Date()) + "][/signIn] Redirect URL : " + request.getParameter("requestURL").replace("${pageContext.request.contextPath}", ""));
+					viewName = request.getParameter("requestURL").replace("${pageContext.request.contextPath}", "");
 				}
 				else
 				{
@@ -1226,7 +1226,7 @@ public class MainController extends HttpServlet {
 					new NotificationDAO().uploadThread(db.getStd_no(rsch_idx), rsch_idx);
 					
 					out.println("<script>");
-					out.println("location.href='/Graduation_KMS/op/viewThread?rsch_idx="+ rsch_idx +"';");
+					out.println("location.href='${pageContext.request.contextPath}/op/viewThread?rsch_idx="+ rsch_idx +"';");
 					out.println("</script>");
 				}
 			}
@@ -1294,7 +1294,7 @@ public class MainController extends HttpServlet {
 				PrintWriter out = response.getWriter();
 				out.println("<script>");
 				out.println("alert('정상적으로 변경되었습니다!');");
-				out.println("location.href = '/Graduation_KMS/op/myStudies'");
+				out.println("location.href = '${pageContext.request.contextPath}/op/myStudies'");
 				out.println("</script>");
 			}
 			else
@@ -1342,7 +1342,7 @@ public class MainController extends HttpServlet {
 			}
 			out.println("<script>");
 			out.println("alert('출석 정보를 갱신하였습니다!');");
-			out.println("location.href='/Graduation_KMS/op/myStudies';");
+			out.println("location.href='${pageContext.request.contextPath}/op/myStudies';");
 			out.println("</script>");
 		}
 		
@@ -1408,7 +1408,7 @@ public class MainController extends HttpServlet {
 			{
 				out.println("<script>");
 				out.println("alert('축하합니다! 가입이 완료되었습니다!');");
-				out.println("location.href='/Graduation_KMS/MainPage.jsp'");
+				out.println("location.href='${pageContext.request.contextPath}/MainPage.jsp'");
 				out.println("</script>");
 			}
 			else

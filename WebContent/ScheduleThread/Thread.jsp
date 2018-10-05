@@ -1,7 +1,7 @@
 <%@page import="com.example.study.model.ScheduleBoardInfo"%>
 <%@ page import="java.util.ArrayList" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "https://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -9,7 +9,7 @@
 	<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css'>
 	<link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
 	<link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Roboto'>
-	<link rel="stylesheet" href="/Graduation_KMS/ScheduleThread/css/style.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/ScheduleThread/css/style.css">
 	<style>
 		a {
 		    color: #FFFFFF;
@@ -93,7 +93,7 @@
 		                    	if (thread.getFileInfo() != null)
 		                    	{
 		                    		out.print("<p>");
-		                    		out.print("[첨부 파일]<br><a style='color: #2d3042; font-weight: bold;' href='/Graduation_KMS/op/downloadFile?file_idx="  + thread.getFileInfo().getFile_idx() +"'>");
+		                    		out.print("[첨부 파일]<br><a style='color: #2d3042; font-weight: bold;' href='${pageContext.request.contextPath}/op/downloadFile?file_idx="  + thread.getFileInfo().getFile_idx() +"'>");
 		                    		out.print(thread.getFileInfo().getFile_originalname());
 		                    		out.print("</a>");
 		                    		out.println("</p>");
@@ -215,7 +215,7 @@
 	</script>
 	  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
 	<script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js'></script>
-	<script  src="/Graduation_KMS/ScheduleThread/js/index.js"></script>
+	<script  src="${pageContext.request.contextPath}/ScheduleThread/js/index.js"></script>
 </body>
 
 </html>

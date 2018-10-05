@@ -4,7 +4,7 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "https://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 	<meta charset="UTF-8">
@@ -12,7 +12,7 @@
   	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
   	<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css'>
-    <link rel="stylesheet" href="/Graduation_KMS/Schedule/css/style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/Schedule/css/style.css">
     <style>
     	h6 {
 		    margin: 0;
@@ -165,7 +165,7 @@ function fill_table(month, month_length, indexMonth) {
 	      <!-- <a class="c-add o-btn js-event__add" href="javascript:;">일정 추가하기 <span class="fa fa-plus"></span></a> -->
 	      
 	      <!-- 일정 추가하기 버튼 -->
-	      <a class="c-add o-btn js-event__add" href="/Graduation_KMS/op/createSchedule?std_no=<%=request.getAttribute("std_no").toString()%>">일정 추가하기 <span class="fa fa-plus"></span></a>
+	      <a class="c-add o-btn js-event__add" href="${pageContext.request.contextPath}/op/createSchedule?std_no=<%=request.getAttribute("std_no").toString()%>">일정 추가하기 <span class="fa fa-plus"></span></a>
 	      <br>
 	      <br>
 	      
@@ -202,7 +202,7 @@ function fill_table(month, month_length, indexMonth) {
 	</div>
   	<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
 	<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery.cycle2/2.1.6/jquery.cycle2.core.min.js'></script>
-	<script src="/Graduation_KMS/Schedule/js/index.js"></script>
+	<script src="${pageContext.request.contextPath}/Schedule/js/index.js"></script>
 	<script>
 	<%
 	SimpleDateFormat oldFormat = new SimpleDateFormat("yy-MM-dd HH:mm:ss.SSS");
@@ -213,7 +213,7 @@ function fill_table(month, month_length, indexMonth) {
 		for (ScheduleInfo schedule : schedules)
 		{
 			String dateString = schedule.getSchedule_date();
-			out.println("defaultEvents('"+ newFormat.format(oldFormat.parse(schedule.getSchedule_date())) +"','"+schedule.getCheckin()+"시 ~ " + schedule.getCheckout()+ "시<br><br> • 제목<br>', '"+schedule.getSchedule_name()+"<br><br> • 장소<br>" + schedule.getStudyroom_name() + " " +schedule.getRoom_name() + "<br><br> • 상세 주소<br>" + schedule.getStudyroom_location() + "<br><br> • 대여 비용<br>" + schedule.getRoom_pay() + "원<br><br> • 공지사항<br>" + schedule.getSchedule_comment() + "<br><br><br><br><a href=\"/Graduation_KMS/op/viewThread?rsch_idx=" + schedule.getSchedule_idx() +"\" style=\"font-size: 1.6rem;\">스터디 게시판 확인</a>  " +"')");          
+			out.println("defaultEvents('"+ newFormat.format(oldFormat.parse(schedule.getSchedule_date())) +"','"+schedule.getCheckin()+"시 ~ " + schedule.getCheckout()+ "시<br><br> • 제목<br>', '"+schedule.getSchedule_name()+"<br><br> • 장소<br>" + schedule.getStudyroom_name() + " " +schedule.getRoom_name() + "<br><br> • 상세 주소<br>" + schedule.getStudyroom_location() + "<br><br> • 대여 비용<br>" + schedule.getRoom_pay() + "원<br><br> • 공지사항<br>" + schedule.getSchedule_comment() + "<br><br><br><br><a href=\"${pageContext.request.contextPath}/op/viewThread?rsch_idx=" + schedule.getSchedule_idx() +"\" style=\"font-size: 1.6rem;\">스터디 게시판 확인</a>  " +"')");          
 		}
 	}
 	%>

@@ -4,18 +4,18 @@
 <%@ page import="com.example.study.model.DetailInfo" %>
 <%@ page import="java.util.ArrayList" %>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "https://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
   <meta charset="UTF-8">
   <title>Stumina</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
-	<link rel='stylesheet prefetch' href='http://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css'>
-	<link rel='stylesheet' href='http://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/semantic.css'>
-	<link rel="stylesheet" href="/Graduation_KMS/css/style.css">
+	<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css'>
+	<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/semantic.css'>
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 	<link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'>
-	<link rel="stylesheet prefetch" href="http://fian.my.id/marka/static/marka/css/marka.css">
+	<link rel="stylesheet prefetch" href="https://fian.my.id/marka/static/marka/css/marka.css">
 	<link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css'>
   <style>
   	.col-md-offset-3 {
@@ -26,7 +26,7 @@
 	}
 	.container {
     width: 100%;
-    background-image: url(/Graduation_KMS/Schedule/background.jpg);
+    background-image: url(${pageContext.request.contextPath}/Schedule/background.jpg);
     -webkit-background-size: cover;
   	-moz-background-size: cover;
   	-o-background-size: cover;
@@ -65,7 +65,7 @@
 		<div class="cardwrapper">
 			<div class="row" style="margin:0 auto">
 			    <div class="col-md-6 col-md-offset-3">
-			        <form id="msform" method="post" action="/Graduation_KMS/op/registStudy">
+			        <form id="msform" method="post" action="${pageContext.request.contextPath}/op/registStudy">
 			            <!-- progressbar -->
 			            <ul id="progressbar">
 			                <li class="active">스터디 이름 설정</li>
@@ -169,10 +169,10 @@
 	<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
 	<script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'></script>
 	<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js'></script>
-	<script src="http://fian.my.id/marka/static/marka/js/marka.js"></script>
-	<script src='http://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js'></script>
+	<script src="https://fian.my.id/marka/static/marka/js/marka.js"></script>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js'></script>
   
-	<script src="/Graduation_KMS/js/datepicker.js"></script>
-    <script src="/Graduation_KMS/js/step.js"></script>
-    <script src="/Graduation_KMS/js/dropdown.js"></script>
+	<script src="${pageContext.request.contextPath}/js/datepicker.js"></script>
+    <script src="${pageContext.request.contextPath}/js/step.js"></script>
+    <script src="${pageContext.request.contextPath}/js/dropdown.js"></script>
 </body>

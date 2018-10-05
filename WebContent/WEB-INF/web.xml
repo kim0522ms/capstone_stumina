@@ -17,20 +17,27 @@
     <servlet-name>controller</servlet-name>
     <url-pattern>/op/*</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>ajaxContorller</servlet-name>
+    <servlet-class>com.example.study.controller.AjaxController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ajaxContorller</servlet-name>
+    <url-pattern>/ajax/*</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>MobileContorller</servlet-name>
+    <servlet-class>com.example.study.controller.MobileController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MobileContorller</servlet-name>
+    <url-pattern>/mobile/*</url-pattern>
+  </servlet-mapping>
   <session-config>
     <session-timeout>1800</session-timeout>
   </session-config>
-  
-  <!-- Exception 처리 -->
-  <!-- 
   <error-page>
-  	<exception-type>500</exception-type>
-  	<location></location>
-  </error-page>
-  -->
-  
-  <error-page>
-  	<exception-type>404</exception-type>
-  	<location>/ErrorPage/404</location>
+    <exception-type>404</exception-type>
+    <location>/ErrorPage/404</location>
   </error-page>
 </web-app>

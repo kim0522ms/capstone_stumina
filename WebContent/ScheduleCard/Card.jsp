@@ -6,7 +6,7 @@
 <%@ page import="java.util.Locale" %>
 <%@ page import="java.util.Date" %>
 <%@ page import="java.util.ArrayList" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "https://www.w3.org/TR/html4/loose.dtd">
 
 <head>
   <title>Stumina</title>
@@ -15,8 +15,8 @@
 	<link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Roboto'>
 	<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css'>
 	<link rel='stylesheet prefetch' href='https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css'>
-	<link rel="stylesheet" href="/Graduation_KMS/ScheduleCard/css/style.css">
-	<link rel="stylesheet" href="/Graduation_KMS/Tooltip/pr_tooltip.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/ScheduleCard/css/style.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/Tooltip/pr_tooltip.css">
 	
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
     <style>
@@ -96,7 +96,7 @@
 					  </div>
 					  <div class="clearfix"></div>
 					  <!-- 출석 체크 버튼 -->
-					  <div class="attandance-btn pr_tooltip" title="출석 체크" pr_position="top" pr_color="light" onclick="location.href='/Graduation_KMS/op/checkAttandance?std_no=<%=studyinfo.getStd_no()%>'">
+					  <div class="attandance-btn pr_tooltip" title="출석 체크" pr_position="top" pr_color="light" onclick="location.href='${pageContext.request.contextPath}/op/checkAttandance?std_no=<%=studyinfo.getStd_no()%>'">
 					    <!-- 
 					    <a id="one" href="#"><i class="ion-ios-checkmark-outline"></i></a>
 					    <a id="two" href="#"><i class="ion-ios-alarm-outline"></i></a>
@@ -107,7 +107,7 @@
 					  </div>
 					  <!-- 출석 체크 버튼 END -->
 					  <!-- 멤버 정보 확인 버튼 -->
-					  <div class="viewmember-btn pr_tooltip" title="멤버 정보 확인" pr_position="top" pr_color="light" onclick="location.href='/Graduation_KMS/op/viewStudyMember?std_no=<%=studyinfo.getStd_no()%>'">
+					  <div class="viewmember-btn pr_tooltip" title="멤버 정보 확인" pr_position="top" pr_color="light" onclick="location.href='${pageContext.request.contextPath}/op/viewStudyMember?std_no=<%=studyinfo.getStd_no()%>'">
 					    <!-- 
 					    <a id="one" href="#"><i class="ion-ios-checkmark-outline"></i></a>
 					    <a id="two" href="#"><i class="ion-ios-alarm-outline"></i></a>
@@ -118,7 +118,7 @@
 					  </div>
 					  <!-- 멤버 정보 확인 버튼 END -->
 					  <!-- 스터디 정보 수정 버튼 -->
-					  <div class="editstudy-btn pr_tooltip" title="스터디 정보 수정 " pr_position="top" pr_color="light" onclick="location.href='/Graduation_KMS/op/modifyPage?std_no=<%=studyinfo.getStd_no()%>'">
+					  <div class="editstudy-btn pr_tooltip" title="스터디 정보 수정 " pr_position="top" pr_color="light" onclick="location.href='${pageContext.request.contextPath}/op/modifyPage?std_no=<%=studyinfo.getStd_no()%>'">
 					    <!-- 
 					    <a id="one" href="#"><i class="ion-ios-checkmark-outline"></i></a>
 					    <a id="two" href="#"><i class="ion-ios-alarm-outline"></i></a>
@@ -129,7 +129,7 @@
 					  </div>
 					  <!-- 스터디 정보 수정 버튼 END -->
 					  <!-- 스케줄 확인 버튼 -->
-					  <div class="filter-btn pr_tooltip" title="스케줄 확인" pr_position="top" pr_color="light" onclick="location.href='/Graduation_KMS/op/ScheduleCalender?std_no=<%=studyinfo.getStd_no()%>'">
+					  <div class="filter-btn pr_tooltip" title="스케줄 확인" pr_position="top" pr_color="light" onclick="location.href='${pageContext.request.contextPath}/op/ScheduleCalender?std_no=<%=studyinfo.getStd_no()%>'">
 					    <!-- 
 					    <a id="one" href="#"><i class="ion-ios-checkmark-outline"></i></a>
 					    <a id="two" href="#"><i class="ion-ios-alarm-outline"></i></a>
@@ -192,8 +192,8 @@
 			%>
 	</div>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
-  <script  src="/Graduation_KMS/ScheduleCard/js/index.js"></script>
-  <script  src="/Graduation_KMS/Tooltip/pr_tooltip.js"></script>
+  <script  src="${pageContext.request.contextPath}/ScheduleCard/js/index.js"></script>
+  <script  src="${pageContext.request.contextPath}/Tooltip/pr_tooltip.js"></script>
 
 </body>
 

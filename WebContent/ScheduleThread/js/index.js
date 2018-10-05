@@ -1,3 +1,8 @@
+function getContextPath() {
+	var hostIndex = location.href.indexOf( location.host ) + location.host.length;
+	return location.href.substring( hostIndex, location.href.indexOf('/', hostIndex + 1) );
+};
+
 $('a[href*="#"]')
     .not('[href="#"]')
     .not('[href="#0"]')
@@ -91,7 +96,7 @@ function deleteThread(e){
 
 	if( retVal == true )
 	{
-		location.href = "/Graduation_KMS/op/deleteThread?scb_idx=" + scb_idx +"&rsch_idx=" + rsch_idx;
+		location.href = getContextPath() + "/op/deleteThread?scb_idx=" + scb_idx +"&rsch_idx=" + rsch_idx;
 	}
 	else
 	{

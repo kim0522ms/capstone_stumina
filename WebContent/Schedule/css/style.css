@@ -58,7 +58,7 @@ html {
   font-size: 13px;
   font-family: 'Lato', sans-serif;
   font-weight: 400;
-  background-image: url(/Graduation_KMS/Schedule/background.jpg);
+  background-image: url(https://stumina.azurewebsites.net/Schedule/background.jpg);
   background-size: cover;
 }
 .wrapper {

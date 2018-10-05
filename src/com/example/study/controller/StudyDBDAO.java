@@ -9,6 +9,7 @@ import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
 
@@ -31,12 +32,19 @@ public class StudyDBDAO {
 	private boolean recursion = false;
 	SimpleDateFormat dayTime = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
 	
-	 
+	
 	// localhost 
 	private final String DB_URL = "jdbc:oracle:thin://@localhost:1521/xe";
 	private final String DB_USER = "mskim";
 	private final String DB_PW = "4321";
 	
+	
+	/*
+	// Azure Server
+	private final String DB_URL = "jdbc:oracle:thin://@40.74.80.225:1521/xe";
+	private final String DB_USER = "mskim";
+	private final String DB_PW = "4321";
+	*/
 	
 	/*
 	// MainServer
@@ -645,6 +653,7 @@ public class StudyDBDAO {
 					studyInfo.setStd_teacher(rs.getString("STD_TEACHER"));
 					studyInfo.setStd_maxMemberCount(rs.getInt("STD_MAXMEMBER"));
 					studyInfo.setStd_theme(rs.getString("STD_THEME"));
+					studyInfo.setStd_leader_idx(rs.getString("STD_LEADER"));
 
 					sql = "SELECT user_name FROM TB_USERS where user_idx = ?";
 					pstmt = conn.prepareStatement(sql);
@@ -1055,6 +1064,205 @@ public class StudyDBDAO {
 		return userInfos;
 	}
 	
+	// 스터디룸 주소
+	public String getStudyroomLocation(String sr_idx)
+	{
+		String sr_loc = null;
+		
+		String sql = "SELECT * FROM TB_STUDYROOMS WHERE SR_IDX = ?";
+		
+		try {
+			if (!recursion)
+				connect();
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, sr_idx);
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			if (rs.next())
+			{
+				sr_loc = rs.getString("SR_LOCATION");
+			}
+
+			if (!recursion)
+				disconnect();
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return sr_loc;
+	}
+	
+	// 스터디룸 소개 이미지
+	public String getStudyroomImage(String sr_idx)
+	{
+		String sr_img = null;
+		
+		String sql = "SELECT * FROM TB_STUDYROOMS NATURAL JOIN (SELECT * FROM TB_UPLOAD_FILE NATURAL JOIN TB_STUDYROOM_PHOTO) WHERE SR_IDX = ?";
+		
+		try {
+			if (!recursion)
+				connect();
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, sr_idx);
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			if (rs.next())
+			{
+				sr_img = rs.getString("FILE_PATH");
+			}
+
+			if (!recursion)
+				disconnect();
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return sr_img;
+	}
+	
+	// 스터디룸 예약 가능 시간 구하기
+	public boolean[] getRoomAvailableTime(String sr_idx, String rsch_date, int room_idx)
+	{
+		boolean[] timeTable = null;
+		
+		String sql = "SELECT * FROM TB_STUDYROOMS WHERE SR_IDX = ?";
+		
+		try {
+			if (!recursion)
+				connect();
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, sr_idx);
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			if (rs.next())
+			{
+				int sr_open = rs.getInt("SR_OPEN");
+				int sr_close = rs.getInt("SR_CLOSE");
+				
+				timeTable = new boolean[24];
+				Arrays.fill(timeTable, true);
+				
+				for (int i = 0; i < sr_open; i++)
+					timeTable[i] = false;
+				
+				for (int i = sr_close; i < 24; i++)
+					timeTable[i] = false;
+				
+				sql = "SELECT * FROM TB_ROOM_SCHEDULE WHERE ROOM_IDX = ? AND RSCH_DATE = ?";
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, room_idx);
+				pstmt.setString(2, rsch_date);
+				
+				ResultSet rs_time = pstmt.executeQuery();
+				
+				
+				if (rs_time.next())
+				{
+					do
+					{
+						int checkin = rs_time.getInt("RSCH_CHECKIN");
+						int checkout = rs_time.getInt("RSCH_CHECKOUT");
+						
+						System.out.println(checkin + " " + checkout);
+						
+						for (int i = checkin; i < checkout; i++)
+						{
+							timeTable[i] = false;
+						}
+					}while(rs.next());
+				}
+			}
+			
+			if (!recursion)
+				disconnect();
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return timeTable;
+	}
+	
+	// 스터디룸 영업 시간
+	public String getStudyroomTime(String sr_idx)
+	{
+		String sr_time = null;
+		String sr_open = null;
+		String sr_close = null;
+		
+		String sql = "SELECT * FROM TB_STUDYROOMS WHERE SR_IDX = ?";
+		
+		try {
+			if (!recursion)
+				connect();
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, sr_idx);
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			if (rs.next())
+			{
+				sr_open = rs.getString("SR_OPEN");
+				sr_close = rs.getString("SR_CLOSE");
+				
+				sr_time = sr_open + "시 ~ " + sr_close + "시";
+			}
+
+			if (!recursion)
+				disconnect();
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return sr_time;
+	}
+	
+	// 스터디룸 소개말 획득
+	public String getStudyroomInfo(String sr_idx) {
+		String sr_info = null;
+		
+		String sql = "SELECT * FROM TB_STUDYROOMS WHERE SR_IDX = ?";
+		
+		try {
+			if (!recursion)
+				connect();
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, sr_idx);
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			if (rs.next())
+			{
+				sr_info = rs.getString("SR_INFO");
+			}
+
+			if (!recursion)
+				disconnect();
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return sr_info;
+	}
+	 
+	// 모든 스터디룸 정보(모든값) 획득
 	public ArrayList<StudyRoomInfo> getAllStudyRoomInfo()
 	{
 		String sql = "SELECT * FROM TB_STUDYROOMS";
@@ -1079,6 +1287,7 @@ public class StudyDBDAO {
 					studyRoomInfo.setStudyroom_location(rs.getString("SR_LOCATION"));
 					studyRoomInfo.setArea_idx(rs.getString("AREA_IDX"));
 					studyRoomInfo.setStudyroom_name(rs.getString("SR_NAME"));
+					studyRoomInfo.setStudyroom_info(rs.getString("SR_INFO"));
 					
 					studyRoomInfos.add(studyRoomInfo);
 				}while(rs.next());
@@ -1533,6 +1742,48 @@ public class StudyDBDAO {
 		return isUpdated;
 	}
 	
+	public ArrayList<AttandantInfo> getAttendantInfoBy_rsch_idx(String rsch_idx)
+	{
+		ArrayList<AttandantInfo> attandantInfos = null;
+		
+		String sql = "SELECT * FROM TB_ATTANDANCE NATURAL JOIN TB_USERS WHERE rsch_idx = ?";
+		
+		try {
+			if (!recursion)
+				connect();
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, rsch_idx);
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			if (rs.next())
+			{
+				attandantInfos = new ArrayList<AttandantInfo>();
+				AttandantInfo attandant = null;
+				
+				do
+				{
+					attandant = new AttandantInfo();
+					attandant.setUser_idx(rs.getString("user_idx"));
+					attandant.setUser_name(rs.getString("user_name"));
+					attandant.setRsch_idx(rs.getString("rsch_idx"));
+					attandant.setAbsent(rs.getInt("absent"));
+					
+					attandantInfos.add(attandant);
+				}while(rs.next());
+			}
+			
+			if (!recursion)
+				disconnect();
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return attandantInfos;
+	}
+	
 	// 출석 정보 얻기
 	public ArrayList<AttandantInfo> getAttendantInfo(String std_no)
 	{
@@ -1816,6 +2067,64 @@ public class StudyDBDAO {
 		}
 
 		return isUploaded;
+	}
+	
+	public String checkAttendanceByScanner(String user_idx, String room_beacon)
+	{
+		String checkedSchedule = null;
+		
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yy/MM/dd", Locale.KOREA);
+		Date currentDate = new Date();
+		String date = dateFormat.format(currentDate);
+		
+		System.out.println("아 좀.. 0 / " + date);
+		
+		String sql = "SELECT * FROM TB_JOININFO NATURAL JOIN (SELECT * FROM TB_ROOM_SCHEDULE NATURAL JOIN TB_ROOMINFO) WHERE USER_IDX = ? AND RSCH_DATE = ? AND ROOM_BEACON= ?";
+		
+		try {
+			
+			if (!recursion)
+				connect();
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, user_idx);
+			pstmt.setString(2, date);
+			pstmt.setString(3, room_beacon);
+			
+			System.out.println("["+ dayTime.format(new Date()) + "][StudyDBDAO.java.checkAttendance()] user_idx : " + user_idx + ", room_beacon : " + room_beacon);
+
+			ResultSet rs = pstmt.executeQuery();
+			
+			if (rs.next())
+			{
+				String rsch_idx = rs.getString("RSCH_IDX");
+				String rsch_name = rs.getString("RSCH_NAME");
+				
+				System.out.println("아 좀.. 1 / " + rsch_idx + " / " + rsch_name);
+				
+				sql = "UPDATE TB_ATTANDANCE SET ABSENT = 1 WHERE RSCH_IDX = ? AND USER_IDX = ?";
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, rsch_idx);
+				pstmt.setString(2, user_idx);
+				
+				int result = pstmt.executeUpdate();
+				
+				System.out.println("아 좀.. 2 / " + result);
+				
+				if (result > 0)
+					checkedSchedule = rsch_name;
+			}
+			
+			if (!recursion)
+				disconnect();
+			
+		} catch (SQLException | ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return checkedSchedule;
 	}
 	
 	// 스케쥴 게시판(Thread) 조회

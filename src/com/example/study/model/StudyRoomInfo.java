@@ -5,7 +5,14 @@ public class StudyRoomInfo {
 	private String studyroom_location;
 	private String area_idx;
 	private String studyroom_name;
+	private String studyroom_info;
 	
+	public String getStudyroom_info() {
+		return studyroom_info;
+	}
+	public void setStudyroom_info(String studyroom_info) {
+		this.studyroom_info = studyroom_info;
+	}
 	public String getStudyroom_idx() {
 		return studyroom_idx;
 	}

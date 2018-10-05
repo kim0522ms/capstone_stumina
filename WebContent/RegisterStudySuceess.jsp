@@ -3,17 +3,17 @@
 <%@ page import="com.example.study.model.StudyInfo" %>
 <%@ page import="com.example.study.controller.StudyDBDAO" %>
 <%@ page import="java.util.ArrayList" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "https://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
   <meta charset="UTF-8">
   <title>Stumina</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
 	<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.css'>
-	<link rel="stylesheet" href="/Graduation_KMS/css/style.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 	<style>
 		html {
-		  background-image: url(/Graduation_KMS/Schedule/background.jpg);
+		  background-image: url(${pageContext.request.contextPath}/Schedule/background.jpg);
 		  -webkit-background-size: cover;
 		  -moz-background-size: cover;
 		  -o-background-size: cover;

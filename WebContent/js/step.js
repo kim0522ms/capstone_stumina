@@ -14,6 +14,12 @@ $(".next").click(function(){
 	//activate next step on progressbar using the index of next_fs
 	$("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
 	
+	// 스터디룸 div 숨김
+	$('#srform').css('display', 'none');
+	$('#srform').css('width', '0%');
+	$('#stepform').css('margin-left', '15%');
+	$('#stepform').css('width', '70%');
+	
 	//show the next fieldset
 	next_fs.show(); 
 	//hide the current fieldset with style
@@ -48,6 +54,12 @@ $(".previous").click(function(){
 	
 	current_fs = $(this).parent();
 	previous_fs = $(this).parent().prev();
+	
+	// 스터디룸 div 숨김
+	$('#srform').css('display', 'none');
+	$('#srform').css('width', '0%');
+	$('#stepform').css('margin-left', '15%');
+	$('#stepform').css('width', '70%');
 	
 	//de-activate current step on progressbar
 	$("#progressbar li").eq($("fieldset").index(current_fs)).removeClass("active");

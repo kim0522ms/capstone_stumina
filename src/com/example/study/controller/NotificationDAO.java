@@ -1,5 +1,6 @@
 package com.example.study.controller;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -8,14 +9,24 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.example.study.model.NotificationInfo;
+import com.google.android.gcm.server.Message;
+import com.google.android.gcm.server.MulticastResult;
+import com.google.android.gcm.server.Result;
+import com.google.android.gcm.server.Sender;
 
 public class NotificationDAO {
+	
+	private String simpleApiKey = "";
+	String gcmURL = "https://android.googleapis.com/fcm/send";
+	
 	private Connection conn = null;
 	private PreparedStatement pstmt = null;
 	private boolean recursion = false;
 	SimpleDateFormat dayTime = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+	
 	
 	// localhost 
 	private final String DB_URL = "jdbc:oracle:thin://@localhost:1521/xe";
@@ -23,6 +34,13 @@ public class NotificationDAO {
 	private final String DB_PW = "4321";
 	
 	
+	/*
+	// Azure Server
+	private final String DB_URL = "jdbc:oracle:thin://@40.74.80.225:1521/xe";
+	private final String DB_USER = "mskim";
+	private final String DB_PW = "4321";
+	*/
+
 	/*
 	// MainServer
 	private final String DB_URL = "jdbc:oracle:thin://@172.17.14.204:1521/xe";
@@ -53,6 +71,94 @@ public class NotificationDAO {
 			conn.close();
 			conn = null;
 		}
+	}
+	
+	public boolean sendAndroidPush(String user_idx, String message)
+	{
+		boolean isSended = false;
+		
+		Sender sender = new Sender(simpleApiKey);
+		
+		String token = this.getAndroidUserToken(user_idx);
+		
+		if (token == null)
+			return isSended;
+		
+		else
+		{
+			Message push_message = new Message.Builder()
+			        .delayWhileIdle(true)
+			        .timeToLive(1)
+			        .addData("message",message)
+			        .build();
+			
+			try {
+				Result result1 = sender.send(push_message,token,2);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		return isSended;
+	}
+	
+	public String getAndroidUserToken(String user_idx)
+	{
+		String token = null;
+		
+		String sql = "SELECT * FROM TB_NOTIFICATION_TOKEN WHERE USER_IDX = ?";
+		
+		try {
+			if (!recursion)
+				connect();
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, user_idx);
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			if (rs.next())
+			{
+				token = rs.getString("TOKEN_VALUE");
+			}
+			
+			if (!recursion)
+				disconnect();
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return token;
+	}
+	
+	public boolean registAndroidUserToken(String user_idx, String token)
+	{
+		boolean isRegisted = false;
+		
+		String sql = "UPDATE TB_NOTIFICATION_TOKEN SET TOKEN_VALUE = ? WHERE USER_IDX = ?";
+		
+		try {
+			if (!recursion)
+				connect();
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, token);
+			pstmt.setString(2, user_idx);
+			int result = pstmt.executeUpdate();
+			
+			if (result > 0)
+				isRegisted = true;
+			
+			if (!recursion)
+				disconnect();
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return isRegisted;
 	}
 	
 	public boolean readNotification(String noti_idx)
@@ -207,8 +313,11 @@ public class NotificationDAO {
 			else
 				System.out.println("["+ dayTime.format(new Date()) + "][NotificationDAO.java.requestJoinStudy()] Failed to add Notification");
 			System.out.println();
+
+			sendAndroidPush(leader_idx, notification_text);
 			
 			disconnect();
+
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -244,6 +353,8 @@ public class NotificationDAO {
 				System.out.println("["+ dayTime.format(new Date()) + "][NotificationDAO.java.rejectStudyMember()] Failed to add Notification");
 			System.out.println();
 			
+			sendAndroidPush(user_idx, notification_text);
+			
 			disconnect();
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
@@ -278,9 +389,10 @@ public class NotificationDAO {
 				String notification_text = "[" + std_name + "] 스터디에  " + date + "일의 스케쥴이 새롭게 등록되였습니다! 확인해 주세요.";
 				
 				do {
+					String user_idx = rs.getString("USER_IDX");
 					pstmt = conn.prepareStatement(sql);
 					pstmt.setString(1, notification_text);
-					pstmt.setString(2, rs.getString("USER_IDX"));
+					pstmt.setString(2, user_idx);
 					
 					int result = pstmt.executeUpdate();
 					
@@ -289,6 +401,8 @@ public class NotificationDAO {
 					else
 						System.out.println("["+ dayTime.format(new Date()) + "][NotificationDAO.java.registSchedule()] Failed to add Notification");
 					System.out.println();
+					
+					sendAndroidPush(user_idx, notification_text);
 				}while(rs.next());
 			}
 			disconnect();
@@ -334,9 +448,10 @@ public class NotificationDAO {
 				String notification_text = "[" + std_name + "] 스터디의 [" + rsch_name +"] 스케쥴 게시판에 새로운 글이 등록되였습니다! 확인해 주세요.";
 				
 				do {
+					String user_idx = rs.getString("USER_IDX");
 					pstmt = conn.prepareStatement(sql);
 					pstmt.setString(1, notification_text);
-					pstmt.setString(2, rs.getString("USER_IDX"));
+					pstmt.setString(2, user_idx);
 					
 					int result = pstmt.executeUpdate();
 					
@@ -345,6 +460,8 @@ public class NotificationDAO {
 					else
 						System.out.println("["+ dayTime.format(new Date()) + "][NotificationDAO.java.uploadThread()] Failed to add Notification");
 					System.out.println();
+					
+					sendAndroidPush(user_idx, notification_text);
 				}while(rs.next());
 			}
 			disconnect();
@@ -353,8 +470,6 @@ public class NotificationDAO {
 			e1.printStackTrace();
 		}
 	}
-	
-	
 	
 	// 추방(강퇴) 메세지
 	public void BanStudyMember(String user_idx, String std_no)
@@ -384,6 +499,8 @@ public class NotificationDAO {
 			else
 				System.out.println("["+ dayTime.format(new Date()) + "][NotificationDAO.java.BanStudyMember()] Failed to add Notification");
 			System.out.println();
+			
+			sendAndroidPush(user_idx, notification_text);
 			
 			disconnect();
 		} catch (ClassNotFoundException | SQLException e) {
@@ -421,6 +538,8 @@ public class NotificationDAO {
 				System.out.println("["+ dayTime.format(new Date()) + "][NotificationDAO.java.acceptStudyMember()] Failed to add Notification");
 			System.out.println();
 			
+			sendAndroidPush(user_idx, notification_text);
+			
 			disconnect();
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
@@ -430,7 +549,6 @@ public class NotificationDAO {
 
 	public void QuitStudyMember(String user_idx, String std_no)
 	{
-		
 		String std_name = new StudyDBDAO().getStudyName(std_no);
 		if (std_name == null)
 		{
@@ -456,6 +574,8 @@ public class NotificationDAO {
 			else
 				System.out.println("["+ dayTime.format(new Date()) + "][NotificationDAO.java.QuitStudyMember()] Failed to add Notification");
 			System.out.println();
+			
+			sendAndroidPush(user_idx, notification_text);
 			
 			disconnect();
 		} catch (ClassNotFoundException | SQLException e) {

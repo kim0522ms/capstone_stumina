@@ -16,7 +16,7 @@
 	<link rel='stylesheet prefetch' href='https://storage.googleapis.com/code.getmdl.io/1.0.6/material.indigo-pink.min.css'>
 	<link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Roboto'>
 	<link rel='stylesheet prefetch' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
-	<link rel="stylesheet" href="/Graduation_KMS/Member/css/style.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/Member/css/style.css">
 	
 	<style>
 		a {
@@ -162,7 +162,7 @@
 	<script src='https://storage.googleapis.com/code.getmdl.io/1.0.6/material.min.js'></script>
 	<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
 	<script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js'></script>
-	<script  src="/Graduation_KMS/Member/js/index.js"></script>
+	<script  src="${pageContext.request.contextPath}/Member/js/index.js"></script>
 </body>
 	<script defer>
 		// 받아온 ArrayList JSTL 사용해서 자바스크립트 변수에 저장함
@@ -429,8 +429,8 @@
 					  $("#actionButtonDiv02").show();
 				  }
 				  
-				  $("#actionButtonDiv01").attr('onclick', 'location.href=\"/Graduation_KMS/op/acceptMemberJoin?user_idx=' + selected_idx + '&std_no=' + std_no +'\"');
-				  $("#actionButtonDiv02").attr('onclick', 'location.href=\"/Graduation_KMS/op/rejectMemberJoin?user_idx=' + selected_idx + '&std_no=' + std_no +'\"');
+				  $("#actionButtonDiv01").attr('onclick', 'location.href=\"${pageContext.request.contextPath}/op/acceptMemberJoin?user_idx=' + selected_idx + '&std_no=' + std_no +'\"');
+				  $("#actionButtonDiv02").attr('onclick', 'location.href=\"${pageContext.request.contextPath}/op/rejectMemberJoin?user_idx=' + selected_idx + '&std_no=' + std_no +'\"');
 			});
 			
 			$("#actionButtonDiv01").hide();
@@ -450,7 +450,7 @@
 
 			if( retVal == true )
 			{
-				location.href = "/Graduation_KMS/op/banStudyMember?user_idx=" + selected_idx + "&std_no=" + std_no;
+				location.href = "${pageContext.request.contextPath}/op/banStudyMember?user_idx=" + selected_idx + "&std_no=" + std_no;
 			}
 			else
 			{
@@ -463,7 +463,7 @@
 
 			if( retVal == true )
 			{
-				location.href = "/Graduation_KMS/op/QuitStudyMember?user_idx=" + selected_idx + "&std_no=" + std_no;
+				location.href = "${pageContext.request.contextPath}/op/QuitStudyMember?user_idx=" + selected_idx + "&std_no=" + std_no;
 			}
 			else
 			{
@@ -478,7 +478,7 @@
 		   text-decoration: none;
 		}
 		body{
-			background-image: url(/Graduation_KMS/Schedule/background.jpg);
+			background-image: url(${pageContext.request.contextPath}/Schedule/background.jpg);
 		    background-size: cover;
 		    backdrop-filter: blur(5px);
 		}

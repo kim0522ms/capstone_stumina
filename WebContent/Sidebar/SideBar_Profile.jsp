@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "https://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<link rel="stylesheet" href="/Graduation_KMS/Sidebar/css/style.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/Sidebar/css/style.css">
 </head>
 <body>
 	<div class="navi">
@@ -15,7 +15,7 @@
 			  if (session.getAttribute("user_idx") == null) 
 			  {
 			  %>
-			     <a href="/Graduation_KMS/Sign_In/SignIn.jsp">로그인 해 주세요.</a>
+			     <a href="${pageContext.request.contextPath}/Sign_In/SignIn.jsp">로그인 해 주세요.</a>
 			  <%
 			  }
 			  else
@@ -27,9 +27,9 @@
 			  %>
 		    <h3>나의 스터디</h3>
 		    <ul class="Sections">
-		      <li><a href="/Graduation_KMS/op/myStudies">참여중인 스터디</a></li>
+		      <li><a href="${pageContext.request.contextPath}/op/myStudies">참여중인 스터디</a></li>
 		      <!-- <li><a href="#">출석 관리</a></li> -->
-		      <li><a href="/Graduation_KMS/op/createStudy">스터디 만들기</a></li>
+		      <li><a href="${pageContext.request.contextPath}/op/createStudy">스터디 만들기</a></li>
 		    </ul>
 			<!-- 
 		    <h3>지역별 검색</h3>
